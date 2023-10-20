@@ -1,0 +1,12 @@
+<div class="left-side-section">
+  <div class="main-title">
+    Admin Settings
+  </div>
+  <ul>
+    <!-- <li *ngFor="let item of menuItems" [routerLink]="[item.route]" routerLinkActive="active"
+      (click)="activeTab = item.route"> -->
+    <li *ngFor="let item of menuItems" [routerLink]="[item.route]" routerLinkActive="active">
+      {{item.label}}
+    </li>
+  </ul>
+</div>

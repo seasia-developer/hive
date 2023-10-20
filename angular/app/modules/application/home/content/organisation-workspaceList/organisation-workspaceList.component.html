@@ -1,0 +1,147 @@
+<!-- <app-header></app-header> -->
+<div class="contnet-section d-flex">
+  <!-- <app-left-sidebar-menu></app-left-sidebar-menu> -->
+  <div class="bottom-chat-section">
+    <label>
+      Chat (23)
+    </label>
+    <div class="icon-section">
+      <img src="../../../../../../assets/images/setting.svg">
+      <img src="../../../../../../assets/images/setting.svg">
+    </div>
+  </div>
+  <div class="right-full-section">
+    <div class="list-workspace-content">
+      <div class="row m-0">
+        <div class="col-lg-12 p-0">
+          <div class="list-workspace-body">
+            <h2>Organisation Workspaces</h2>
+            <img src="../../../../../../assets/images/Close-icon.svg" class="close-icon" (click)="bsModalRef.hide()">
+            <div class="search-div">
+              <div class="search-input">
+                <input type="text" class="form-control" id="firstname" placeholder="Search Workspaces" name="firstname"
+                  (keyup)="search($event)">
+                <img src="../../../../../../assets/images/ico-magnifying-glass-browser.svg">
+              </div>
+            </div>
+            <div class="list-box-wraper">
+              <div class="list-box" *ngFor="let item of workspaceData">
+                <div class="title">
+                  {{ item.workspacename }}
+                </div>
+                <ul>
+                  <li *ngFor="let userData of item.users">
+                    <div class="user-pic" *ngIf="userData.user_id">
+                      <img
+                        [src]="userData.user_id.avatar ? mediaUrl + userData.user_id.avatar : '../../../../../../assets/images/user.png'">
+                    </div>
+                    <div class="user-detail" *ngIf="userData.user_id">
+                      <label class="mb-0">
+                        {{ userData.user_id.firstName + ' ' + userData.user_id.lastName }}
+                      </label>
+                      <span>
+                        {{ userData.role === 'admin' ? 'Administrator' : userData.role }}
+                      </span>
+                    </div>
+                  </li>
+                  <!-- <li class="odd-section">
+                    <div class="user-pic">
+                      <img src="../../../../../../assets/images/user-profile.jpeg">
+                    </div>
+                    <div class="user-detail">
+                      <label class="mb-0">
+                        Lottie Streich
+                      </label>
+                      <span>
+                        Guest
+                      </span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="user-pic">
+                      <img src="../../../../../../assets/images/user-profile.jpeg">
+                    </div>
+                    <div class="user-detail">
+                      <label class="mb-0">
+                        Davis Robertson
+                      </label>
+                      <span>
+                        Administrator
+                      </span>
+                    </div>
+                  </li>
+                  <li class="odd-section">
+                    <div class="user-pic">
+                      <img src="../../../../../../assets/images/user-profile.jpeg">
+                    </div>
+                    <div class="user-detail">
+                      <label class="mb-0">
+                        Jailyn Keebler
+                      </label>
+                      <span>
+                        Administrator
+                      </span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="user-pic">
+                      <img src="../../../../../../assets/images/user-profile.jpeg">
+                    </div>
+                    <div class="user-detail">
+                      <label class="mb-0">
+                        Cam Willson
+                      </label>
+                      <span>
+                        Member
+                      </span>
+                    </div>
+                  </li>
+                  <li class="odd-section">
+                    <div class="user-pic">
+                      <img src="../../../../../../assets/images/user-profile.jpeg">
+                    </div>
+                    <div class="user-detail">
+                      <label class="mb-0">
+                        Sue Von
+                      </label>
+                      <span>
+                        Member
+                      </span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="user-pic">
+                      <img src="../../../../../../assets/images/user-profile.jpeg">
+                    </div>
+                    <div class="user-detail">
+                      <label class="mb-0">
+                        Roberto Flack
+                      </label>
+                      <span>
+                        Guest
+                      </span>
+                    </div>
+                  </li>
+                  <li class="odd-section">
+                    <div class="user-pic">
+                      <img src="../../../../../../assets/images/user-profile.jpeg">
+                    </div>
+                    <div class="user-detail">
+                      <label class="mb-0">
+                        Karen Krajcik
+                      </label>
+                      <span>
+                        Guest
+                      </span>
+                    </div>
+                  </li> -->
+                </ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

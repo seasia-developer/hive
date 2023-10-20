@@ -1,0 +1,417 @@
+<div class="upload-content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="upload-body">
+        <h2>Upload</h2>
+        <img src="../../../../../../assets/images/Close-icon.svg" class="close-icon" (click)="hideModal(2)">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#home" (click)="changeDriveType()" role="tab"
+              aria-controls="home"><img src="../../../../../../assets/images/ico-monitor-small.svg"
+                class="monitor-small">My Computer</a>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link" style="cursor: pointer;" id="googleMenuButton" data-toggle="tab" href="#profile"
+              (click)="changeDriveType('google')" role="tab" aria-controls="profile"><img
+                src="../../../../../../assets/images/google-favicon.png" class="google-favicon">Google
+                <!-- Create-an-org-upload-from-google-2 dropdown -->
+                <div class="google-menu" *ngIf="driveCredentials.google.length && openDriveAccountType === 'google'" style="cursor: pointer;">
+                  <a (click)="getFiles(cred)" *ngFor="let cred of driveCredentials.google">{{cred.email}}</a>
+                  <a href="#" class="add-account"> + Connect another account</a>
+                </div>
+              </div>
+              <img *ngIf="driveType === 'google'" (click)="toggleDriveMenu('google')" class="drop-icon" src="../../../../../../../assets/images/drop-down-icon.svg">
+          </li>
+          <li class="nav-item">
+            <div class="nav-link" style="cursor: pointer;" data-toggle="tab" href="#messages" role="tab" (click)="changeDriveType('oneDrive')"
+              aria-controls="messages"><img src="../../../../../../assets/images/one-drive-icon-28.png"
+                class="one-drive">OneDrive
+                <div class="google-menu" style="cursor: pointer;" *ngIf="driveCredentials.oneDrive.length && openDriveAccountType === 'oneDrive'">
+                  <a (click)="getOneDriveFiles(cred)" *ngFor="let cred of driveCredentials.oneDrive">{{cred.email}}</a>
+                  <a href="#" class="add-account"> + Connect another account</a>
+                </div>
+              </div>
+            <img *ngIf="driveType === 'oneDrive'" (click)="toggleDriveMenu('oneDrive')" class="drop-icon" src="../../../../../../../assets/images/drop-down-icon.svg">
+          </li>
+          <li class="nav-item">
+            <div class="nav-link" style="cursor: pointer;" id="dbx-tab" data-toggle="tab" href="#settings" (click)="changeDriveType('dropbox')"
+              role="tab" aria-controls="settings"><img src="../../../../../../assets/images/App-dropbox-icon.png"
+                class="App-dropbox">Dropbox
+                <div class="google-menu" style="cursor: pointer;" *ngIf="driveCredentials.dropbox.length && openDriveAccountType === 'dropbox'">
+                  <a (click)="getDbxFiles(cred)" *ngFor="let cred of driveCredentials.dropbox">{{cred.email}}</a>
+                  <a href="#" class="add-account"> + Connect another account</a>
+                </div>
+              </div>
+            <img *ngIf="driveType === 'dropbox'" (click)="toggleDriveMenu('dropbox')" class="drop-icon" src="../../../../../../../assets/images/drop-down-icon.svg">
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <!-- Add org upload my computer start -->
+          <div *ngIf="!showPreview && driveType === ''" class="tab-pane active" id="home" role="tabpanel">
+            <div class="tabe-body">
+              <input id="pc-upload-all" type='file' 
+              accept='image/jpeg,
+              image/gif,
+              image/png,
+              image/bmp'
+              (change)='fileupload($event)' hidden>
+              <input id="pc-upload-image" type='file' 
+              accept='image/jpeg, image/png, image/bmp,'
+              (change)='fileupload($event)' hidden>
+              <input id="pc-upload-post" type='file' 
+              accept='
+              image/jpeg,
+              image/gif,
+              image/png,
+              image/bmp'
+              (change)='fileupload($event)' hidden>
+              <p>Choose the file from your computer</p>
+              <button class="btn btn-success" type="button" (click)="callFileUpload()">Choose file</button>
+            </div>
+            <div class="custom-upload">
+              <label for="input-b4a custom-dropzone" ngx-dropzone (change)='fileupload($event, "dropzone")'
+                [accept]="acceptedFormats" [disableClick]="imagePreview.length" [multiple]="uploadType === 'multiple'">
+                <!-- Add-org-upload-avatar start -->
+                <!-- <div class="avatar-cover" *ngIf="imagePreview.length"> -->
+                <div class="multiple-img-upload-section">
+                  <div class="avatar-cover" *ngFor="let image of imagePreview; let i = index">
+                    <img [src]="image" class="circle-vector" style="height: 50px; width: 50px; object-fit: contain;">
+                    <img src="../../../../../../assets/images/delete-icon.svg" (click)="removeImage(i)"
+                      class="delete-icon">
+                  </div>
+                </div>
+                <!-- </div> -->
+                <!-- <div *ngIf="!imagePreview.length" class="avatar-cover">
+                      <img  src="../../../../../../assets/images/nav-logo.svg" class="circle-vector">
+                      <img src="../../../../../../assets/images/delete-icon.svg" (click)="removeImage()" class="delete-icon">
+                    </div> -->
+                <!-- Add-org-upload-avatar end -->
+                <div class="upload-file-txt" *ngIf="!imagePreview.length">
+                  <img src="../../../../../../assets/images/ico-portable-document-format.svg" class="upload-file">
+                  <h2>Select Files to upload</h2>
+                  <p>Drag ’n Drop, copy and paste files here</p>
+                </div>
+              </label>
+              <!-- <input id="input-b4a" name="input-b4a" type="file" class="file" readonly="true"> -->
+            </div>
+            <button class="btn btn-success" appPreventDoubleClick (throttledClick)="upload()"
+              [throttleTime]="1000">Upload</button>
+          </div>
+          <!-- Add org upload my computer end -->
+
+          <!-- Add org upload google start -->
+          <div *ngIf="!showPreview && driveType === 'google'" class="tab-pane" id="profile" role="tabpanel">
+            <div class="org-upload-google" *ngIf="!driveCredentials.google.length">
+              <img src="../../../../../../assets/images/ico-google-drive.svg">
+              <p class="pd-b-16">Select Files from Google Drive</p>
+              <p>You need to authenticate with Google Drive.</p>
+              <p>We only extract images and never modify or delete them.</p>
+              <button (click)="connectDrive('google')"><img
+                  src="../../../../../../assets/images/google-logo-icon@2x.png"> Sign in with
+                Google</button>
+              <p>A new page will open to connect your account.</p>
+              <p>To disconnect from Google Drive click “Sign out” button in the menu.</p>
+            </div>
+            <!-- Create-an-org-upload-from-google-1 start -->
+            <!-- <div class="org-upload-google-1">
+                  <input class="form-control " type="search" placeholder="Search Google Drive">
+                  <img src="../../../../../../assets/images/ico-preview.svg">
+                </div> -->
+
+            <!--Accordion wrapper-->
+            <!--Google Drive  -->
+            <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+              <label *ngIf="currentDirectory !== 'root'" (click)="goToPreviousDirectory()"
+                style="cursor: pointer; margin-bottom: 10px;">
+                Go back </label>
+              <div class="card" *ngFor="let file of currentFiles">
+                <div class="card-header"
+                  [ngStyle]="{'background': file.mimeType.includes('folder') ? '#f2f2f2' : 'white'}" role="tab"
+                  id="headingOne1">
+                  <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+                    aria-controls="collapseOne1">
+                    <h5 class="mb-0" appPreventDoubleClick (throttledClick)="openFolderOrFile(file, 'file')"
+                      [throttleTime]="1000">
+                      <!-- <img *ngIf="imageMimes.includes(file.mimeType)" [src]="file.webContentLink" style="height: 20px; width: 20px;"> -->
+                      <img
+                        [src]="file.mimeType.includes('folder') ? '../../../../../../assets/images/ico-folder.svg' : '../../../../../../assets/images/ico-attachment.svg'">
+                      <label>
+                        {{file.name}}
+                      </label>
+                      <img class="select-icon" src="../../../../../../assets/images/tickbox-light.svg"
+                        *ngIf="selectedImageIds.includes(file.id)">
+                      <img src="../../../../../../assets/images/ico-arro.svg" *ngIf="file.mimeType.includes('folder')"
+                        class="icon-arro">
+                    </h5>
+                  </a>
+                </div>
+
+                <!-- <div id="collapseOne1" class="collapse" role="tabpanel" aria-labelledby="headingOne1"
+                      data-parent="#accordionEx">
+                      <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                        laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+
+                      </div>
+                    </div> -->
+
+              </div>
+
+              <!-- <div class="card">
+                    <div class="card-header" role="tab" id="headingTwo2">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2"
+                        aria-expanded="false" aria-controls="collapseTwo2">
+                        <h5 class="mb-0">
+                          <img src="../../../../../../assets/images/ico-folder.svg"> My Drive <img
+                            src="../../../../../../assets/images/ico-arro.svg" class="icon-arro">
+                        </h5>
+                      </a>
+                    </div>
+                    <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2"
+                      data-parent="#accordionEx">
+                      <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                        laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingThree3">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree3"
+                        aria-expanded="false" aria-controls="collapseThree3">
+                        <h5 class="mb-0">
+                          <img src=" ../../../../../../../../assets/images/ico-folder.svg"> Recent <img
+                            src=" ../../../../../../../../assets/images/ico-arro.svg" class="icon-arro">
+                        </h5>
+                      </a>
+                    </div>
+                    <div id="collapseThree3" class="collapse" role="tabpanel" aria-labelledby="headingThree3"
+                      data-parent="#accordionEx">
+                      <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                        laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingThree4">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree4"
+                        aria-expanded="false" aria-controls="collapseThree4">
+                        <h5 class="mb-0">
+                          <img src="../../../../../../assets/images/ico-folder.svg"> Shared with me <img
+                            src="../../../../../../assets/images/ico-arro.svg" class="icon-arro">
+                        </h5>
+                      </a>
+                    </div>
+                    <div id="collapseThree4" class="collapse" role="tabpanel" aria-labelledby="headingThree4"
+                      data-parent="#accordionEx">
+                      <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                        laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingThree5">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree5"
+                        aria-expanded="false" aria-controls="collapseThree5">
+                        <h5 class="mb-0">
+                          <img src="../../../../../../assets/images/ico-folder.svg"> Stared <img
+                            src="../../../../../../assets/images/ico-arro.svg" class="icon-arro">
+                        </h5>
+                      </a>
+                    </div>
+                    <div id="collapseThree5" class="collapse" role="tabpanel" aria-labelledby="headingThree5"
+                      data-parent="#accordionEx">
+                      <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                        laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+
+                      </div>
+                    </div>
+
+                  </div> -->
+
+
+
+            </div>
+            <!-- Accordion wrapper -->
+            <!-- Create-an-org-upload-from-google-1 end -->
+            <button *ngIf="currentFiles.length" [disabled]="!selectedImageIds.length" id="google-upload"
+              (click)="selectMultiple('google')" class="btn btn-success">Select</button>
+          </div>
+          <!-- Add org upload google end -->
+
+          <!-- AAdd org upload onedrive start -->
+          <div *ngIf="!showPreview && driveType === 'oneDrive'" class="tab-pane" id="messages" role="tabpanel">
+            <div class="org-upload-onedrive" *ngIf="!driveCredentials.oneDrive.length ">
+              <div class="image-div">
+                <img src="../../../../../../assets/images/ico-one-drive.svg">
+              </div>
+
+              <p class="pd-b-16">Select Files from OneDrive</p>
+              <p>You need to authenticate with OneDrive. </p>
+              <p>We only extract images and never modify or delete them.</p>
+              <button (click)="connectDrive('oneDrive')"> Connect OneDrive</button>
+              <p>A new page will open to connect your account. </p>
+              <p>To disconnect from OneDrive click “Sign out” button in the menu.</p>
+            </div>
+
+            <!-- OneDrive -->
+            <div *ngIf="driveType === 'oneDrive'" class="accordion md-accordion" id="accordionEx" role="tablist"
+              aria-multiselectable="true">
+              <span *ngIf="currentDirectory && currentDirectory !== 'root'" (click)="goToPreviousDirectoryOd()"
+                style="cursor: pointer;"> Go back </span>
+              <div class="card" *ngFor="let file of currentFiles">
+                <!-- <div class="card-header" [ngStyle]="{'background': file.folder ? '#f2f2f2' : 'white'}" role="tab"
+                  id="headingOne1">
+                  <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+                    aria-controls="collapseOne1">
+                    <h5 class="mb-0" appPreventDoubleClick (throttledClick)="openOdFolderOrFile(file)"
+                      [throttleTime]="1000"> -->
+                      <!-- <img *ngIf="imageMimes.includes(file.mimeType)" [src]="file.webContentLink" style="height: 20px; width: 20px;"> -->
+                      <!-- <img src="../../../../../../assets/images/tickbox-light.svg"
+                        *ngIf="selectedImageIds.includes(file.id)">
+                      <img class="select-icon"
+                        [src]="file.folder ? '../../../../../../assets/images/ico-folder.svg' : '../../../../../../assets/images/ico-attachment.svg'">
+                      {{file.name}} 
+                      <img src="../../../../../../assets/images/ico-arro.svg" *ngIf="file.folder"
+                        class="icon-arro">
+                    </h5>
+                  </a>
+                </div> -->
+                <div class="card-header"
+                [ngStyle]="{'background': file.folder ? '#f2f2f2' : 'white'}" role="tab"
+                  id="headingOne1">
+                  <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+                    aria-controls="collapseOne1">
+                    <h5 class="mb-0" appPreventDoubleClick (throttledClick)="openOdFolderOrFile(file)"
+                      [throttleTime]="1000">
+                      <!-- <img *ngIf="imageMimes.includes(file.mimeType)" [src]="file.webContentLink" style="height: 20px; width: 20px;"> -->
+                      <img
+                      [src]="file.folder ? '../../../../../../assets/images/ico-folder.svg' : '../../../../../../assets/images/ico-attachment.svg'">
+                      <label>
+                        {{file.name}}
+                      </label>
+                      <img class="select-icon" src="../../../../../../assets/images/tickbox-light.svg"
+                        *ngIf="selectedImageIds.includes(file.id)">
+                      <img src="../../../../../../assets/images/ico-arro.svg" *ngIf="file.folder"
+                        class="icon-arro">
+                    </h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <button *ngIf="currentFiles.length" [disabled]="!selectedImageIds.length" class="btn btn-success" id="oneDrive-upload"
+              (click)="selectMultiple('oneDrive')">Select</button>
+          </div>
+          <!-- AAdd org upload onedrive end -->
+
+          <!-- AAdd org upload Drop Box start -->
+          <div *ngIf="!showPreview && driveType === 'dropbox'" class="tab-pane" id="settings" role="tabpanel">
+            <div class="org-upload-onedrive" *ngIf="!driveCredentials.dropbox.length">
+              <div class="image-div">
+
+              </div>
+
+              <p class="pd-b-16">Select Files from Drop Box</p>
+              <p>You need to authenticate with Drop Box. </p>
+              <p>We only extract images and never modify or delete them.</p>
+              <button (click)="connectDrive('dbx')"> Connect Drop Box</button>
+              <p>A new page will open to connect your account. </p>
+              <p>To disconnect from Drop Box click “Sign out” button in the menu.</p>
+            </div>
+
+            <!-- Dropbox -->
+            <div *ngIf="driveType === 'dropbox'" class="accordion md-accordion" id="accordionEx" role="tablist"
+              aria-multiselectable="true">
+              <span *ngIf="currentDirectory && currentDirectory !== 'root'" (click)="goToPreviousDirectoryDbx()"
+                style="cursor: pointer;"> Go back </span>
+              <div class="card" *ngFor="let file of currentFiles">
+                <!-- <div class="card-header" [ngStyle]="{'background': file['.tag'] === 'folder' ? '#f2f2f2' : 'white'}"
+                  role="tab" id="headingOne1">
+                  <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+                    aria-controls="collapseOne1">
+                    <h5 class="mb-0" appPreventDoubleClick (throttledClick)="openDbxFolderOrFile(file)"
+                      [throttleTime]="1000"> -->
+                      <!-- <img *ngIf="imageMimes.includes(file.mimeType)" [src]="file.webContentLink" style="height: 20px; width: 20px;"> -->
+                      <!-- <img src="../../../../../../assets/images/tickbox-light.svg"
+                        *ngIf="selectedImageIds.includes(file.id)">
+                      <img
+                        [src]="file['.tag'] === 'folder' ? '../../../../../../assets/images/ico-folder.svg' : '../../../../../../assets/images/ico-attachment.svg'">
+                      {{file.name}} <img src="../../../../../../assets/images/ico-arro.svg"
+                        *ngIf="file['.tag'] === 'folder'" class="icon-arro">
+                    </h5>
+                  </a>
+                </div> -->
+                <div class="card-header"
+                [ngStyle]="{'background': file['.tag'] === 'folder' ? '#f2f2f2' : 'white'}" role="tab"
+                  id="headingOne1">
+                  <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+                    aria-controls="collapseOne1">
+                    <h5 class="mb-0" appPreventDoubleClick (throttledClick)="openDbxFolderOrFile(file)"
+                      [throttleTime]="1000">
+                      <!-- <img *ngIf="imageMimes.includes(file.mimeType)" [src]="file.webContentLink" style="height: 20px; width: 20px;"> -->
+                      <img
+                      [src]="file['.tag'] === 'folder' ? '../../../../../../assets/images/ico-folder.svg' : '../../../../../../assets/images/ico-attachment.svg'">
+                      <label>
+                        {{file.name}}
+                      </label>
+                      <img class="select-icon" src="../../../../../../assets/images/tickbox-light.svg"
+                        *ngIf="selectedImageIds.includes(file.id)">
+                      <img src="../../../../../../assets/images/ico-arro.svg" *ngIf="file['.tag'] === 'folder'"
+                        class="icon-arro">
+                    </h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <button *ngIf="currentFiles.length" class="btn btn-success" [disabled]="!selectedImageIds.length" id="dbx-upload"
+              (click)="selectMultiple('dbx')">Select</button>
+          </div>
+
+          <div class="custom-upload g-upload-section" *ngIf="showPreview">
+            <mat-progress-bar *ngIf="showProgress" mode="determinate" [value]="progress"></mat-progress-bar>
+
+            <label for="input-b4a">
+            <!-- Add-org-upload-avatar start -->
+            <div class="multiple-img-upload-section">
+              <div class="avatar-cover" *ngFor="let image of downloadedFiles.preview; let i = index">
+                <img [src]="image" class="circle-vector" style="height: 50px; width: 50px;">
+                <img src="../../../../../../assets/images/delete-icon.svg" (click)="removeDownloadedImage(i)"
+                  class="delete-icon">
+              </div>
+            </div>
+            <!-- <div *ngIf="!imagePreview.length" class="avatar-cover">
+                  <img  src="../../../../../../assets/images/nav-logo.svg" class="circle-vector">
+                  <img src="../../../../../../assets/images/delete-icon.svg" (click)="removeImage()" class="delete-icon">
+                </div> -->
+            <!-- Add-org-upload-avatar end -->
+            <div class="upload-file-txt" *ngIf="!downloadedFiles.preview.length">
+              <img src="../../../../../../assets/images/ico-portable-document-format.svg" class="upload-file">
+              <h2>Selected files</h2>
+            </div>
+          </label>           
+          <button class="btn btn-success" [disabled]="showProgress" (click)="uploadMultiple(downloadedFiles.files)">Upload</button>
+          </div>
+          <!-- AAdd org upload Drop Box end -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

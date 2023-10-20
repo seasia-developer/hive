@@ -1,0 +1,798 @@
+@import "../../../../../../../SCSS/custom-variable";
+
+.tab-inner-section {
+  background-color: $white;
+  border-radius: 0px 0px 8px 8px;
+  min-height: 670px;
+  border-top-right-radius: 0px;
+  border: 1px solid $text-secondary;
+  padding: 10px 0px;
+  border-top: 0;
+}
+
+
+.user-profile-section {
+  margin-bottom: 30px;
+
+  .user-profile-form-section {
+    width: calc(100% - 300px);
+    padding: 0px 20px 0px 20px;
+
+    .user-profile-txt {
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        margin-bottom: 2px;
+        text-transform: uppercase;
+        margin-top: 5px;
+      }
+
+      p {
+        color: $box_txt_color;
+        font-size: $edit-lbl;
+        font-family: $RobotoRegular;
+        border-bottom: 1px solid $text-secondary;
+        margin-bottom: 24px;
+        margin-top: -2px;
+        padding-bottom: 5px;
+      }
+    }
+
+    form {
+      width: calc(100% - 30px);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        margin-bottom: 0;
+        text-transform: uppercase;
+
+        span {
+          color: $mendet-txt;
+        }
+      }
+
+      .form-control {
+        border: 1px solid $text-secondary;
+        border-radius: 8px;
+        height: 32px;
+        resize: none;
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        padding: 5px 10px;
+
+        &::placeholder {
+          color: $box_txt_color;
+        }
+      }
+
+      textarea {
+        min-height: 53px !important;
+        overflow: hidden;
+        resize: none;
+      }
+
+      .check-box {
+        position: absolute;
+        right: -30px;
+        top: 44px;
+
+        img {
+          width: 11px;
+          height: 10px;
+          object-fit: contain;
+          object-position: center;
+        }
+      }
+
+      .drop-icon {
+        position: absolute;
+        right: 9px;
+        top: 38px;
+      }
+
+    }
+
+    .custom-phone-number {
+      label {
+        width: 100%;
+      }
+
+      .form-control {
+        display: inline-block;
+        width: calc(100% - 300px);
+      }
+
+      .place-name {
+        width: 100px !important;
+        display: inline-block;
+        margin-right: 15px;
+      }
+
+      .country-code {
+        display: inline-block;
+      }
+
+      a {
+        width: 100%;
+        display: inline-block;
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        cursor: pointer;
+      }
+    }
+
+    .form-check {
+      padding-top: 25px;
+
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        text-transform: capitalize;
+      }
+    }
+
+    .inner-form {
+      border-top: 1px solid $text-secondary;
+      margin: 26px 0px;
+
+      .sub-ttl {
+        color: $box_txt_color;
+        font-family: $RobotoMedium;
+        font-size: $title;
+        padding: 20px 0px 10px 0px;
+      }
+    }
+  }
+
+  .user-info-section {
+    width: 300px;
+    position: relative;
+    padding: 0px 20px;
+
+    &::before {
+      content: "";
+      width: 1px;
+      height: 100%;
+      background-color: $text-secondary;
+      position: absolute;
+      left: 0;
+      top: 20px;
+    }
+
+    .user-profile-pic {
+      margin-bottom: 20px;
+
+      img {
+        width: 260px;
+        height: 260px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        object-position: center;
+        object-fit: cover;
+      }
+    }
+
+    .border-btn {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      border: 1px solid $text-secondary;
+      height: 32px;
+      width: 110px;
+      margin-left: 10px;
+      border-radius: 16px;
+      background-color: transparent;
+    }
+
+    .user-detail-section {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 15px;
+
+      .user-name {
+        width: calc(100% - 40px);
+        display: flex;
+        flex-direction: column;
+
+        label {
+          color: $box_txt_color;
+          font-size: $title;
+          font-family: $RobotoRegular;
+          margin-bottom: 0;
+          width: 100%;
+        }
+
+        span {
+          color: $box_txt_color;
+          font-size: $box_small_text;
+          font-family: $RobotoRegular;
+        }
+      }
+
+      .user-status {
+        width: 20px;
+        height: 20px;
+        background-color: $add-btn-bg;
+        border: 1px solid $add-btn-bg;
+        border-radius: 100%;
+      }
+    }
+
+    p {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      margin-bottom: 0;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .user-inner-wraper {
+      border-top: 1px solid $text-secondary;
+      padding: 20px 10px;
+      white-space: normal;
+      word-break: break-all;
+      display: inline-block;
+      width: 100%;
+
+      .title {
+        color: $box_txt_color;
+        font-size: $sub-ttl;
+        font-family: $RobotoRegular;
+        text-transform: uppercase;
+      }
+
+      .sub-ttl {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+
+        &.link-txt {
+          text-decoration: underline;
+        }
+      }
+
+      p {
+        margin-bottom: 0;
+        padding: 0 20px;
+      }
+    }
+
+    .plane-section {
+      border-top: 1px solid $text-secondary;
+
+      .ttl {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        padding: 20px 0px 10px 0px;
+      }
+
+      .sub-ttl {
+        color: $black;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        padding-bottom: 15px;
+
+        span {
+          font-family: $RobotoBold;
+        }
+      }
+
+      p {
+        padding: 0;
+        margin-bottom: 35px;
+      }
+
+      button {
+        color: $white;
+        font-size: $box_txt;
+        font-family: $RobotoMedium;
+        height: 32px;
+        width: 100%;
+        border-radius: 15px;
+        background-color: $add-btn-bg;
+        border: 1px solid $add-btn-bg;
+      }
+    }
+
+  }
+
+  .bottom-btn-section {
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
+
+    .border-btn {
+      font-size: $title;
+      color: $box_txt_color;
+      font-family: $RobotoMedium;
+      background-color: $bg_color;
+      border: 1px solid $text-secondary;
+      height: 30px;
+      width: 80px;
+      border-radius: 13px;
+      margin: 0;
+    }
+
+    .green-btn {
+      font-size: $title;
+      color: $white;
+      font-family: $RobotoMedium;
+      background-color: $add-btn-bg;
+      border: 1px solid $add-btn-bg;
+      height: 30px;
+      width: 80px;
+      border-radius: 13px;
+      margin-left: 10px;
+    }
+  }
+
+  .business-avatar-section {
+    width: 300px;
+    position: relative;
+    padding: 0px 20px 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .user-profile-pic{
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    &::before {
+      content: "";
+      width: 1px;
+      height: 95%;
+      background-color: #D6D6D6;
+      position: absolute;
+      left: 2px;
+      top: 18px;
+    }
+    .main-ttl {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      margin-bottom: 0;
+      text-transform: uppercase;
+    }
+
+    .avatar-inner {
+      width: 240px;
+      height: 240px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      -o-object-position: center;
+      object-position: center;
+      -o-object-fit: cover;
+      object-fit: cover;
+      border-radius: 8px;
+      // width: 80px;
+      // height: 80px;
+      // border-radius: 100%;
+      // background-color: $bg_color;
+      // border: 1px solid $text-secondary-dark;
+      // margin: 20px 0px 38px 0px;
+    }
+
+    button {
+      font-size: $box_txt;
+      font-family: $RobotoMedium;
+      color: $white;
+      background-color: $add-btn-bg;
+      border: 1px solid $add-btn-bg;
+      border-radius: 4px;
+      width: 121px;
+      height: 30px;
+    }
+
+  }
+}
+
+@media(max-width:991px) {
+  .user-profile-section {
+    .user-profile-form-section {
+      width: 70%;
+      padding: 20px;
+
+      form {
+        .custom-phone-number {
+          .custom-phone-inner {
+            flex-wrap: wrap;
+
+            .place-name {
+              width: 100px !important;
+            }
+
+            .country-code {
+              input {
+                width: 50px !important;
+                margin-top: 0;
+              }
+            }
+
+            input {
+              width: 100% !important;
+              margin-top: 5px;
+            }
+          }
+        }
+      }
+    }
+
+    .business-avatar-section {
+      width: 30%;
+      padding: 20px;
+    }
+
+    .user-info-section {
+      width: 50%;
+
+      .user-profile-pic {
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:767px) {
+  .user-profile-section {
+    display: block !important;
+    margin-bottom: 0;
+
+    .user-profile-form-section {
+      width: 100%;
+    }
+
+    .user-info-section {
+      width: 100%;
+      padding-bottom: 70px;
+
+      &:before {
+        display: none;
+      }
+
+      .user-profile-pic {
+        img {
+          width: 250px;
+        }
+      }
+    }
+
+    .business-avatar-section {
+      width: 100%;
+      padding-bottom: 70px;
+    }
+
+  }
+
+  .profile-section {
+    width: 100%;
+  }
+
+  .user-profile-section {
+    .business-avatar-section::before{
+      display: none;
+    }
+  }
+}
+
+// <!-- Profile – 1end -->
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  color: #525252;
+  font-size: 14px;
+  font-family: "RobotoRegular";
+  border: 1px solid #D6D6D6;
+  height: 32px;
+  width: 110px;
+  margin-left: 13px;
+  border-radius: 16px;
+  background-color: transparent;
+  text-align: center;
+  padding: 5px 0;
+  display: block;
+  margin: 0 auto;
+}
+
+.industry-box {
+  label {
+    margin-top: 4px;
+  }
+
+  .form-control {
+    margin-top: 3px;
+    font-size: $title !important;
+  }
+
+  img {
+    top: 43px !important;
+  }
+}
+
+.headline-box {
+  label {
+    margin-top: 4px;
+  }
+}
+
+.about-box {
+  label {
+    margin-top: 7px;
+  }
+}
+
+.email-box {
+  label {
+    margin-bottom: 7px !important;
+  }
+
+  .check-box {
+    top: 35px !important;
+  }
+
+}
+
+.user-profile-section {
+  .custom-phone-number {
+    label {
+      margin-top: 30px;
+    }
+
+    .check-box {
+      top: 58px !important;
+    }
+
+    .custom-phone-inner {
+      display: flex;
+
+      .country-code {
+        input {
+          width: 82px !important;
+        }
+      }
+
+      input {
+        // width: calc(100% - 212px) !important;
+        width: 100% !important;
+      }
+    }
+
+    .place-name {
+      // margin-top: 4px;
+    }
+  }
+}
+
+.website-box {
+  label {
+    margin-top: 3px;
+  }
+
+  .check-box {
+    top: 32px !important;
+  }
+}
+
+.address-box {
+  .etc-box {
+    label {
+      margin-top: 7px;
+    }
+
+    .check-box {
+      top: 38px !important;
+    }
+
+    input {
+      margin-top: 4px;
+    }
+  }
+}
+
+.city-box {
+  input {
+    margin-top: 5px;
+  }
+}
+
+.zip-box {
+  label {
+    margin-top: 2px;
+  }
+
+  input {
+    margin-top: 5px;
+  }
+}
+
+.state-box {
+  label {
+    margin-top: 4px;
+  }
+
+  input {
+    margin-top: 5px;
+  }
+}
+
+.country-box {
+  input {
+    margin-top: 2px;
+  }
+}
+
+@media(max-width:991px) {}
+
+@media(min-width:1024px) {
+  .inside-p15 {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    word-break: break-word;
+  }
+
+  .user-profile-section {
+    .business-avatar-section {
+      .user-detail-section {
+        padding-top: 20px;
+
+        .user-name {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+}
+
+
+.business-avatar-section {
+  .user-detail-section {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    width: 100%;
+    text-align: left;
+
+    .user-name {
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        margin-bottom: 3px;
+        width: 100%;
+        line-height: normal;
+      }
+    }
+  }
+
+  .headline-title{
+    font-family: $RobotoBold !important;
+    text-align: left;
+    width: 100%;
+  }
+
+  .user-inner-wraper {
+
+    border-top: 1px solid #D6D6D6;
+    padding: 18px 12px;
+    white-space: normal;
+    word-break: break-word;
+    display: inline-block;
+    width: 100%;
+
+    .title{
+      color: #525252;
+      font-size: 10px;
+      font-family: "RobotoRegular";
+      text-transform: uppercase;
+      margin-bottom: -2px;
+    }
+
+    .sub-ttl{
+      color: #525252;
+      font-size: 14px;
+      font-family: "RobotoRegular";
+    }
+
+    p{
+      padding: 0 !important;
+    }
+  }
+
+  .headline-title-bottom{
+    border-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  p {
+    color: $box_txt_color;
+    font-size: $title;
+    font-family: $RobotoRegular;
+    margin-bottom: 0;
+    padding: 15px 15px 10px 13px;
+    margin-bottom: 10px;
+    line-height: 20px;
+    margin: 0;
+  }
+}
+
+
+@media(min-width:768px){
+  .tab-inner-section{
+     min-height:auto;
+     height: calc(100vh - 120px);
+     padding-bottom: 0;
+    .user-profile-section{
+      height: 100%;
+      padding-bottom: 20px;
+      .bottom-btn-section{
+        right: 30px;
+        width: 85%;
+        text-align: right;
+        background-color: #ffffff;
+        padding-top: 5px;
+        bottom: 0;
+      }
+      .user-profile-form-section{
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      .business-avatar-section{
+        height: 100%;
+        .inside-user-info-section{
+          overflow-y: auto;
+          overflow-x: hidden;
+          height: 100%;
+        } 
+      }
+    }
+  }
+}
+
+
+
+@media(max-width:400px){
+  .user-profile-section{
+    .user-profile-form-section{
+      form{
+        .custom-phone-number{
+          .custom-phone-inner{
+            margin-bottom: 5px;
+            .close-icon-img{
+              img{
+                padding-top: 10px;
+              }
+            }
+            input{
+              width: 90% !important;
+            }
+            .place-name{
+              width: 50% !important;
+            }
+            .country-code{
+              width: 41% !important;
+              input{
+                width: 100% !important;
+              }
+            }
+          } 
+        } 
+      } 
+    } 
+  } 
+}

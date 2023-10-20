@@ -1,0 +1,332 @@
+@import "../../../../SCSS/custom-variable";
+
+.contant_sec {
+  .logo_img {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    width: auto;
+
+    a {
+      img {
+        width: 147px;
+        height: 40px;
+      }
+    }
+  }
+
+  .welcom-text {
+    margin-bottom: 30px;
+
+    h2 {
+      color: $box_txt_color;
+      font-size: $bording_title;
+      font-family: $RobotoRegular;
+      margin-bottom: 0;
+    }
+
+    p {
+      font-size: $box_txt;
+      color: $box_txt_color;
+      font-family: $RobotoRegular;
+    }
+  }
+
+  .process {
+    width: 100%;
+    float: left;
+    margin-top: 0px;
+
+    ul {
+      width: 100%;
+      float: left;
+      text-align: center;
+      margin-bottom: 40px;
+
+      li {
+        display: inline-block;
+        list-style: none;
+        margin: 0 10px;
+
+        span {
+          display: block;
+          width: 60px;
+          height: 60px;
+          background: $white;
+          font-size: $prosess-title;
+          color: $box_txt_color;
+          border-radius: 50%;
+          line-height: 2;
+          font-weight: bold;
+          text-align: center;
+          border: solid 1px $textarea_color;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &.active {
+            width: 60px;
+            height: 60px;
+            background: $btn_bg_success;
+            font-size: $prosess-title;
+            color: $white;
+            border-radius: 50%;
+            line-height: 2;
+            font-weight: bold;
+            text-align: center;
+          }
+
+          &.inactive {
+            background: $process-color;
+            color: $white;
+          }
+
+          &.prosess-bg {
+            width: 230px;
+            height: 20px;
+            display: block;
+            border-radius: 20px;
+
+            &.active {
+              background: $btn_bg_success;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .business_left_col {
+    width: 290px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 10px;
+
+    img {
+      height: 265px;
+      max-width: 100%;
+      float: none;
+      text-align: center;
+    }
+
+    .btn-success {
+      width: 100%;
+      margin-top: 20px;
+      min-height: 32px;
+      line-height: 32px;
+      font-size: $title;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+  }
+
+  .business_right_col {
+    width: 290px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 10px;
+
+    img {
+      height: 265px;
+      max-width: 100%;
+      float: none;
+      text-align: center;
+    }
+
+    .btn-process {
+      text-transform: uppercase;
+      width: 100%;
+      margin-top: 20px;
+      background: $process-color;
+      font-size: $title;
+      color: $white;
+      min-height: 32px;
+      padding: 0px;
+      position: relative;
+      box-shadow: none;
+      outline: none;
+      border-radius: 0 !important;
+      border: none !important;
+      font-family: 'Roboto', sans-serif !important;
+      border-radius: 50px !important;
+      display: flex;
+      text-align: center;
+      justify-content: center;
+      line-height: 32px;
+      font-weight: 500;
+    }
+  }
+}
+
+@media(max-width:767px) {
+  .contant_sec {
+    .welcom-text {
+      margin-bottom: 37px;
+    }
+
+    .business_right_col {
+      margin-bottom: 60px;
+    }
+
+    .business_left_col {
+      margin-bottom: 60px;
+    }
+
+    .container-fluid {
+      .logo_img {
+        margin: 50px 20px 50px;
+        width: auto;
+      }
+    }
+  }
+}
+
+.business_wraper {
+  width: 690px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+@media(max-width:991px) {
+  .contant_sec {
+    .process {
+      ul {
+        li {
+          span {
+            &.prosess-bg {
+              width: 150px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:767px) {
+  .contant_sec {
+    .process {
+      ul {
+        li {
+          margin: 0 5px;
+
+          span {
+            width: 40px;
+            height: 40px;
+            font-size: $box_txt;
+
+            &.prosess-bg {
+              height: 10px;
+              width: 50px;
+            }
+          }
+        }
+      }
+    }
+
+    .business_wraper {
+      display: block !important;
+      width: 100%;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(min-width:1270px) {
+
+  .contant_sec {
+    max-width: 1090px;
+  }
+
+  .logo_img {
+    margin: 45px 0 0px;
+    margin-bottom: 52px !important;
+
+    a {
+      img {
+        width: 188px !important;
+        height: 47px !important;
+      }
+    }
+  }
+
+  .process {
+    margin-bottom: 5px;
+  }
+
+  .welcom-text {
+    h2 {
+      margin-left: 8px;
+    }
+
+    p {
+      margin-top: 4px;
+      margin-left: 10px;
+    }
+  }
+
+  .business_wraper {
+    justify-content: space-between;
+    padding-bottom: 50px;
+
+    .business_left_col {
+      width: 300px;
+      padding: 0;
+      margin: 0;
+
+      img {
+        height: 278px;
+        max-width: 100%;
+        float: none;
+        text-align: center;
+        margin-top: 5px;
+        margin-right: 10px;
+      }
+
+      button {
+        margin-top: 22px !important;
+      }
+    }
+
+    .business_right_col {
+      width: 300px;
+      padding: 0;
+      margin: 0;
+
+      img {
+        height: 280px;
+        max-width: 100%;
+        float: none;
+        text-align: center;
+        margin-top: 13px;
+        margin-right: 10px;
+      }
+
+      button {
+        margin-top: 12px !important;
+        padding-right: 4px !important;
+      }
+
+    }
+
+  }
+
+}

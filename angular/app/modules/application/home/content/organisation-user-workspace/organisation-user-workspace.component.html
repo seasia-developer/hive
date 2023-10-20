@@ -1,0 +1,49 @@
+<!-- <app-header></app-header> -->
+<div class="contnet-section d-flex">
+  <!-- <app-left-sidebar-menu></app-left-sidebar-menu> -->
+  <div class="bottom-chat-section">
+    <label>
+      Chat (23)
+    </label>
+    <div class="icon-section">
+      <img src="../../../../../../assets/images/setting.svg">
+      <img src="../../../../../../assets/images/setting.svg">
+    </div>
+  </div>
+  <div class="right-full-section">
+    <div class="user-workspace-content">
+      <div class="row m-0">
+        <div class="col-lg-12 p-0">
+          <div class="user-workspace-body">
+            <h2>Member Group</h2>
+            <img src="../../../../../../assets/images/Close-icon.svg" class="close-icon"
+              (click)="closeModal(2)">
+            <div class="user-detail-section">
+              <img [src]="userData?.avatar ? mediaUrl + userData?.avatar : '../../../../../../assets/images/user.png'">
+              <label class="mb-0">
+                {{userData?.firstName + ' ' + userData?.lastName}}
+              </label>
+            </div>
+            <div class="folder-box-wraper">
+              <ul>
+                <li *ngFor="let item of workspaceData">
+                  <div class="folder-icon">
+                    <img src="../../../../../../assets/images/folder.svg">
+                  </div>
+                  <div class="folder-detail">
+                    <label class="mb-0">
+                      {{ item.workspace.name }}
+                    </label>
+                    <span>
+                      {{ item.role === 'admin' ? 'Administrator' : item.role}}
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

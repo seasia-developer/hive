@@ -1,0 +1,182 @@
+@import "../../../../SCSS/custom-variable";
+
+.logo_img {
+  height: 100%;
+
+  //   .left_col {
+  //     width: 100%;
+  //     float: left;
+  //     text-align: center !important;
+
+  //     img {
+  //       float: none;
+  //     }
+  //   }
+}
+
+/*=== Invitation Sign-up ===*/
+
+.contant_sec {
+  .right_col {
+    padding-top: 23px;
+
+    form {
+      .form-group-terms {
+        margin-top: 5px;
+
+        .terms-account.login-add {
+          margin-top: 0;
+          font-size: 15px;
+
+          a {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+.middle-body-section {
+  padding-top: 50px;
+}
+
+@media(max-width:767px) {
+  .middle-body-section {
+    padding: 0;
+  }
+}
+
+
+
+
+
+
+
+
+@media(min-width:1270px) {
+  .logo_img {
+    margin: 45px 0 0px;
+
+    a {
+      img {
+        width: 260px;
+        margin-left: -5px;
+      }
+    }
+  }
+
+  .middle-body-section {
+    padding-top: 53px;
+
+    .left_col {
+      padding-right: 49px;
+    }
+
+    .right_col {
+      padding-top: 20px;
+      width: 430px;
+      margin-right: 27px;
+
+      .sign-up-btn {
+        margin-bottom: 22px;
+
+        button {
+          font-family: $RobotoMedium !important;
+          font-size: $title;
+          padding: 0px 4px 0px 14px;
+          word-spacing: 2px;
+        }
+      }
+
+      .or-txt {
+        margin-bottom: 11px !important;
+
+        h2 {
+          &::before {
+            width: 42%;
+            top: 8px;
+          }
+
+          &::after {
+            width: 42%;
+            top: 8px;
+          }
+        }
+      }
+
+      .email-box {
+        .form-control {
+          padding: 1px 15px 0px 19px;
+        }
+      }
+
+      .first-box {
+        .form-control {
+          padding: 1px 15px 0px 19px;
+        }
+      }
+
+      .last-box {
+        .form-control {
+          padding: 1px 15px 0px 25px;
+        }
+      }
+
+      .password-box {
+        .form-control {
+          padding: 1px 15px 0px 19px;
+        }
+      }
+
+      .sign-up-btn-orange{
+        margin-bottom: 10px;
+        button{
+          padding-right: 14px;
+          padding-top: 7px;
+        }
+      }
+
+      .form-group-terms{
+        p{
+          padding-left: 3px;
+
+          &.terms-account{
+            padding-top: 6px;
+            text-align: left;
+            padding-left: 16.5%;
+          }
+
+        }
+      }
+    }
+
+  }
+
+}
+
+
+.re-password-box{
+  position: relative;
+  .view-password{
+    position: absolute;
+    top: 13px;
+    right: 25px;
+    cursor: pointer;
+    img{
+      width: 23px;
+      object-fit: contain;
+    }
+  }
+}
+
+
+@media(max-width:575px){
+  .contant_sec {
+    .left_col{
+      img{
+        display: none;
+      }
+    }
+  }
+}

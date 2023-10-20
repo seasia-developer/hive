@@ -1,0 +1,32 @@
+<div class="box-layout">
+  <div class="inner-body-section text-center">
+    <div class="img-box">
+      <img src="../../../../../../assets/images/internet.svg">
+    </div>
+
+    <img src="../../../../../../assets/images/Close-icon.svg" id="upgradeCloseBtn" class="close-btn" (click)="bsModalRef.hide()">
+
+    <p>
+      You have more than one Organisation in your account
+    </p>
+    <p class="user-txt">
+      is this the organisation?
+    </p>
+    <div class="custom-drop-down">
+      <label>
+        {{ selectedOrg._id ? selectedOrg.name : "None"}}
+      </label>
+      <img src="../../../../../../assets/images/down--arrow.svg" (click)="showOrgList = !showOrgList">
+      <div class="custom-drop-down-inner" *ngIf="showOrgList">
+        <ul>
+          <li *ngFor="let org of orgList" (click)="selectedOrg = org; showOrgList = false">
+            {{org.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button (click)="goToUpgradePage()">
+      Continue to pricing
+    </button>
+  </div>
+</div>

@@ -1,0 +1,1003 @@
+<app-header></app-header>
+<div class="contnet-section d-flex">
+  <app-left-sidebar-menu></app-left-sidebar-menu>
+  <app-chat></app-chat>
+  <div class="middle-section">
+    <div class="application-form">
+      <div class="main-ttl"
+        *ngIf="configurationForm.controls['title'].value || configurationForm.controls['description'].value">
+        {{ configurationForm.controls["title"].value }}
+        <p>{{ configurationForm.controls["description"].value }}</p>
+      </div>
+
+      <!-- <div class="form-section">
+        <div class="form-group name-box" *ngFor="let item of fieldTitle">
+          <div *ngIf="item.display">
+            <div
+              *ngIf="item.type !== 'phone' && item.type !== 'email' && item.type !== 'image' && item.type !== 'link'">
+              <label>
+                <img [src]="item.icon">{{item.title}}
+              </label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="form-group custom-phone-number" *ngIf="item.type === 'phone'">
+              <form [formGroup]="appForm">
+                <label>
+                  <img src="../../../../../assets/images/phone.svg">
+                  {{ item.title }} </label> -->
+      <!-- <div class="custom-phone-inner d-flex">
+                <div class="place-name">
+                  <select class="form-control">
+                    <option value="">Select Type</option>
+                    <option *ngFor='let type of typeList' [value]="type">{{type}}</option>
+                  </select>
+                  <img src="../../../../../../assets/images/dark-drop-down-icon.svg">
+                </div>
+                <input class="form-control">
+              </div>-->
+      <!-- <div [formArrayName]="item.title" *ngFor="let a of arrayControl(item.title); let i = index">
+                  <div [formGroupName]="i" class="drop-txt-wraper-box">
+                    <div class="custom-drop-txt-wraper">
+                      <div class="custom-drop">
+                        <select class="form-control">
+                          <option *ngFor="let type of typeList" [value]="type">{{type}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <input class="form-control" [id]="item.title + i" type="tel">
+                  </div>
+                </div>
+                <a class="add-another-email" (click)="addAnotherPhone(item.title)">
+                  +&nbsp;Add Another
+                </a>
+              </form>
+            </div>
+
+            <div class="form-group custom-phone-number" *ngIf="item.type === 'email'">
+              <form [formGroup]="appForm">
+                <label>
+                  <img src="../../../../../assets/images/phone.svg">
+                  {{ item.title }} </label> -->
+      <!-- <div class="custom-phone-inner d-flex">
+                <div class="place-name">
+                  <select class="form-control">
+                    <option value="">Select Type</option>
+                    <option *ngFor='let type of typeList' [value]="type">{{type}}</option>
+                  </select>
+                  <img src="../../../../../../assets/images/dark-drop-down-icon.svg">
+                </div>
+                <input class="form-control">
+              </div>-->
+      <!-- <div [formArrayName]="item.title" *ngFor="let a of arrayControl(item.title); let i = index">
+                  <div [formGroupName]="i" class="drop-txt-wraper-box">
+                    <div class="custom-drop-txt-wraper">
+                      <div class="custom-drop">
+                        <select class="form-control">
+                          <option *ngFor="let type of emailTypes" [value]="type">{{type}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <input class="form-control" [id]="item.title + i" type="tel">
+                  </div>
+                </div>
+                <a class="add-another-email" (click)="addAnotherPhone(item.title)">
+                  +&nbsp;Add Another
+                </a>
+              </form>
+            </div> -->
+
+      <!-- <div class="form-group width-90" *ngIf="item.type === 'link'">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/link.svg">
+                  {{ item.title }}
+                </label>
+              </div>
+              <input [id]="item.title" class="form-control" type="text"
+                (blur)="getLinkPreview($event.target.value, item.title)">
+              <div class="link-wraper"
+                *ngIf="linkPreviewData[recordId] && linkPreviewData[recordId][item.title] && linkPreviewData[recordId][item.title].html">
+                <div class="close-btn">
+                  <img src="../../../../../assets/images/dark-cancel.svg" (click)="hideLinkPreview(item.title)">
+                </div>
+                <div class="link-section-body" [innerHTML]="linkPreviewData[recordId][item.title].html"></div>
+              </div>
+            </div> -->
+
+      <!-- <div class="upload-section" *ngIf="item.type === 'image'">
+              <div class="form-group">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/attachment.svg">
+                  Attachments
+                </label>
+                <div class="upload-file-button">
+                  <input type="file" id="files" name="files">
+                  <button>
+                    Attach File
+                  </button>
+                </div>
+                <div class="drag-drop-upload-file-section">
+                  <img src="../../../../../assets/images/round-up-arrow.svg">
+                  Drop files here
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <form class="form-section" [formGroup]="appForm">
+        <div class="form-group name-box" *ngFor="let field of appFieldData">
+          <!-- Text Field -->
+          <div *ngIf="field.type == 'text' && !field.options.Hidden && showFields.includes(field._id)">
+            <div class="form-group width-90">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/Text-icon-1.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <input *ngIf="field.options.lines === 'Single line'" [id]="field.label" [formControlName]="field.label"
+                class="form-control" type="text">
+              <textarea *ngIf="field.options.lines === 'Multi line'" class="form-control grid-record-text-area" rows="2"
+                [id]="field.label" [formControlName]="field.label" (keyup)="setTextAreaLength(field.label)"></textarea>
+              <div *ngIf="!appForm.controls[field.label].valid && showValidationErrors" style="color: red;">
+                This field is required
+              </div>
+
+              <div class="tooltip-section" *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+          </div>
+
+          <!-- Number Fields -->
+          <div *ngIf="field.type == 'number' && !field.options.Hidden && showFields.includes(field._id)">
+            <div class="form-group width-90">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/number.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <input [id]="field.label" [formControlName]="field.label" class="form-control" type="text"
+                name="{{field.uniqueId}}" (keyup)='addValue($event,field)'
+                [cleave]="{numeral: true, numeralDecimalScale: field.options.display.includes('four') ? 4 : field.options.display.includes('two') ? 2 : 0 }">
+              <div *ngIf="!appForm.controls[field.label].valid && showValidationErrors" style="color: red;">
+                This field is required
+              </div>
+              <div class="tooltip-section number-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+          </div>
+
+          <!-- Image field -->
+          <div class="upload-section"
+            *ngIf="field.type == 'image' && !field.options.Hidden && showFields.includes(field._id)">
+            <!-- <div class="form-group width-90">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/attachment.svg">
+                {{field.label}}
+              </label>
+              <div class="information-icon-title" *ngIf="field.options.helpText">
+                <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                  (click)="toggleHelpText(field.label)">
+              </div> -->
+
+            <!-- <div> -->
+            <!-- <ngx-dropzone-label>Drop the file</ngx-dropzone-label>
+                <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                </ngx-dropzone-preview> -->
+
+            <!-- <div class="upload-file-section">
+                <img src="../../../../../assets/images/round-up-arrow.svg">
+                Upload files -->
+
+            <!-- <input type="file" (change)="addRecord($event, field)" id="myFile"> -->
+            <!-- <img class="user-upload-pic" src="../../../../../assets/images/user-profile.jpeg"> -->
+
+            <!-- </div>
+
+              <mat-progress-bar *ngIf="showProgress && selectedImageField._id === field._id" mode="determinate"
+                [value]="progress"></mat-progress-bar> -->
+
+            <!-- </div> -->
+
+            <!-- <div *ngIf="imageDisplayData[recordId]" class="upload-img-wraper-section">
+                <div class="upload-img-wraper" *ngFor="let file of imageDisplayData[recordId][field.label]">
+                  <img class="user-upload-pic" [src]="file.source">
+                  <img class="close-icon" src="../../../../../assets/images/Close-icon.svg"
+                    (click)="removeFile(file, field)">
+                </div>
+              </div>
+              <div *ngIf="invalidImageFields.includes(field._id) && showValidationErrors" style="color: red;">
+                This field is required
+              </div>
+              <div class="tooltip-section member-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div> -->
+            <div class="form-group">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/attachment.svg">
+                Attachments
+              </label>
+              <div class="upload-file-button">
+                <input type="file" (change)="addFiles($event, field, 'button')" id="upload-button" name="files">
+                <button>
+                  Attach File
+                </button>
+              </div>
+              <ngx-dropzone (change)="addFiles($event, field)"
+                [disableClick]="imageDisplayData && imageDisplayData[field._id] && imageDisplayData[field._id].length"
+                class="drag-drop-upload-file-section custom-dropzone">
+                <p
+                  *ngIf="!imageDisplayData[field._id] || (imageDisplayData && imageDisplayData[field._id] && !imageDisplayData[field._id].length)">
+                  <img src="../../../../../assets/images/round-up-arrow.svg">
+                  Drop files here
+                </p>
+                <div *ngIf="imageDisplayData && imageDisplayData[field._id] && imageDisplayData[field._id].length"
+                  class="upload-img-wraper-section">
+                  <div class="upload-img-wraper" *ngFor="let file of imageDisplayData[field._id]; let i = index;">
+                    <img class="user-upload-pic" [src]="file">
+                    <img class="close-icon" src="../../../../../assets/images/Close-icon.svg"
+                      (click)="removeFile(i, field)">
+                  </div>
+                </div>
+              </ngx-dropzone>
+            </div>
+          </div>
+
+          <!-- Member Field -->
+          <div *ngIf="field.type === 'member' && !field.options.Hidden && showFields.includes(field._id)"
+            class="form-group custom-member-group">
+            <div class="label-info-cls">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/Member-icon-1.svg" class="card-icon">
+                {{field.label}}
+              </label>
+              <div class="information-icon-title" *ngIf="field.options.helpText">
+                <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                  (click)="toggleHelpText(field.label)">
+              </div>
+            </div>
+            <div class="member-list-wraper">
+              <label (click)="toggleMembersList(field.label)" id="members-menu">
+                Select Member
+              </label>
+
+              <div class="member-list-box-inner" *ngIf="membersList[field.label] && membersListMenu === field.label">
+                <ul [id]="field.label">
+                  <li *ngFor="let user of membersList[field.label]; let i = index" (click)="addMember(user, field)"
+                    id="member-list">
+                    <img
+                      [src]="user.user_id.avatar ? mediaUrl + user.user_id.avatar : '../../../../../assets/images/user.png'">
+                    {{user.user_id.firstName}} {{user.user_id.lastName}}
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+
+            <div *ngIf="!appForm.controls[field.label].valid && showValidationErrors" style="color: red;">
+              This field is required
+            </div>
+            <!-- <div class="custom-drop-txt-wraper">
+              <div class="custom-drop">
+                <ng-multiselect-dropdown [placeholder]="'Select a member'" [data]="dropdownList"
+                  [settings]="dropdownSettings" [(ngModel)]="selectedItems[field.label]"
+                  (onSelect)="addRecord($event, field, 'add')" (onDeSelect)="addRecord($event, field, 'remove')"
+                  [ngModelOptions]="{standalone: true}">
+                </ng-multiselect-dropdown>
+              </div>
+            </div> -->
+            <div *ngIf="selectedMembers && selectedMembers[field.label]" class="select-member-section">
+              <span *ngFor="let user of selectedMembers[field.label]; let i = index">
+                <img
+                  [src]="user.user_id.avatar ? mediaUrl + user.user_id.avatar : '../../../../../assets/images/user.png'"
+                  class="user-img">
+                <label class="mb-0">
+                  {{user.user_id.firstName}} {{user.user_id.lastName}}
+                </label>
+                <img src="../../../../../assets/images/cancel.svg" (click)="removeMember(field, i)" class="close-icon">
+              </span>
+            </div>
+
+            <div class="tooltip-section member-tooltip"
+              *ngIf="field.options.helpText && (showHelpText === field.label)">
+              {{field.options.helpText}}
+            </div>
+          </div>
+
+          <!-- Link Field -->
+          <div class="form-group width-90"
+            *ngIf="field.type === 'link' && !field.options.Hidden && showFields.includes(field._id)">
+            <div class="label-info-cls">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/display_icons/link.svg">
+                {{field.label}}
+              </label>
+              <div class="information-icon-title" *ngIf="field.options.helpText">
+                <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                  (click)="toggleHelpText(field.label)">
+              </div>
+            </div>
+            <!-- Link preview -->
+            <input (focusout)="getPreview(field)" [formControlName]="field.label" [id]="field.label"
+              class="form-control" type="text">
+            <div *ngIf="!appForm.controls[field.label].valid && showValidationErrors" style="color: red;">
+              This field is required
+            </div>
+            <div class="link-wraper"
+              *ngIf="linkPreviewData[recordId] && linkPreviewData[recordId][field.label] && linkPreviewData[recordId][field.label].html">
+              <div class="close-btn">
+                <img src="../../../../../assets/images/dark-cancel.svg" (click)="hideLinkPreview(field.label)">
+              </div>
+              <div class="link-section-body" [innerHTML]="linkPreviewData[recordId][field.label].html"></div>
+            </div>
+            <div class="tooltip-section like-tooltip" *ngIf="field.options.helpText && (showHelpText === field.label)">
+              {{field.options.helpText}}
+            </div>
+          </div>
+
+          <!-- Phone field -->
+          <div *ngIf="field.type === 'phone' && !field.options.Hidden && showFields.includes(field._id)"
+            class="width-90 form-group custom-phone">
+            <div class="label-info-cls">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/phone.svg">
+                {{field.label}}
+              </label>
+              <div class="information-icon-title" *ngIf="field.options.helpText">
+                <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                  (click)="toggleHelpText(field.label)">
+              </div>
+            </div>
+            <div [formArrayName]="field.label" *ngFor="let a of arrayControl(field.label); let i = index">
+              <div [formGroupName]="i" class="drop-txt-wraper-box">
+                <div class="custom-drop-txt-wraper">
+                  <div class="custom-drop">
+                    <select class="form-control" formControlName="type">
+                      <!-- <option disabled>Select Type</option> -->
+                      <option *ngFor="let type of phoneTypes" [value]="type">{{type}}</option>
+                    </select>
+                  </div>
+                </div>
+                <input class="form-control" [id]="field.label + i" type="tel" formControlName="number">
+
+                <div class="tooltip-section phone-tooltip"
+                  *ngIf="field.options.helpText && (showHelpText === field.label)">
+                  {{field.options.helpText}}
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!appForm.controls[field.label].valid && showValidationErrors" style="color: red;">
+              This field is required
+            </div>
+            <a class="add-another-email" (click)="addAnotherPhone(field.label)">
+              +&nbsp;Add Another
+            </a>
+          </div>
+
+          <!-- Email field -->
+          <div *ngIf="field.type === 'email' && !field.options.Hidden && showFields.includes(field._id)"
+            class="form-group custom-phone width-90">
+            <div class="label-info-cls">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/display_icons/email.svg">
+                {{field.label}}
+              </label>
+              <div class="information-icon-title" *ngIf="field.options.helpText">
+                <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                  (click)="toggleHelpText(field.label)">
+              </div>
+            </div>
+            <div [formArrayName]="field.label" *ngFor="let a of arrayControl(field.label); let i = index">
+              <div [formGroupName]="i" class="drop-txt-wraper-box">
+                <div class="custom-drop-txt-wraper">
+                  <div class="custom-drop">
+                    <select class="form-control" formControlName="type">
+                      <!-- <option disabled>Select Type</option> -->
+                      <option *ngFor="let type of emailTypes" [value]="type">{{type}}</option>
+                    </select>
+                  </div>
+                </div>
+                <input class="form-control" [id]="field.label + i" type="text" formControlName="text">
+                <div class="tooltip-section email-tooltip"
+                  *ngIf="field.options.helpText && (showHelpText === field.label)">
+                  {{field.options.helpText}}
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!appForm.controls[field.label].valid && showValidationErrors" style="color: red;">
+              This field is required
+            </div>
+            <a class="add-another-email" (click)="addAnotherEmail(field.label)">
+              +&nbsp;Add Another
+            </a>
+          </div>
+
+          <!-- Money field -->
+          <div *ngIf="field.type === 'money' && !field.options.Hidden && showFields.includes(field._id)"
+            class="form-group custom-phone width-90 money-section">
+            <div class="label-info-cls">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/display_icons/money.svg" class="card-icon">
+                {{field.label}}
+              </label>
+              <div class="information-icon-title" *ngIf="field.options.helpText">
+                <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                  (click)="toggleHelpText(field.label)">
+              </div>
+            </div>
+            <div class="custom-drop-txt-wraper">
+              <div class="custom-drop">
+                <select class="form-control" [formControlName]="field.label+'Type'" #moneyType>
+                  <option disabled value="">Select Type</option>
+                  <option *ngFor="let type of moneyTypes">{{type}}</option>
+                </select>
+              </div>
+              <input class="form-control" (keypress)="numberOnly($event)" name="{{field.uniqueId}}"
+                (keyup)='addValue($event,field)' id="inputdefault" type="text" [formControlName]="field.label">
+              <div class="tooltip-section money-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+            <div
+              *ngIf="(!appForm.controls[field.label].valid || !appForm.controls[field.label+'Type'].valid) && showValidationErrors"
+              style="color: red;">
+              This field is required
+            </div>
+          </div>
+          <!-- calculation field-->
+
+          <div *ngIf="field.type == 'calculator' && !field.options.Hidden && showFields.includes(field._id)" disabled>
+            <div class="form-group width-90">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/number.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <input disabled name="{{field.label}}" [id]="field.label" [formControlName]="field.label"
+                class="form-control" type="text" [value]='field.calculation'
+                [cleave]="{numeral: true, numeralDecimalScale: field.options.display.includes('four') ? 4 : field.options.display.includes('two') ? 2 : 0 }">
+              <p>{{field.options.rawFormulaDisplay}}</p>
+              <div class="tooltip-section calculator-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+          </div>
+          <!-- Date Field -->
+          <div *ngIf="field.type === 'date' && !field.options.Hidden && showFields.includes(field._id)"
+            class="form-group date-section date-position-relative-filed width-90">
+            <div class="label-info-cls">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/display_icons/date.svg">
+                {{ field.label }}
+              </label>
+              <div class="information-icon-title" *ngIf="field.options.helpText">
+                <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                  (click)="toggleHelpText(field.label)">
+              </div>
+            </div>
+            <div class="date-section-inner custom-mobile-start-date">
+              <div class="left-date-section">
+                <input *ngIf="field.options.display !== 'Show end date'" class="form-control" bsDatepicker type="text"
+                  [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [formControlName]="field.label"
+                  placeholder="MM/DD/YYYY">
+                <input class="form-control" *ngIf="field.options.display === 'Show end date'" bsDatepicker type="text"
+                  [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [formControlName]="field.label"
+                  placeholder="MM/DD/YYYY" [maxDate]="this.appForm.controls[field.label+'End'].value">
+              </div>
+              <div class="right-date-section">
+                <input *ngIf="field.options.display === 'Show end date'" class="form-control" bsDatepicker type="text"
+                  [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" [formControlName]="field.label+'End'"
+                  placeholder="MM/DD/YYYY" [minDate]="this.appForm.controls[field.label].value">
+              </div>
+            </div>
+            <div
+              *ngIf="(!appForm.controls[field.label]?.valid || (field.options.display === 'Show end date' && !appForm.controls[field.label + 'End']?.valid)) && showValidationErrors"
+              style="color: red;">
+              This field is required
+            </div>
+            <div class="tooltip-section date-tooltip" *ngIf="field.options.helpText && (showHelpText === field.label)">
+              {{field.options.helpText}}
+            </div>
+          </div>
+
+          <!-- Category Field -->
+          <div *ngIf="field.type === 'category' && !field.options['Always hidden'] && showFields.includes(field._id)"
+            class="form-group width-90 category-inner-section">
+            <div class="label-info-cls">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/display_icons/category.svg" class="card-icon">
+                {{field.label}}
+              </label>
+              <div class="information-icon-title" *ngIf="field.options.helpText">
+                <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                  (click)="toggleHelpText(field.label)">
+              </div>
+            </div>
+            <div class="custom-drop-txt-wraper" hidden>
+              <div class="custom-drop">
+                <select class="form-control" [formControlName]="field.label">
+                  <option disabled value="">Select a category</option>
+                  <option *ngFor="let option of field.options.selectOptions" [value]="option.label">
+                    {{option.label}}</option>
+                </select>
+              </div>
+              <div class="tooltip-section category-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+            <!-- Inline -->
+            <div class="category-choice-wraper" *ngIf="field.options.display === 'Inline'">
+              <div *ngFor="let option of field.options.selectOptions" class="category-choice-option"
+                [ngStyle]="{'background-color': selectedCategoryOptions && selectedCategoryOptions[field._id] && selectedCategoryOptions[field._id].includes(option.id) ? option.color : 'white'}"
+                (click)="selectCategoryOption(option, field)">
+                {{option.label}}
+              </div>
+            </div>
+
+
+            <!-- List -->
+            <div class="category-choice-list-wraper" *ngIf="field.options.display === 'List'">
+              <div class="category-choice-list-option" *ngFor="let option of field.options.selectOptions"
+                (click)="selectCategoryOption(option, field)"
+                [ngStyle]="{'background-color': selectedCategoryOptions && selectedCategoryOptions[field._id] && selectedCategoryOptions[field._id].includes(option.id) ? option.color : 'white'}">
+                {{option.label}}
+              </div>
+            </div>
+
+            <!-- Dropdown -->
+            <div class="category-choice-drop-down-wraper" *ngIf="field.options.display === 'Drop-down list'">
+              <div class="category-choice-select-txt" style="cursor: pointer;" id="category-dropdown"
+                (click)="showCategoryDropdown = showCategoryDropdown === field._id ? '' : field._id">
+                {{selectedCategoryMultipleOptions[field._id] ? selectedCategoryMultipleOptions[field._id] : 'No Value'}}
+                <img src="../../../../../assets/images/ico-back.svg" id="category-dropdown" style="cursor: pointer;">
+              </div>
+              <ul class="custom-category-drop-down" *ngIf="showCategoryDropdown === field._id" id="category-dropdown">
+                <li *ngFor="let option of field.options.selectOptions" id="category-dropdown"
+                  (click)="selectCategoryOption(option, field)"
+                  [ngStyle]="{'background-color': selectedCategoryOptions && selectedCategoryOptions[field._id] && selectedCategoryOptions[field._id].includes(option.id) ? option.color : 'white'}">
+                  {{option.label}}
+                </li>
+              </ul>
+            </div>
+
+            <div *ngIf="!appForm.controls[field.label].valid && showValidationErrors" style="color: red;">
+              This field is required
+            </div>
+
+          </div>
+
+          <!-- Duration Field -->
+          <div *ngIf="field.type === 'duration' && !field.options.Hidden && showFields.includes(field._id)"
+            class="form-group" [formGroupName]="field.label">
+            <div class="label-info-cls">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/display_icons/duration.svg">
+                {{field.label}}
+              </label>
+              <div class="information-icon-title" *ngIf="field.options.helpText">
+                <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                  (click)="toggleHelpText(field.label)">
+              </div>
+            </div>
+            <div class="custom-time-duration">
+              <div class="duration-item" *ngIf="field.options['Display days']">
+                <input class="form-control" (keyup)="durationChange($event, field)" id="days" type="number"
+                  formControlName="days">
+                <span>Days</span>
+              </div>
+              <div class="duration-item" *ngIf="field.options['Display hours']">
+                <input class="form-control" (keyup)="durationChange($event, field)" id="hours" type="number"
+                  formControlName="hours">
+                <span>Hours</span>
+              </div>
+              <div class="duration-item" *ngIf="field.options['Display minutes']">
+                <input class="form-control" (keyup)="durationChange($event, field)" id="minutes" type="number"
+                  formControlName="minutes">
+                <span>Minutes</span>
+              </div>
+              <div class="duration-item" *ngIf="field.options['Display seconds']">
+                <input class="form-control" (keyup)="durationChange($event, field)" id="seconds" type="number"
+                  formControlName="seconds">
+                <span>Seconds</span>
+              </div>
+            </div>
+
+            <div *ngIf="invalidDurationFields.includes(field._id) && showValidationErrors" style="color: red;">
+              This field is required
+            </div>
+
+            <div class="tooltip-section duration-tooltip"
+              *ngIf="field.options.helpText && (showHelpText === field.label)">
+              {{field.options.helpText}}
+            </div>
+          </div>
+
+          <!-- Progress Field -->
+          <div *ngIf="field.type === 'progress' && !field.options.Hidden && showFields.includes(field._id)"
+            class="form-group">
+            <div class="label-info-cls">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/display_icons/progress.svg">
+                {{field.label}}
+              </label>
+              <div class="information-icon-title" *ngIf="field.options.helpText">
+                <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                  (click)="toggleHelpText(field.label)">
+              </div>
+            </div>
+            <div class="duration-count" *ngIf="progressData && progressData[field.label]">
+              {{progressData[field.label]}}%</div>
+            <div class="duration-count" *ngIf="!progressData || !progressData[field.label]">0%</div>
+            <mat-slider min="0" max="100" (change)="updateProgress($event, field)" [formControlName]="field.label">
+            </mat-slider>
+            <!-- <input class="form-control" (change)="addRecord($event, field)" type="date"
+              [formControlName]="field.label" placeholder="datepicker"> -->
+            <div *ngIf="!appForm.controls[field.label].valid && showValidationErrors" style="color: red;">
+              This field is required
+            </div>
+            <div class="tooltip-section progress-tooltip"
+              *ngIf="field.options.helpText && (showHelpText === field.label)">
+              {{field.options.helpText}}
+            </div>
+          </div>
+
+          <!-- Location Field -->
+          <div *ngIf="field.type == 'location' && !field.options.Hidden && showFields.includes(field._id)">
+            <div class="form-group">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/location.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <input *ngIf="field.options.display === 'Single line address'" [formControlName]="field.label"
+                class="form-control" [id]="field.label" type="text" (keyup)="getGeoCode($event, field)">
+              <div
+                *ngIf="!appForm.controls[field.label].valid && field.options.display === 'Single line address' && showValidationErrors"
+                style="color: red;">
+                This field is required
+              </div>
+              <div *ngIf="mapSuggestion[field.label] && (field.options.display === 'Single line address')"
+                class="location-suggestion">
+                <div *ngFor="let item of mapSuggestion[field.label]" (click)="getMap(item, field, 'single')">
+                  {{item.address}}
+                </div>
+              </div>
+              <div *ngIf="field.options.display === 'Multi-line address'" class="form-group location-multiline-section"
+                [formGroupName]="field.label">
+                <label>
+                  Street Address
+                </label>
+                <input formControlName="streetAddress" [id]="field.label+'street'" class="form-control" type="text"
+                  (keyup)="getGeoCode($event, field)">
+                <div *ngIf="mapSuggestion[field.label] && (field.options.display === 'Multi-line address')"
+                  class="location-suggestion">
+                  <div *ngFor="let item of mapSuggestion[field.label]" (click)="getMap(item, field, 'multi')">
+                    {{item.address}}
+                  </div>
+                </div>
+                <div
+                  *ngIf="field.options.display !== 'Single line address' && !appForm.controls[field.label]['controls'].streetAddress.valid && showValidationErrors"
+                  style="color: red;">
+                  This field is required
+                </div>
+                <label>
+                  Postal Code
+                </label>
+                <input formControlName="postalCode" [id]="field.label+'postal'" class="form-control" type="text">
+                <div
+                  *ngIf="field.options.display !== 'Single line address' && !appForm.controls[field.label]['controls'].postalCode.valid && showValidationErrors"
+                  style="color: red;">
+                  This field is required
+                </div>
+                <label> City
+                </label>
+                <input formControlName="city" [id]="field.label+'city'" class="form-control" type="text">
+                <div
+                  *ngIf="field.options.display !== 'Single line address' && !appForm.controls[field.label]['controls'].city.valid && showValidationErrors"
+                  style="color: red;">
+                  This field is required
+                </div>
+                <label> State
+                </label>
+                <input formControlName="state" [id]="field.label+'state'" class="form-control" type="text">
+                <div
+                  *ngIf="field.options.display !== 'Single line address' && !appForm.controls[field.label]['controls'].state.valid && showValidationErrors"
+                  style="color: red;">
+                  This field is required
+                </div>
+                <label> Country
+                </label>
+                <input formControlName="country" [id]="field.label+'country'" class="form-control" type="text">
+                <div
+                  *ngIf="field.options.display !== 'Single line address' && !appForm.controls[field.label]['controls'].country.valid && showValidationErrors"
+                  style="color: red;">
+                  This field is required
+                </div>
+              </div>
+              <div class="map-img" *ngIf="field.options['Show map']">
+                <img *ngIf="mapData[field.label] && mapData[field.label].map" [src]="mapData[field.label].map">
+              </div>
+
+              <div class="tooltip-section location-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+          </div>
+          <!-- Relation ship Field -->
+          <!-- <div *ngIf="field.type =='relationship' && !field.options.Hidden && showFields.includes(field._id)" class="relationship-wraper-section">
+            <div class="form-group">
+              <label for="inputdefault">
+                <img src="../../../../../assets/images/phone.svg">
+                {{field.label}}
+              </label>
+              <div *ngIf="selectedRecord && selectedRecord[field.label]" class="relationship-wraper-inner">
+                <div class="relationship-wraper"
+                  *ngFor="let record of selectedRecord[field.label]; let i = index;">
+                  <div *ngIf="record.recordName">
+                    <div class="top-section" (click)="openRelationRecordModal(record)">
+                      <label>
+                        {{record.recordName}}
+                      </label>
+                      <img src="../../../../../assets/images/ico-arro.svg">
+                    </div>
+                    <div class="bottom-section">
+                      <div class="left-section">
+                        <div class="start-custom-drop" *ngIf="record.categoryObj">
+                          <div class="custom-start-custom-dro-inner"  (click)="record.showOptions=!record.showOptions"
+                          (clickOutside)="record.showOptions=false">
+                            <div [ngClass]="{'active':cat.id==record.selectedCategory}"
+                              *ngFor="let cat of record.categoryObj">
+                              <p *ngIf="cat.id==record.selectedCategory"
+                               > {{cat.label}}</p>
+                            </div>
+                            <img src="../../../../../assets/images/drop-down-icon.svg" alt="">
+                          </div>
+
+                          <div class="custom-drop-inner-section" *ngIf="record.showOptions">
+                            <ul>
+                              <li [ngClass]="{'active':cat.id==record.selectedCategory}"
+                                *ngFor="let cat of record.categoryObj"
+                                (click)="changeCategory(cat, record,field)">
+                                {{cat.label}}
+                              </li>
+                            </ul>
+                          </div>
+
+                        </div> -->
+
+          <!-- <div class="start-custom-drop" *ngIf="record.categoryObj">
+                          <select class="form-control" (change)="changeCategory($event, record)">
+                            <option *ngFor="let cat of record.categoryObj"[selected]="cat.id==record.selectedCategory"  [value]="cat.id">{{cat.label}}</option>
+                            <img src="../../../../../assets/images/drop-down-icon.svg" alt="">
+                          </select>
+                        </div> -->
+
+          <!-- <label class="mb-0">
+                          {{record.application_id.name}} in {{record.workspace_id.name}} - 10d
+                        </label>
+                      </div>
+                      <div class="right-section" *ngIf="record.memberObj">
+                        <div class="user-pic-section">
+                          <img [src]="record.memberObj.avatar">
+                          <label>
+                            {{record.memberObj.name}}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="search-section-inner-wraper-drop-down">
+              <div class="form-group search-section-grid-section" *ngIf="relationSearch"
+                (keyup)='getAppList($event,field)' (click)='getAppList($event,field)'>
+
+                <div *ngIf="selectedRecord && selectedRecord[field.label]" class="relation-select-member-section">
+                  <ul>
+                    <li *ngFor="let record of selectedRecord[field.label]; let i = index">
+                      <label class="mb-0">
+                        {{record.recordName}} <img src="../../../../../../../assets/images/cancel.svg"
+                          (click)="removeRecord(record, i,field)" class="cancel-icon">
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+
+                <input class="form-control" type="text" placeholder="Click to choose or type to search">
+
+              </div>
+
+              <div class="search-inner-section" *ngIf="field.appRecords?.length > 0 && displayApps">
+                <ul *ngFor="let app of field.appRecords; index as index">
+                  <div class="main-ttl">
+                    {{app.application.name}}
+                  </div>
+                  <div *ngIf="app.list">
+                    <li *ngFor="let record of app.list;">
+                      <div *ngIf="record.recordName">
+                        <label for="" (click)="selectRecord(app,record,field)">
+                          {{record.recordName}}
+                        </label>
+                        <span>
+                          {{app.application.organization_id.name}}
+                        </span>
+                      </div>
+                    </li>
+                  </div>
+                  <div class="no-data-found" *ngIf="app.application && app.application.length === 0">
+                    No Application found
+                  </div>
+                </ul>
+              </div>
+            </div>
+
+
+            <button class="add-remove-btn" (click)="displaySearch()">
+              ADD / REMOVE
+            </button>
+          </div> -->
+        </div>
+      </form>
+      <div class="btn-section text-center">
+          <button type="button" class="webform-submit-btn" (click)="addRecord()" [disabled]="submitted">
+          <span *ngIf="submitted" class="btn-loaderr openn"></span> 
+           <span *ngIf="!submitted">Send</span> 
+         
+        </button>
+       
+      </div>
+    </div>
+  </div>
+  <div class="right-section">
+    <form [formGroup]="configurationForm">
+      <div class="box-section">
+        <div class="main-ttl">
+          <label>
+            THIS FORM IS ACTIVE
+          </label>
+          <label class="check-container">
+            <input type="checkbox" formControlName="form_status">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- <div class="box-section">
+        <div class="main-ttl">
+          <label>
+            ALLOW USER ACCESS
+          </label>
+          <div>
+            <label class="check-container">Guest
+              <input type="checkbox" formControlName="allow_user_guest">
+              <span class="checkmark"></span>
+            </label>
+            <label class="check-container">Read only
+              <input type="checkbox" formControlName="allow_user_read_only" checked="checked">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="box-section">
+        <div class="main-ttl">
+          <label>
+            Allowed domains
+          </label>
+        </div>
+        <div class="domain-list-section">
+          <div class="add-domain-section">
+            <input type="text" class="form-control" formControlName="domainText" (keyup)="addDomain($event)">
+            <img src="../../../../../../assets/images/plus-icon.svg" (click)="addDomain()">
+          </div>
+          <div class="domain-list">
+            <ul>
+              <li *ngFor="let item of domainsArray; let i = index">
+                <label>
+                  {{ item }}
+                </label>
+                <img src="../../../../../../assets/images/cancel.svg" (click)="removeSelectedDomain(i)">
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="box-section">
+        <div class="main-ttl">
+          <label>
+            Configuration
+          </label>
+        </div>
+        <div class="configration-section">
+          <div class="sub-ttl">
+            <label>
+              Choose app fields
+            </label>
+            <p>
+              Select which fields you want to display on your form
+            </p>
+          </div>
+
+          <div class="configration-list" *ngFor="let field of appFieldData; let i=index">
+            <label class="check-container">{{ field.label }}
+              <input type="checkbox" [checked]="showFields.includes(field._id)"
+                (change)="setFieldConfiguration($event, field)">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+
+          <div class="job-detail">
+            <div class="sub-ttl">
+              <label>
+                Title & Description
+              </label>
+            </div>
+            <input type="text" class="form-control" formControlName="title" placeholder="Add your title">
+            <textarea class="form-control" formControlName="description"
+              placeholder="Add a description"
+              autosize></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="box-section">
+        <div class="main-ttl">
+          <label>
+            Embedded code
+          </label>
+        </div>
+        <div class="code-section">
+          <textarea class="form-control" id="embedded-code" autosize></textarea>
+        </div>
+
+        <div class="link-section" (click)="goToLink()">
+          <label>
+            Shareable Link
+          </label>
+          <a>{{shareableLink + "&type=sharable"}}</a>
+        </div>
+      </div>
+
+      <div class="green-btn-section">
+        <button type="button" (click)="addConfiguration()">
+          Save & Share
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

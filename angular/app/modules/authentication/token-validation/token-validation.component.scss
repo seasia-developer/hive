@@ -1,0 +1,176 @@
+@import "../../../../SCSS/custom-variable";
+
+.middle-body-section{
+    padding-top: 25px;
+
+    .left_col{
+        width: calc(100% - 300px);
+    }
+
+    .right_col{
+        width: 300px;
+        padding-left: 65px;
+    }
+}
+
+
+
+.contant_sec {
+    .left_col {
+        text-align: left;
+        img {
+            padding-left: 100px;
+            margin-top: 40px;
+        }
+    }
+    .right_col {
+        margin-top: 100px;
+    }
+    .form-group {
+        .form-group-contant {
+            width: 100%;
+            float: left;
+            text-align: left;
+            .check-title {
+                font-size: $wlc_title;
+                font-weight: 400;
+                margin-bottom: 40px;
+            }
+            p {
+                font-size: $box_txt;
+                font-weight: 400;
+            }
+            a {
+                text-decoration: underline;
+                color: $text-primary-color;
+                font-size: $box_txt;
+                text-align: center;
+            }
+        }
+        .btn-success {
+            width: 180px;
+            margin: 0;
+            margin-top: 90px;
+            font-family: $RobotoMedium !important;
+        }
+    }
+}
+
+@media(max-width:991px){
+    .contant_sec {
+        .left_col {
+            img{
+                padding-left: 0;
+            }
+        }
+    }
+}
+
+@media(max-width:767px) {
+    .contant_sec {
+        .left_col {
+            text-align: center;
+            width: 100%;
+            img {
+                padding-left: 0;
+            }
+        }
+
+        .right_col{
+            width: 100%;
+            padding: 0;
+
+            .form-group-contant{
+                text-align: center;
+            }
+
+            .btn-success{
+                margin: 0 auto;
+                margin-top: 90px;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(min-width:1270px) {
+    .logo_img {
+      margin: 45px 0 0px;
+  
+      a {
+        img {
+          width: 260px;
+          margin-left: -5px;
+        }
+      }
+    }
+  
+    .middle-body-section {
+      padding-top: 32px;
+  
+      .left_col {
+        padding-right: 0px;
+        padding-top: 52px;
+  
+        img {
+            margin-top: 0;
+            width: 505px;
+            height: 450px;
+            padding-left: 36px;
+        }
+      }
+  
+      .right_col {
+        padding-top: 8px;
+        margin-right: 0;
+        width: 510px;
+        padding-left: 163px;
+        margin-top: 100px;
+
+        .check-title{
+            margin-bottom: 41px !important;
+            padding-left: 8px;
+        } 
+
+        p{
+            padding-left: 12px;
+        }
+
+        button {
+          margin-top: 106px !important;
+        }
+  
+      }
+  
+    }
+  
+  }
+  

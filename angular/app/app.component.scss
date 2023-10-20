@@ -1,0 +1,143 @@
+@import "../SCSS/custom-variable";
+
+@media(max-width:767px){
+    .chat-mobile-view{
+        display: block !important;
+    }
+}
+.chat-mobile-view{
+    display: none;
+}
+
+.chat-mobile-view{
+    position: fixed;
+    bottom: 5px;
+    right: 25px;
+    .chat-icon{
+        width: 53px;
+        height: 53px;
+        background: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+        img{
+            width: 60%;
+            height: 60%;
+        }
+    }
+}
+.bottom-user-list-section {
+    position: fixed;
+    bottom: 60px;
+    right: 25px;
+    box-shadow: 0px 1px 0px $shadow-color;
+    width: 200px;
+    background-color: $white;
+    border-radius: 8px;
+  
+    .search-box {
+      height: 35px;
+      position: relative;
+      display: flex;
+      display: -webkit-box;
+      -webkit-box-align: center;
+      align-items: center;
+      -webkit-box-pack: justify;
+  
+      img {
+        width: 17px;
+        height: 17px;
+        position: absolute;
+        top: 12px;
+        left: 20px;
+      }
+  
+      input {
+        color: $black;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        padding: 8px 10px 8px 50px;
+        width: 100%;
+        border: 1px solid $dark-bg;
+  
+        &::placeholder {
+          color: $black;
+          font-size: $title;
+          font-family: $RobotoRegular;
+        }
+      }
+    }
+  
+    .user-list-wraper {
+      border: 1px solid $dark-bg;
+      max-height: calc(100vh - 106px);
+      overflow-y: auto;
+  
+      .main-ttl {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoMedium;
+        padding: 15px 20px 0px;
+        text-transform: uppercase;
+      }
+  
+      ul {
+        margin: 0;
+        padding: 0;
+  
+        li {
+          list-style: none;
+          display: flex;
+          align-items: center;
+          padding: 8px 10px;
+          cursor: pointer;
+  
+          .user-img {
+            border: 1px solid $text-secondary-dark;
+            border-radius: 100%;
+            width: 30px;
+            height: 30px;
+            position: relative;
+            margin-right: 10px;
+  
+            span {
+              position: absolute;
+              bottom: 0;
+              right: 0;
+              background-color: $text-light;
+              border: 3px solid $text-secondary-dark;
+              width: 10px;
+              height: 10px;
+              border-radius: 100%;
+  
+              &.online {
+                background-color: $btn-bg;
+                border: 1px solid $text-secondary-dark;
+              }
+            }
+  
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 100%;
+              object-fit: cover;
+              object-position: center;
+            }
+          }
+  
+          .user-name {
+            width: calc(100% - 40px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: $black;
+            font-size: $title;
+            font-family: $RobotoRegular;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+

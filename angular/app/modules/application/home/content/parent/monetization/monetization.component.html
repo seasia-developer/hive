@@ -1,0 +1,862 @@
+<div class="w-100">
+
+  <!-- LOADER -->
+  <div class="subs-loader position-fixed inset-0 m-auto d-flex align-itens-center justify-content-center h-100"
+    *ngIf="loader || stripeConnectLoader">
+    <div class="loading"></div>
+  </div>
+
+
+
+  <!-- STRIPE CARD  -->
+  <div class="w-100 flex justify-center p-4">
+    <div class="w-100 stripe-card mx-auto rounded-20 p-4 mt-5 bg-white">
+
+      <!-- CARD HEADER  -->
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <!-- STRIPE LOGO -->
+        <span class="d-flex justify-content-between align-items-center">
+          <img src="../../../../../../assets/images/menotization/stripe-logo.svg" alt="">
+          <span class="mx-3 color-686868 font-weight-bold letter-spacing-1">
+            Stripe
+          </span>
+        </span>
+        <!-- STRIPE LOGO END -->
+        <!-- TOGGLE BTN -->
+        <span class="cursor-pointer" *ngIf="!isStripeChecked">
+          <a class="color-59ADFF"
+            [attr.href]="'https://connect.stripe.com/oauth/authorize?response_type=code&client_id='+stripeConnectClientId+'&scope=read_write'">
+            <span class="cursor-events-none">
+              <mat-slide-toggle color="primary" [checked]="isStripeChecked">
+              </mat-slide-toggle>
+            </span>
+          </a>
+        </span>
+        <span class="cursor-pointer cursor-events-none" *ngIf="isStripeChecked">
+          <mat-slide-toggle color="primary" [checked]="isStripeChecked">
+          </mat-slide-toggle>
+        </span>
+        <!-- TOGGLE BTN END -->
+      </div>
+      <!-- CARD HEADER END -->
+
+      <!-- STRIPE DISABLED -->
+      <div class="w-100 my-3 px-2" *ngIf="!isStripeChecked">
+        <p class="text-14 mb-3 color-686868">Finish connecting your Stripe account to start collecting payments.</p>
+        <p class="text-14 mb-3 color-686868">Our integration with Stripe allows you to create paid groups & ticketed
+          events.</p>
+        <p class="text-14 color-686868">Note: Under
+          <a class="color-59ADFF" target="_blank"
+            [attr.href]="'https://stripe.com/docs/connect/oauth-changes-for-standard-platforms'">new
+            Stripe regulations as of July
+            2021</a>, a new
+          business will be created when you connect your
+          Stripe account to Voxxi. During the Stripe onboarding, we'll create a new business for you in your Stripe
+          account regardless of which business you select at the beginning
+        </p>
+      </div>
+      <!-- STRIPE DISABLED END -->
+
+      <!-- STRIPE ENABLED -->
+      <div class="w-100" *ngIf="isStripeChecked">
+        <!-- ROW START -->
+        <div class="w-100 d-flex justify-content-between px-2 py-5 flex-column flex-md-row">
+          <p class="color-34AD05 text-16 mb-3 mb-md-0">Your Stripe account is connected</p>
+          <p class="color-FC4850 text-16 mb-3 mb-md-0 cursor-pointer" (click)="resetStripeConnection()">Reset Strip
+            Connection</p>
+        </div>
+        <!-- ROW END -->
+        <!-- ROW START -->
+        <div class="w-100 px-2 d-flex justify-content-center">
+          <span id="paid-groups-modal" class="bg-59ADFF color-fff rounded-10 px-3 py-2 text-center cursor-pointer"
+            (click)="openModal(paidGroupsModal, 'layout-options')">Create a Paid Group</span>
+        </div>
+        <!-- ROW END -->
+      </div>
+      <!-- STRIPE ENABLED END -->
+    </div>
+
+  </div>
+  <!-- STRIPE CARD END  -->
+
+  <ng-template #paidGroupsModal>
+    <!-- STEPPER HEADING -->
+    <div class="w-100">
+
+      <!-- HEADER -->
+      <div class="paid-groups-header row">
+        <div class="col">
+          <div class="w-100 h-4px rounded mb-2" [ngClass]="step === 1 ? 'bg-59ADFF' : 'bg-C3C3C3'"></div>
+          <p [ngClass]="step === 1 ? 'color-59ADFF' : 'color-C3C3C3'">Basic</p>
+        </div>
+        <div class="col">
+          <div class="w-100 h-4px rounded mb-2" [ngClass]="step === 2 ? 'bg-59ADFF' : 'bg-C3C3C3'"></div>
+          <p [ngClass]="step === 2 ? 'color-59ADFF' : 'color-C3C3C3'">Group Setup</p>
+        </div>
+        <div class="col">
+          <div class="w-100 h-4px rounded mb-2" [ngClass]="step === 3 ? 'bg-59ADFF' : 'bg-C3C3C3'"></div>
+          <p [ngClass]="step === 3 ? 'color-59ADFF' : 'color-C3C3C3'">Payment Setup</p>
+        </div>
+        <div class="col">
+          <div class="w-100 h-4px rounded mb-2" [ngClass]="step === 4 ? 'bg-59ADFF' : 'bg-C3C3C3'"></div>
+          <p [ngClass]="step === 4 ? 'color-59ADFF' : 'color-C3C3C3'">Review</p>
+        </div>
+      </div>
+      <!-- HEADER END -->
+
+      <!-- BODY -->
+      <div class="paid-groups-header row my-3">
+
+        <!-- STEP 1 -->
+        <div class="col" *ngIf="step === 1">
+
+          <!-- ROW START -->
+          <div class="w-full mb-4">
+            <p class="color-888888 text-16 font-bold letter-spacing-1">Subscription Expiration</p>
+            <p class="color-888888 text-16">What happens when a member stops paying. (Only for subscription based
+              payment plans.)</p>
+          </div>
+          <!-- ROW END -->
+
+          <!-- ROW START -->
+          <div class="w-full mb-4">
+            <div class="row">
+              <!-- REMOVE FROM GROUP -->
+              <div class="col-12 col-md-6 mb-3 mb-md-0">
+                <div class="rounded-10 p-3 cursor-pointer" (click)="subscriptionAction('remove-from-group')"
+                  [ngClass]="paidGroups.removeFromGroup ? 'border-59ADFF' : 'border-D6D6D6'">
+                  <p class="color-000 text-16 mb-2">Remove from Group</p>
+                  <p class="color-888888 text-14">Automatically remove member from the group. They can access the rest
+                    of
+                    the community, and can resubscribe to their previous plan at any time.</p>
+                </div>
+              </div>
+              <!-- REMOVE FROM GROUP END -->
+              <!-- REQUIRE RESUBSCRIPTION -->
+              <div class="col-12 col-md-6 mb-3 mb-md-0">
+                <div class="rounded-10 p-3 cursor-pointer" (click)="subscriptionAction('require-resubscription')"
+                  [ngClass]="paidGroups.requireReSubscription ? 'border-59ADFF' : 'border-D6D6D6'">
+                  <p class="color-000 text-16 mb-2">Require Resubscription</p>
+                  <p class="color-888888 text-14">Require member to re-subscribe before they can log into your
+                    community. They will not able to access the community until re-subscribing.</p>
+                </div>
+              </div>
+              <!-- REQUIRE RESUBSCRIPTION END -->
+            </div>
+          </div>
+          <!-- ROW END -->
+
+          <!-- ROW START  -->
+          <div class="w-full mb-4">
+            <div class="row">
+              <div class="col">
+                <!-- HEADER  --> 
+                <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                  <!-- TIERS -->
+                  <span class="d-flex justify-content-between align-items-center">
+                    <span class="color-888888 text-16 font-bold letter-spacing-1">
+                      Multipule Tiers
+                    </span>
+                  </span>
+                  <!-- TIERS END -->
+                  <!-- TOGGLE BTN -->
+                  <span class="cursor-pointer">
+                    <mat-slide-toggle color="primary" [checked]="paidGroups.isMultipleTiers"
+                      (change)="multipleTiersToggle($event)">
+                    </mat-slide-toggle>
+                  </span>
+                  <!-- TOGGLE BTN END -->
+                </div>
+                <!-- HEADER END -->
+
+                <div class="w-full">
+                  <p class="text-16 color-888888">
+                    Select whether this product includes multiple tiers (ex: Bronze, Silver, Gold). Members can only be
+                    in one tier at a time and can upgrade or downgrade between tiers.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- ROW END -->
+
+          <!-- ROW START  -->
+          <div class="w-full mb-4" *ngIf="paidGroups.isMultipleTiers">
+            <div class="row">
+              <div class="col">
+                <!-- HEADER  -->
+                <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                  <!-- TIERS -->
+                  <span class="d-flex justify-content-between align-items-center">
+                    <span class="color-888888 text-16 font-bold letter-spacing-1">
+                      Show Upsells
+                    </span>
+                  </span>
+                  <!-- TIERS END -->
+                  <!-- TOGGLE BTN -->
+                  <span class="cursor-pointer">
+                    <mat-slide-toggle color="primary" [checked]="paidGroups.isUpsell" (change)="upsellToggle($event)">
+                    </mat-slide-toggle>
+                  </span>
+                  <!-- TOGGLE BTN END -->
+                </div>
+                <!-- HEADER END -->
+
+                <div class="w-full mb-4">
+                  <p class="text-16 color-888888">
+                    Show members who are not in this group a customized upsell before they can access locked sections of
+                    the community.
+                  </p>
+                </div>
+
+                <div class="w-full" *ngIf="paidGroups.isUpsell">
+                  <div class="row">
+                    <!-- ROW START  -->
+                    <div class="col-md-6 mb-3">
+                      <div class="w-100">
+                        <!-- TITLE -->
+                        <mat-form-field class="w-100" appearance="outline">
+                          <mat-label>Upsell Title (Optional)</mat-label>
+                          <input type="text" matInput [formControl]="upsellTitleFormControl"
+                            [errorStateMatcher]="matcher" placeholder="" [(ngModel)]="paidGroups.upsell.title">
+                          <mat-error *ngIf="!upsellTitleFormControl.hasError('required')">
+                            Please enter a valid title
+                          </mat-error>
+                        </mat-form-field>
+                        <!-- TITLE END -->
+                      </div>
+                    </div>
+                    <!-- ROW END -->
+                    <!-- ROW START  -->
+                    <div class="col-md-6 mb-3">
+                      <div class="w-100">
+                        <!-- LINK -->
+                        <mat-form-field class="w-100" appearance="outline">
+                          <mat-label>Link your video, powerpoint, PDF and more (optional)</mat-label>
+                          <input type="text" matInput placeholder="" [(ngModel)]="paidGroups.upsell.videoLink">
+                        </mat-form-field>
+                        <!-- LINK END -->
+                      </div>
+                    </div>
+                    <!-- ROW END -->
+                    <!-- ROW START  -->
+                    <div class="col-md-12 mb-3">
+                      <div class="w-100">
+                        <!-- LINK -->
+                        <mat-form-field class="w-100" appearance="outline">
+                          <mat-label>Upsell Message (Optional)</mat-label>
+                          <input type="text" matInput placeholder="" [(ngModel)]="paidGroups.upsell.message">
+                        </mat-form-field>
+                        <!-- LINK END -->
+                      </div>
+                    </div>
+                    <!-- ROW END -->
+                  </div>
+
+                </div>
+
+                <!-- ROW -->
+                <div class="w-100" *ngIf="paidGroups.isUpsell && isRequiredPaidGroupsUpsellField">
+                  <div class="row">
+                    <div class="col">
+                      <p class="text-danger">
+                        Fields are required *
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- ROW END -->
+
+              </div>
+            </div>
+          </div>
+          <!-- ROW END -->
+
+        </div>
+        <!-- STEP 1 END -->
+
+        <!-- STEP 2 -->
+        <div class="col" *ngIf="step === 2">
+
+          <!-- ROW START -->
+          <div class="w-full mb-4">
+            <p class="color-888888 text-16 font-bold letter-spacing-1">Choose a Group</p>
+            <p class="color-888888 text-16">Select a group you have already created</p>
+          </div>
+          <!-- ROW END -->
+
+          <!-- ROW START  -->
+          <div class="w-full mb-4">
+            <div class="row">
+              <div class="col">
+
+                <div class="w-full">
+                  <div class="row">
+                    <!-- ROW START  -->
+                    <div class="col-md-12 mb-3">
+                      <!-- FIELD START -->
+                      <div class="w-100">
+                        <!-- LINK -->
+                        <mat-form-field class="w-100" appearance="outline">
+                          <mat-label>Search for a group</mat-label>
+                          <input type="text" matInput placeholder="" [(ngModel)]="searchGroupName"
+                            (ngModelChange)="searchGroups()">
+                        </mat-form-field>
+                        <!-- LINK END -->
+                      </div>
+                      <!-- FIELD END  -->
+                      <div class="w-100 bg-white border rounded-10 px-2 py-1 max-h-200 overflow-y-auto"
+                        *ngIf="workspaces.length">
+                        <!-- GROUP -->
+                        <div class="w-100 py-2 d-flex align-items-center cursor-pointer"
+                          *ngFor="let workspace of workspaces; let index = index"
+                          [ngClass]="index !== 0 ? 'border-top' : ''" (click)="selectWorkspace(workspace)">
+                          <span class="flex" *ngIf="workspace && workspace.name">
+                            {{workspace.name}}
+                          </span>
+                          <span class="flex mx-1 text-secondary text-12" *ngIf="workspace && workspace.isPaid">
+                            (This is already a Paid Group)
+                          </span>
+                        </div>
+                        <!-- GROUP END -->
+                      </div>
+                    </div>
+                    <!-- ROW END -->
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          <!-- ROW END -->
+
+          <!-- ROW START -->
+          <div class="w-100" *ngIf="paidGroups.workspaces.length">
+            <!-- SELECTED GROUPS ROW -->
+            <div class="w-full mb-4 border rounded-10 p-4"
+              *ngFor="let workspace of paidGroups.workspaces; let index = index">
+
+              <!-- ROW START -->
+              <div class="row mb-2" *ngIf="workspace.name">
+                <div class="col d-flex justify-content-between">
+                  <span>
+                    Group Name
+                  </span>
+                  <span class="cursor-pointer" (click)="removeWorkspace(index)">
+                    <img src="../../../../../../assets/images/remove-icon.svg" alt="">
+                  </span>
+                </div>
+              </div>
+              <!-- ROW END -->
+
+              <!-- ROW START -->
+              <div class="row mb-3 color-888888" *ngIf="workspace.name">
+                <div class="col">
+                  <span>
+                    {{workspace.name}}
+                  </span>
+                </div>
+              </div>
+              <!-- ROW END -->
+
+              <!-- ROW START -->
+              <div class="row mb-3" *ngIf="workspace.description">
+                <div class="col-md-12">
+                  <span>
+                    Group Description
+                  </span>
+                </div>
+                <div class="col-md-12 my-2 color-888888">
+                  <span>
+                    {{workspace.description}}
+                  </span>
+                </div>
+              </div>
+              <!-- ROW END -->
+
+              <!-- ROW START -->
+              <div class="row mb-3" *ngIf="workspace.user">
+                <div class="col-md-12">
+                  <span>
+                    Group Owner
+                  </span>
+                </div>
+                <div class="col-md-12 my-2 color-888888">
+                  <span>
+                    <span *ngIf="workspace.user.firstName">
+                      {{workspace.user.firstName}}
+                    </span>
+                    <span *ngIf="workspace.user.lastName">
+                      {{workspace.user.lastName}}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <!-- ROW END -->
+
+              <!-- ROW START  -->
+              <div class="w-full mb-4" *ngIf="paidGroups.isMultipleTiers">
+                <div class="row">
+                  <div class="col">
+                    <!-- HEADER  -->
+                    <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                      <!-- TIERS -->
+                      <span class="d-flex justify-content-between align-items-center">
+                        <span class="color-888888 text-16">
+                          Show Upsells
+                        </span>
+                      </span>
+                      <!-- TIERS END -->
+                      <!-- TOGGLE BTN -->
+                      <span class="cursor-pointer">
+                        <mat-slide-toggle color="primary" [checked]="workspace.isUpsell"
+                          (change)="workspaceUpsellToggle(index)">
+                        </mat-slide-toggle>
+                      </span>
+                      <!-- TOGGLE BTN END -->
+
+                    </div>
+                    <!-- HEADER END -->
+
+                    <!-- UPSELL DESCRIPTION -->
+                    <div class="w-full mb-4">
+                      <p class="text-16 color-888888">
+                        Show members who are not in this group a customized upsell before they can access locked
+                        sections
+                        of
+                        the community.
+                      </p>
+                    </div>
+
+                    <!-- UPSELL FIELDS -->
+                    <div class="w-full" *ngIf="workspace.isUpsell && paidGroups.isMultipleTiers">
+                      <div class="row">
+                        <!-- ROW START  -->
+                        <div class="col-md-6 mb-3">
+                          <div class="w-100">
+                            <!-- TITLE -->
+                            <mat-form-field class="w-100" appearance="outline">
+                              <mat-label>Upsell Title</mat-label>
+                              <input type="text" matInput [formControl]="upsellTitleFormControl"
+                                [errorStateMatcher]="matcher" placeholder="" [(ngModel)]="workspace.upsell.title">
+                              <mat-error *ngIf="!upsellTitleFormControl.hasError('required')">
+                                Please enter a valid title
+                              </mat-error>
+                            </mat-form-field>
+                            <!-- TITLE END -->
+                          </div>
+                        </div>
+                        <!-- ROW END -->
+                        <!-- ROW START  -->
+                        <div class="col-md-6 mb-3">
+                          <div class="w-100">
+                            <!-- LINK -->
+                            <mat-form-field class="w-100" appearance="outline">
+                              <mat-label>Link your video, PDF and more (optional)</mat-label>
+                              <input type="url" matInput [(ngModel)]="workspace.upsell.videoLink">
+                            </mat-form-field>
+                            <!-- LINK END -->
+                          </div>
+                        </div>
+                        <!-- ROW END -->
+                        <!-- ROW START  -->
+                        <div class="col-md-12 mb-3">
+                          <div class="w-100">
+                            <!-- LINK -->
+                            <mat-form-field class="w-100" appearance="outline">
+                              <mat-label>Upsell Message (Optional)</mat-label>
+                              <input type="text" matInput placeholder="" [(ngModel)]="workspace.upsell.message">
+                            </mat-form-field>
+                            <!-- LINK END -->
+                          </div>
+                        </div>
+                        <!-- ROW END -->
+                      </div>
+
+                    </div>
+                    <!-- UPSELL FIELDS END -->
+
+                  </div>
+                </div>
+              </div>
+              <!-- ROW END -->
+            </div>
+            <!-- SELECTED GROUPS ROW END -->
+          </div>
+          <!-- ROW END -->
+
+          <!-- ROW -->
+          <div class="w-100" *ngIf="paidGroups.workspaces.length && isRequiredWorkspaceFields">
+            <div class="row">
+              <div class="col">
+                <p *ngIf="isRequiredWorkspaceFields" class="text-danger">
+                  Fields are required *
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- ROW END -->
+
+        </div>
+        <!-- STEP 2 END -->
+
+        <!-- STEP 3 -->
+        <div class="col" *ngIf="step === 3">
+
+          <!-- ROW START -->
+          <div class="w-full mb-4">
+            <p class="color-888888 text-16 font-bold letter-spacing-1">Choose a Currency</p>
+          </div>
+          <!-- ROW END -->
+
+          <div class="w-full">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>USD ($)</mat-label>
+              <mat-select [(value)]="selectedCurrency">
+                <mat-option value="usd">USD ($)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- ROW START -->
+          <div class="w-100" *ngIf="paidGroups.workspaces.length">
+            <!-- SELECTED GROUPS ROW -->
+            <div class="w-full mb-4 border rounded-10 p-4"
+              *ngFor="let workspace of paidGroups.workspaces; let index = index">
+
+              <!-- ROW START -->
+              <div class="row mb-2" *ngIf="workspace.name">
+                <div class="col d-flex justify-content-between">
+                  <span>
+                    Group Name
+                  </span>
+                </div>
+              </div>
+              <!-- ROW END -->
+
+              <!-- ROW START -->
+              <div class="row mb-3 color-888888" *ngIf="workspace.name">
+                <div class="col">
+                  <span>
+                    {{workspace.name}}
+                  </span>
+                </div>
+              </div>
+              <!-- ROW END -->
+
+              <!-- ROW START -->
+              <div class="row mb-3">
+                <div class="col-md-12 d-flex justify-content-between">
+                  <span>
+                    Payment Options
+                  </span>
+                  <span class="cursor-pointer" *ngIf="workspace.paymentOptions.length < 6" (click)="addWorkspacePaymentOption(index)">
+                    <img src="../../../../../../assets/images/Add-new.svg" alt="">
+                  </span>
+                </div>
+              </div>
+              <!-- ROW END -->
+
+
+              <div class="w-100" *ngIf="workspace.paymentOptions.length">
+                <!-- ROW START -->
+                <div class="row mb-3" *ngFor="let payment of workspace.paymentOptions; let optionIndex = index">
+
+                  <div class="col-12 col-md-5 d-flex">
+                    <!-- FIELD START -->
+                    <div class="w-100">
+                      <!-- LINK -->
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>USD ($)</mat-label>
+                        <input type="text" matInput [value]="payment.price" [(ngModel)]="payment.price">
+                      </mat-form-field>
+                      <!-- LINK END -->
+                    </div>
+                    <!-- FIELD END  -->
+                  </div>
+
+                  <div class="d-flex"
+                    [class]="workspace.paymentOptions.length > 1 ? 'col-10 col-md-5' : 'col-12 col-md-5'">
+                    <!-- FIELD START -->
+                    <div class="w-100 duration-select">
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-select [(value)]="payment.plan" [(ngModel)]="payment.plan" appearance="outline">
+                          <mat-option *ngFor="let duration of paymentsDurations" [value]="duration">
+                            {{duration}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <!-- FIELD END  -->
+                  </div>
+
+                  <div class="col-2 col-md-2 d-flex align-items-center">
+                    <!-- FIELD START -->
+                    <div class="w-100 pb-4" *ngIf="workspace.paymentOptions.length > 1">
+                      <!-- LINK -->
+                      <span class="cursor-pointer" (click)="removeWorkspacePaymentOption(index,optionIndex)">
+                        <img src="../../../../../../assets/images/remove-icon.svg" alt="">
+                      </span>
+                      <!-- LINK END -->
+                    </div>
+                    <!-- FIELD END  -->
+                  </div>
+
+                </div>
+                <!-- ROW END -->
+              </div>
+
+            </div>
+            <!-- ROW END -->
+          </div>
+          <!-- ROW END -->
+
+          <!-- ROW -->
+          <div class="w-100 mb-2" *ngIf="paidGroups.workspaces.length && isRequiredWorkspacePaymentFields">
+            <div class="row">
+              <div class="col">
+                <p *ngIf="isRequiredWorkspacePaymentFields" class="text-danger">
+                  Fields are required *
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- ROW END -->
+
+          <!-- ROW -->
+          <div class="w-100 mb-2" *ngIf="paidGroups.workspaces.length && isValidWorkspacePaymentFields">
+            <div class="row">
+              <div class="col">
+                <p *ngIf="isValidWorkspacePaymentFields" class="text-danger">
+                  Fields are inValid *
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- ROW END -->
+
+
+        </div>
+        <!-- STEP 3 END -->
+
+        <!-- STEP 4 -->
+        <div class="col" *ngIf="step === 4">
+
+          <!-- ROW START -->
+          <div class="w-full mb-4">
+            <p class="color-888888 text-16 font-bold letter-spacing-1">Your Paid Group</p>
+            <div class="row">
+              <div class="col-4 col-md-3 col-lg-3 mb-2" *ngFor="let group of paidGroups.workspaces">
+                <span>{{group.name}}</span>
+              </div>
+            </div>
+          </div>
+          <!-- ROW END -->
+
+          <!-- ROW START -->
+          <div class="w-full mb-4">
+            <p class="color-888888 text-16 font-bold letter-spacing-1">Existing Members</p>
+            <p class="color-888888 text-16">The following Group is becoming a paid group, what do you want to do with
+              the existing members?</p>
+          </div>
+          <!-- ROW END -->
+
+          <!-- ROW START -->
+          <div class="w-full mb-4">
+            <div class="row">
+              <!-- REMOVE FROM GROUP -->
+              <div class="col-12 col-md-6 mb-3 mb-md-0">
+                <div class="rounded-10 p-3 cursor-pointer" (click)="subscriptionAction('remove-from-group')"
+                  [ngClass]="paidGroups.removeFromGroup ? 'border-59ADFF' : 'border-D6D6D6'">
+                  <p class="color-000 text-16 mb-2">Remove from Group</p>
+                  <p class="color-888888 text-14">Remove all current users from this group, they will need to pay to
+                    rejoin the group.</p>
+                </div>
+              </div>
+              <!-- REMOVE FROM GROUP END -->
+              <!-- REQUIRE RESUBSCRIPTION -->
+              <div class="col-12 col-md-6 mb-3 mb-md-0">
+                <div class="rounded-10 p-3 cursor-pointer" (click)="subscriptionAction('require-resubscription')"
+                  [ngClass]="paidGroups.requireReSubscription ? 'border-59ADFF' : 'border-D6D6D6'">
+                  <p class="color-000 text-16 mb-2">Allow them to stay</p>
+                  <p class="color-888888 text-14">Keep the existing members of this group. New members will need to pay.
+                  </p>
+                </div>
+              </div>
+              <!-- REQUIRE RESUBSCRIPTION END -->
+            </div>
+          </div>
+          <!-- ROW END -->
+
+        </div>
+        <!-- STEP 4 END -->
+
+      </div>
+      <!-- BODY END -->
+
+      <!-- FOOTER -->
+      <div class="row mt-3">
+        <div class="col">
+          <div class="w-100 px-2 d-flex justify-content-end">
+            <div class="row">
+              <div class="col" *ngIf="step > 1">
+                <span class="color-000 rounded-10 px-3 py-2 text-center cursor-pointer"
+                  (click)="stepBackNext('back')">Back</span>
+              </div>
+              <div class="col" *ngIf="step < 4">
+                <span class="bg-59ADFF color-fff rounded-10 px-3 py-2 text-center cursor-pointer"
+                  (click)="stepBackNext('next')">Next</span>
+              </div>
+              <div class="col" *ngIf="step === 4 && paidGroups.workspaces.length" (click)="storePaidWorkspaces()">
+                <span class="bg-59ADFF color-fff rounded-10 px-3 py-2 text-center cursor-pointer"
+                  (click)="stepBackNext('next')">Finish</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- FOOTER END -->
+
+    </div>
+    <!-- STEPPER HEADING END -->
+  </ng-template>
+
+  <!-- PAID GROUPS CARD  -->
+  <div class="w-100 flex justify-center p-4" *ngIf="paidGroupsList && paidGroupsList.length && isStripeChecked">
+    <div class="w-100 stripe-card mx-auto rounded-20 p-4 my-0 bg-white">
+
+      <!-- CARD HEADER  -->
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <span class="d-flex justify-content-between align-items-center">
+          <span class="color-686868 font-weight-bold letter-spacing-1">
+            Paid Groups
+          </span>
+          <span *ngIf="totalMembers && totalMembers > 0"
+            class="d-flex justify-content-between align-items-center mx-2 mx-md-5" alt="Total Members">
+            <img style="max-width:30px" src="../../../../../../assets/images/user.png" alt="">
+            <span class="color-686868 font-weight-bold letter-spacing-1 mx-2">
+              {{totalMembers}}
+            </span>
+          </span>
+        </span>
+      </div>
+      <!-- CARD HEADER END -->
+
+      <div class="w-100">
+        <!-- PAID GROUP ROW -->
+        <div class="w-100 my-3 px-2 py-4 border rounded-10" *ngFor="let group of paidGroupsList; let index = index">
+
+          <div class="row">
+            <div class="col-9 col-md-10 d-flex align-items-center">
+              <span class="color-686868 font-weight-bold letter-spacing-1">
+                {{group.name}}
+              </span>
+              <span class="d-flex justify-content-between align-items-center mx-2 mx-md-5">
+                <img style="max-width:30px" src="../../../../../../assets/images/user.png" alt="">
+                <span class="color-686868 font-weight-bold letter-spacing-1 mx-2">
+                  {{group.workspaceMembers}}
+                </span>
+              </span>
+            </div>
+            <div class="col-3 col-md-2 d-flex align-items-center justify-content-end position-relative">
+
+              <span class="w-100 text-right groups-list-action text-26 cursor-pointer font-weight-bold">
+                ...
+
+                <span
+                  class="text-left groups-list-action-inner position-absolute bg-white rounded-10 px-3 py-2 stripe-card flex-column">
+                  <span class="text-14 text-black cursor-pointer" (click)="getPaidGroup(group._id)">
+                    Edit
+                  </span>
+                  <span id="delete-paid-groups-modal" class="text-14 text-danger cursor-pointer"
+                    (click)="confirmDeletePaidGroup(group._id); openModal(confirmRemovePaidGroupsModal, 'layout-options')">
+                    Remove
+                  </span>
+                </span>
+
+              </span>
+
+            </div>
+          </div>
+
+          <div class="mt-4 d-flex flex-wrap -mx-2">
+            <div class="w-auto px-2 mb-3" *ngFor="let option of group.paymentOptions; let index = index">
+              <div class="border px-2 py-2">
+                <p class="color-888888 text-14 text-center">
+                  ${{option.price}} / {{option.plan}}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 d-flex flex-wrap -mx-2">
+            <div class="w-100 px-2 mb-3">
+              <p class="color-888888 text-14 text-center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Group URL</mat-label>
+                  <input type="text" matInput [value]="appUrl+'/application/home/invite/paid-groups/'+group._id"
+                    readonly>
+                  <mat-icon matSuffix class="my-icon cursor-pointer" mousedown=""
+                    (click)="copyToClipboard(appUrl+'/application/home/invite/paid-groups/'+group._id)">file_copy</mat-icon>
+                </mat-form-field>
+              </p>
+            </div>
+          </div>
+
+        </div>
+        <!-- PAID GROUP ROW END -->
+      </div>
+
+    </div>
+
+  </div>
+  <!-- PAID GROUPS CARD END  -->
+
+  <ng-template #confirmRemovePaidGroupsModal>
+    <div class="w-100">
+
+      <div class="w-100">
+        <div class="w-100 my-3 px-2">
+
+          <div class="row">
+            <div class="col-12 d-flex align-items-center">
+              <span class="text-danger font-weight-bold letter-spacing-1">
+                Remove Paid Group
+              </span>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-12 d-flex align-items-center">
+              <span class="color-686868 font-weight-bold letter-spacing-1">
+                Are you sure want to remove paid group ?
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="row mt-3">
+      <div class="col">
+        <div class="w-100 px-2 d-flex justify-content-end">
+          <div class="row">
+            <div class="col" *ngIf="deleteGroupId && deleteGroupId !== null">
+              <span class="bg-danger text-white rounded-20 px-3 py-2 text-center cursor-pointer"
+                (click)="deletePaidGroup()">Remove</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FOOTER END -->
+
+  </ng-template>
+
+</div>

@@ -1,0 +1,135 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.middle-section {
+  width: 100%;
+  background-color: transparent;
+}
+
+.bottom-chat-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 2px;
+  right: 0;
+  width: 200px;
+  height: 23px;
+  background-color: $white;
+  box-shadow: 0px 0px 4px 1px $text-secondary;
+  padding: 0px 8px 0px 18px;
+  z-index: 1;
+
+
+  label {
+    color: $box_txt_color;
+    font-size: $box_small_text;
+    font-family: $RobotoRegular;
+    margin-bottom: 0;
+  }
+
+  img {
+    margin-left: 8px;
+
+    &:first-child {
+      margin: 0;
+    }
+  }
+}
+
+// global css
+
+@media(max-width:1200px) {
+  .middle-section {
+    width: 100%;
+  }
+}
+
+@media(max-width:767px) {
+  .contnet-section {
+    display: block !important;
+
+    .middle-section {
+      width: 100%;
+    }
+  }
+
+}
+
+@media(max-width:575px) {
+  .contnet-section {
+    padding: 0px 15px;
+  }
+}
+
+.add-app-section {
+  background-color: $white;
+  border-radius: 8px;
+  border: 1px solid $text-secondary;
+  padding: 15px 20px 18px 20px;
+  box-shadow: 0px 1px 0px 0px $text-secondary;
+  position: relative;
+
+  .close-btn {
+    position: absolute;
+    right: -7px;
+    top: -7px;
+    cursor: pointer;
+  }
+
+  .main-ttl {
+    color: $box_txt_color;
+    font-size: $title;
+    font-family: $RobotoRegular;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      margin-bottom: 2px;
+    }
+
+    .form-control {
+      border: 1px solid $text-light;
+      border-radius: 4px !important;
+      height: 32px;
+      min-height: auto;
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      padding: 5px 10px;
+
+      &::placeholder {
+        font-family: $RobotoRegular;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    textarea {
+      min-height: 66px !important;
+      overflow: hidden;
+      resize: none;
+    }
+  }
+
+  button {
+    color: $white;
+    font-size: $box_txt;
+    font-family: $RobotoMedium;
+    background-color: $add-btn-bg;
+    border-radius: 16px;
+    height: 32px;
+    width: 120px;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+  }
+}

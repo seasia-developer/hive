@@ -1,0 +1,68 @@
+  <div class="predefined-workspace-section">
+    <div class="main-ttl">
+      Add Industries
+    </div>
+
+    <div class="add-industry-section d-flex align-items-center justify-content-between">
+      <form class="form-inline" [formGroup]="industriesForm">
+        <input class="form-control" type="text" aria-label="" formControlName="title">
+        <button (click)="addIndustry()">
+          Add New Industry
+        </button>
+      </form>
+    </div>
+
+    <div class="industry-section">
+      <div class="top-ttl-section">
+        <div class="left-section">
+          <label>
+            Industry Name
+          </label>
+        </div>
+        <div class="right-section">
+          <label>
+            Number
+          </label>
+        </div>
+      </div>
+
+      <div class="industry-body-section">
+        <ul>
+          <li *ngFor="let industry of industries">
+            <div class="left-section">
+              <div *ngIf="!editIndustryIds.includes(industry._id)" class="industry-name">
+                {{industry.Title}}
+              </div>
+              <div *ngIf="editIndustryIds.includes(industry._id)" class="industry-name">
+                <form [formGroup]="editIndustryForm">
+                  <input type="text" [value]="industry.Title" class="form-control" formControlName="title">
+                </form>
+              </div>
+            </div>
+            <div class="right-section">
+              <div class="industry-count">
+                {{industry.organizationCount}}
+              </div>
+              <div class="industry-action">
+                <label *ngIf="!editIndustryIds.includes(industry._id)" (click)="editIndustry(industry)">
+                  Edit
+                </label>
+                <label *ngIf="editIndustryIds.includes(industry._id)" (click)="updateIndustry(industry._id)">
+                  Save
+                </label>
+                <img src="../../../../../../assets/images/dark-cancel.svg" (click)="removeIndustry(industry._id)">
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="total-section">
+      <div class="left-section">
+        Total:
+      </div>
+      <div class="right-section">
+        {{totalIndustries}}
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,73 @@
+<div class="predefind-workspace-section">
+  <div class="main-ttl">
+    Add Categories - Link Workspaces
+  </div>
+
+  <div class="add-new-category-section">
+   
+    <form class="form-inline" [formGroup]="categoryForm">
+      <input class="form-control" type="text" aria-label="" formControlName="title" required>
+      <button (click)="addCategory()">
+        Add New Category
+      </button>
+      <div *ngIf="submitted && form.title.errors">
+        <div class="error-message" *ngIf="form.title.errors.required">Name is required </div>
+      </div>
+    </form>
+
+  </div>
+
+  <div class="Categories-workspace-detail-section">
+    <div class="category-section">
+      <div class="sub-ttl">
+        Choose a Category
+      </div>
+
+      <div class="box-section">
+        <ul>
+          <li *ngFor="let item of categoryList" class="d-flex align-items-center justify-content-between">
+            <div  *ngIf="!editCategoryIds.includes(item._id)"  (click)="getCategoryWorkspaces(item._id)" class="category-name">
+            <p [ngClass]="activeCategory === item._id ? 'active-category' : ''">{{item.Title}}</p> 
+            </div>
+            <div *ngIf="editCategoryIds.includes(item._id)" class="category-name" id="{{item._id}}">
+              <form [formGroup]="editCategoryForm">
+                <input type="text" [value]="item.Title" class="form-control" formControlName="title">
+              </form>
+            </div>
+            <div class="category-action">
+              <label *ngIf="!editCategoryIds.includes(item._id)" (click)="editCategoryIds.push(item._id)">
+                Edit
+              </label>
+              <label *ngIf="editCategoryIds.includes(item._id)" (click)="updateCategory(item._id)">
+                Save
+              </label>
+              <img src="../../../../../../assets/images/dark-cancel.svg" (click)="removeCategory(item._id)">
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="workspace-section">
+      <div class="sub-ttl">
+        Link Workspaces to category
+      </div>
+
+      <div class="box-section">
+
+        <div class="workspace-section-inner">
+          <label *ngFor="let workspace of workspaceList" class="checkbox-container">
+            {{workspace.name}}
+            <input type="checkbox" (change)="updateOptions(workspace, $event)" checked="{{workspace.check? 'checked':''}}" name="workspaces">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div *ngIf="this.activeCategory" class="add-new-category-section">
+          <button  (click)="submitForm()">
+           submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

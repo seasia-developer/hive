@@ -1,0 +1,73 @@
+<!-- <app-header></app-header> -->
+
+<div class="contnet-section d-flex">
+
+  <!-- <app-left-sidebar-menu></app-left-sidebar-menu> -->
+
+  <div class="bottom-chat-section">
+    <label>
+      Chat (23)
+    </label>
+    <div class="icon-section">
+      <img src="../../../../../../assets/images/setting.svg">
+      <img src="../../../../../../assets/images/setting.svg">
+    </div>
+  </div>
+  <div class="middle-section">
+    <div class="add-app-section">
+      <form [formGroup]="addWorkSpaceForm">
+        <img src="../../../../../../assets/images/Close-icon.svg" (click)="bsModalRef.hide()" class="close-btn">
+        <div class="main-ttl">
+          {{ isEdit ? 'Edit' : 'Add' }} a Group
+        </div>
+
+        <div class="form-group">
+          <label for="">Group Name</label>
+          <input type="text" class="form-control" id="wsname" placeholder="" formControlName="name">
+          <div *ngIf="submitted && form.name.errors">
+            <div class="error-message" *ngIf="form.name.errors.required">Name is required </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Group Description</label>
+          <textarea class="form-control" rows="" id="workspace-desc" (keyup)="setTextAreaLength('workspace-desc')"
+            placeholder="" formControlName="description"></textarea>
+        </div>
+
+
+        <div class="form-group">
+          <label for="">Group URL</label>
+          <div class="d-flex flex-wrap align-items-center justify-content-between form-control Group_url">
+            <div class="col-11 px-0">
+              <div class="urlInput">
+                <input type="text" readonly class="form-control py-4" [value]=group_URL id="copyUrl" #inputElement
+                  formControlName="copyUrl">
+              </div>
+            </div>
+           <div class="col-1">
+            <div class="urlCopyBtn">
+              <!-- <span>{{copy}}</span> -->
+              <span class="material-symbols-outlined icon" (click)="copyUrl(inputElement)">
+                file_copy
+              </span>
+            </div>
+           </div>
+          </div>
+        </div>
+
+
+
+        <div class="btn-section text-right">
+          <button (click)="add()">
+            {{ isEdit ? "Update" : "Create" }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- <app-right-sidebar></app-right-sidebar> -->
+
+
+</div>

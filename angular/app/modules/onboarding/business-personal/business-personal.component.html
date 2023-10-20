@@ -1,0 +1,138 @@
+<div class="contant_sec">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="logo_img">
+        <a href="#"><img src="../../assets/images/voxxi-logo.svg"></a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="process">
+        <ul>
+          <li>
+            <span class="active">1</span>
+          </li>
+          <li>
+            <span class="prosess-bg active"></span>
+          </li>
+          <li>
+            <span class="inactive">2</span>
+          </li>
+          <li>
+            <span class="prosess-bg"></span>
+          </li>
+          <li>
+            <span class="">3</span>
+          </li>
+        </ul>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="welcom-text">
+        <h2>About your {{bussinessOrPersonal === 'personal' ? 'Group' : 'Organization'}}</h2>
+        <p>Wow, Half way there already</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="onbording_contant">
+
+    <div class="form-section">
+      <div class="organisation_sec">
+        <form [formGroup]='onboardingForm' autocomplete="off">
+          <div class="form-group">
+            <label>{{bussinessOrPersonal === 'personal' ? 'Group' : 'Organization'}} Name<sup>*</sup></label>
+            <input type="text" id="name"
+              placeholder="{{bussinessOrPersonal === 'personal' ? 'Your group name' : 'Your organization name'}}"
+              name="name" class="form-control" formControlName='name'>
+            <div *ngIf="submitted && ob.name.errors">
+              <div class="error-message" *ngIf="ob.name.errors.required">
+                {{bussinessOrPersonal === 'personal' ? 'Group name' : 'Organization name'}} is required*
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Choose your Industry? <sup>*</sup></label>
+            <div class="choose-option">
+              <select id="industry" formControlName='industry'>
+                <option value="">Choose</option>
+                <option *ngFor='let industry of industryData' [value]="industry._id">{{industry.Title}}</option>
+              </select>
+              <div *ngIf="submitted && ob.industry.errors">
+                <div class="error-message" *ngIf="ob.industry.errors.required">
+                  Industry is required*
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>{{bussinessOrPersonal === 'personal' ? 'Group' : 'Organization'}} size <sup>*</sup></label>
+            <div class="choose-option">
+              <select id="size" formControlName='size'>
+                <option value="">Choose</option>
+                <option *ngFor='let industry of sizeOfEmployee' [value]="industry">
+                  {{industry}}
+                </option>
+              </select>
+              <div *ngIf="submitted && ob.size.errors">
+                <div class="error-message" *ngIf="ob.size.errors.required">
+                  {{bussinessOrPersonal === 'personal' ? 'Group' : 'Organization'}} size is required*
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="form-group" *ngIf="!isRestrictedDomain">
+            <label>Coupon<sup></sup></label>
+            <input type="text" id="coupon"
+              placeholder="{{bussinessOrPersonal === 'personal' ? 'Your coupon' : 'Your coupon'}}"
+              name="coupon" class="form-control" formControlName='coupon'  (keyup)="removeCouponError()">
+             <div *ngIf="couponerror">
+              <div class="error-message">
+                {{couponerror}}
+              </div>
+            </div>
+          </div> -->
+
+          
+        </form>
+      </div>
+
+      <div class="organisation_sec">
+        <div class="form-group">
+          <h3>Add your Logo/Avatar</h3>
+          <div class="add-logo">
+            <img [src]="imagePreview ? imagePreview : '../assets/images/nav-logo.svg'">
+            <div class="add-logo-right">
+              <input id="addLogo" type='file' accept="image/jpeg, image/gif, image/png, image/bmp" (change)='fileupload($event)'
+                class="imageInput upload" hidden>
+              <button class="btn btn-warning" (click)="callFileUpload()">Add Your Logo</button>
+
+              <p>Best size is 200px x 200px</p>
+              <p>PS. You can do this later</p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="img-section">
+      <div class="business_left_col">
+        <img src="../assets/images/b.svg">
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-success " (click)='submitOnboarding()'>To step 3</button>
+      </div>
+    </div>
+
+
+  </div>
+</div>

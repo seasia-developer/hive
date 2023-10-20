@@ -1,0 +1,157 @@
+<div class="edit-restore-workspace-modal">
+  <div class="modal-body">
+    <img src="../../../../../../../assets/images/Close-icon.svg" class="close-icon" (click)="closeModal(1)">
+    <div class="edit-profile-section">
+      <div class="main-ttl">
+        {{ workspace.status ? 'Edit' :'Save'}} Group
+      </div>
+      <div class="form-section">
+        <form [formGroup]="saveWorkspaceForm">
+          <div class="user-field-section">
+            <div class="left-section">
+              <label>
+                Title:
+                <div class="tooltip-section">
+                  <img src="../../../../../../../assets/images/information.svg" (click)="toggleHelpText(1)"
+                    id="tooltip-info">
+                  <div class="tooltip-inner-section" *ngIf="showHelpText === 1">
+                    <p>
+                      Name of the group pack
+                    </p>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <div class="right-section">
+              <input type="text" class="form-control" id="" placeholder="Blog Editorial Content" formControlName="title"
+                required>
+              <div *ngIf="submitted && form.title.errors">
+                <div class="error-message" *ngIf="form.title.errors.required">Title is required </div>
+              </div>
+            </div>
+          </div>
+          <div class="user-field-section">
+            <div class="left-section">
+              <label>
+                Description
+                <div class="tooltip-section">
+                  <img src="../../../../../../../assets/images/information.svg" (click)="toggleHelpText(2)"
+                    id="tooltip-info">
+                  <div class="tooltip-inner-section" *ngIf="showHelpText === 2">
+                    <p>
+                      Full description, purpose and features of the Group
+                    </p>
+                  </div>
+                </div>
+              </label>
+              <p>
+              </p>
+            </div>
+            <div class="right-section">
+              <textarea class="form-control" rows="5" id="comment" placeholder="Enter Description"
+                formControlName='description' required></textarea>
+              <div *ngIf="submitted && form.description.errors">
+                <div class="error-message" *ngIf="form.description.errors.required">Description is required </div>
+              </div>
+            </div>
+          </div>
+          <div class="img-section">
+            <div class="img-ttl">
+              Featured Image
+              <div class="tooltip-section">
+                <img src="../../../../../../../assets/images/information.svg" (click)="toggleHelpText(3)"
+                  id="tooltip-info">
+                <div class="tooltip-inner-section" *ngIf="showHelpText === 3">
+                  <p>
+                    Choose an image to reflect the relationship of the Group
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="img-box" [ngClass]="!bannerImage ? 'custom-dotted-border' : ''">
+            <img [src]="bannerImage ? mediaURL + bannerImage:
+            '../../../../../../../assets/images/dotted-border.svg'" formControlName='image'>
+          </div>
+          <div class="upload-img-section">
+            <div class="upload-img-section-inner">
+              <button>
+                Choose Image
+              </button>
+              <input class="imgCls" type="text" id="myFile" name="filename2" formControlName='image'
+                (click)="getBannerImage()">
+            </div>
+          </div>
+          <div class="category-section">
+            <div class="left-section">
+              <label>
+                Categories:
+                <div class="tooltip-section">
+                  <img src="../../../../../../../assets/images/information.svg" (click)="toggleHelpText(4)"
+                    id="tooltip-info">
+                  <div class="tooltip-inner-section" *ngIf="showHelpText === 4">
+                    <p>
+                      Choose up to 4 Categories
+                    </p>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <div class="right-section">
+              <div class="form-control record-section-inner" (click)="hideShowApps(false)"
+                (clickOutside)="hideShowApps(true)">
+                <div *ngIf="selectedMembers && selectedMembers" class="select-member-section">
+                  <ul>
+                    <li *ngFor="let member of selectedMembers; let i = index">
+                      <label class="mb-0">
+                        {{member.Title}} <img src="../../../../../../../assets/images/cancel.svg"
+                          (click)="removeMember(member, i)" class="">
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+                <ul *ngIf="displayApps">
+                  <li class="" (click)="addRecord(item,  'add', index)"
+                    *ngFor="let item of categoryList; index as index">
+                    {{ item.Title }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="user-txt-wraper" *ngIf="(helperService.orgRole && helperService.orgRole=='admin')">
+            <div class="user-inner-wraper">
+              <div  class="sub-ttl">
+                Submit to the marketplace:
+                <div class="tooltip-section">
+                  <img src="../../../../../../../assets/images/information.svg" (click)="toggleHelpText(5)"
+                    id="tooltip-info">
+                  <div class="tooltip-inner-section" *ngIf="showHelpText === 5">
+                    <p>
+                      <strong>Caution:</strong> Ensure you are using only dummy data
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <label   class="check-container">Tick this box to submit your Group for approval to the market.
+                <input type="checkbox" formControlName="published">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer text-right">
+    <div class="btn-section text-right">
+      <button class="gray-btn" (click)="closeModal(1)">
+        Cancel
+      </button>
+      <button class="green-btn" (click)="submitForm()">
+        {{ workspace.status ? 'Update' :'Save your group'}}
+      </button>
+    </div>
+  </div>
+</div>

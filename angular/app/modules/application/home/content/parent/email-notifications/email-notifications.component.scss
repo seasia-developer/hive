@@ -1,0 +1,138 @@
+@import "../../../../../../../SCSS/custom-variable";
+
+.tab-inner-section {
+  background-color: $white;
+  border-radius: 8px;
+  min-height: auto;
+  border-top-right-radius: 0px;
+  border: 1px solid $text-secondary;
+  border-top-left-radius: 0px;
+  border-top: 0;
+  padding: 18px 20px 20px 48px;
+}
+
+.main-ttl {
+  color: $box_txt_color;
+  font-size: $title;
+  font-family: $RobotoRegular;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.notification-inner {
+  margin-bottom: 24px;
+  padding-left: 2px;
+
+  ul {
+    li {
+      padding-left: 8px;
+      margin-top: 2px;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      .check-container {
+        display: block;
+        position: relative;
+        padding-left: 20px;
+        margin-bottom: 0px;
+        cursor: pointer;
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .check-container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      .checkmark {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        height: 10px;
+        width: 10px;
+        background-color: transparent;
+        border: 1px solid $box_txt_color;
+        border-radius: 2px;
+      }
+
+      .check-container input:checked~.checkmark {
+        background-color: $btn_bg_success;
+        border: 1px solid $btn_bg_success;
+        ;
+      }
+
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+
+      .check-container input:checked~.checkmark:after {
+        display: block;
+      }
+
+      .check-container .checkmark:after {
+        left: 2px;
+        top: -1px;
+        width: 4px;
+        height: 8px;
+        border: solid $white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+}
+    }
+
+    p {
+      color: $box_txt_color;
+      font-size: $box_small_text;
+      font-family: $RobotoRegular;
+      margin-bottom: 0;
+      padding: 4px 0px 10px 12px;
+    }
+  }
+}
+
+.border-btn {
+  font-size: $title;
+  color: $box_txt_color;
+  font-family: $RobotoMedium;
+  background-color: $bg_color;
+  border: 1px solid $text-secondary;
+  height: 30px;
+  width: 80px;
+  border-radius: 13px;
+  margin: 0;
+}
+
+.green-btn {
+  font-size: $title;
+  color: $white;
+  font-family: $RobotoMedium;
+  background-color: $btn_bg_success;
+  border: 1px solid $btn_bg_success;
+  height: 30px;
+  width: 80px;
+  border-radius: 13px;
+  margin-left: 10px;
+}
+
+@media(max-width:767px){
+  .tab-inner-section{
+    padding: 20px;
+  }
+}

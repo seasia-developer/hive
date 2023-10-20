@@ -1,0 +1,192 @@
+@import "../../../../../../../SCSS/custom-variable";
+
+.middle-section {
+  width: calc(100% - 560px);
+  background-color: transparent;
+}
+
+.right-side-section {
+  width: 260px;
+  padding-left: 20px;
+}
+
+.user-info-section {
+  width: 100%;
+  position: relative;
+
+  .user-profile-pic {
+    margin-bottom: 20px;
+    text-align: center;
+
+    img {
+      max-width: 100%;
+      width: 240px;
+      height: 240px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      object-position: center;
+      object-fit: contain;
+    }
+  }
+
+  .border-btn {
+    color: $box_txt_color;
+    font-size: $title;
+    font-family: $RobotoRegular;
+    border: 1px solid $text-secondary;
+    width: 110px;
+    height: 32px;
+    cursor: pointer;
+    border-radius: 16px;
+    background-color: $white;
+    text-align: center;
+    padding: 5px 0;
+  }
+
+  .edit-img-section {
+    position: relative;
+    width: 110px;
+
+
+    input {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+      opacity: 0;
+    }
+  }
+
+
+  .user-detail-section {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+
+    .user-name {
+      width: calc(100% - 40px);
+      display: flex;
+      flex-direction: column;
+      padding-left: 12px;
+
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        margin-bottom: 3px;
+        width: 100%;
+        line-height: normal;
+      }
+
+      span {
+        color: $box_txt_color;
+        font-size: $box_small_text;
+        font-family: $RobotoRegular;
+        line-height: normal;
+      }
+    }
+
+    .user-status {
+      width: 20px;
+      height: 20px;
+      background-color: $add-btn-bg;
+      border: 1px solid $add-btn-bg;
+      border-radius: 100%;
+      margin-right: 7px;
+      margin-top: 4px;
+    }
+  }
+
+  p {
+    color: $box_txt_color;
+    font-size: $title;
+    font-family: $RobotoRegular;
+    margin-bottom: 0;
+    padding: 15px 15px 10px 13px;
+    margin-bottom: 10px;
+    line-height: 20px;
+  }
+
+  .user-inner-wraper {
+    border-top: 1px solid $text-secondary;
+    padding: 18px 12px;
+    white-space: normal;
+    word-break: break-word;
+
+    .title {
+      color: $box_txt_color;
+      font-size: $sub-ttl;
+      font-family: $RobotoRegular;
+      text-transform: uppercase;
+      margin-bottom: -2px;
+    }
+
+    .sub-ttl {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+
+      &.link-txt {
+        text-decoration: underline;
+        word-break: break-all;
+      }
+    }
+
+    p {
+      margin-bottom: 0;
+      padding: 0 20px 0 0;
+    }
+  }
+
+  .plane-section {
+    border-top: 1px solid $text-secondary;
+    padding-bottom: 50px;
+
+    .ttl {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      padding: 21px 0px 12px 2px;
+      text-transform: uppercase;
+    }
+
+    .sub-ttl {
+      color: $black;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      padding: 0px 10px 10px 2px;
+
+      span {
+        font-family: $RobotoBold;
+      }
+    }
+
+    p {
+      padding: 0;
+      margin-bottom: 35px;
+      margin-left: 2px;
+
+      &.upgrade-txt {
+        padding: 5px 0px 0px 0px;
+        margin-bottom: 32px;
+      }
+    }
+
+    button {
+      color: $white;
+      font-size: $box_txt;
+      font-family: $RobotoMedium;
+      height: 32px;
+      width: 100%;
+      border-radius: 15px;
+      background-color: $add-btn-bg;
+      border: 1px solid $add-btn-bg;
+      padding: 0px 5px 0px 7px;
+    }
+  }
+}
+
+.headline-title{
+  color: $box_txt_color !important;
+   font-family: $ProximaNovaBold !important;
+}

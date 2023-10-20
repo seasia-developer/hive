@@ -1,0 +1,208 @@
+<div class="coupon-section">
+  <div class="top-section w-100">
+    <div class="ttl w-100">
+      {{ couponId ? "GENERATED COUPON" : "GENERATE COUPON" }}
+
+      <div class="w-100 d-flex flex-wrap row my-3" *ngIf="couponDetails">
+        <div class="col-2 mb-2" *ngFor="let coupond of couponDetails.couponData">
+          <input type="text" class="form-control" value="{{coupond.coupon}}">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="body-section">
+    <div class="form" [formGroup]="generateCouponForm">
+      <div class="row">
+        <!-- <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label">Issued to:</label>
+            <input type="text" formControlName="issuedTo" class="form-control">
+            <div *ngIf="submitted && form.issuedTo.errors">
+              <div class="error-message" *ngIf="form.issuedTo.errors.required">Issued to is required </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label">Email:</label>
+            <input type="email" formControlName="email" class="form-control">
+            <div *ngIf="submitted && form.email.errors">
+              <div class="error-message" *ngIf="form.email.errors.required">Email Id is required </div>
+              <div class="error-message" *ngIf="form.email.errors.email"> Enter valid Email Id </div>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="col-md-12">
+          <div class="form-group">
+            <label class="form-label">Notes</label>
+            <input type="text" formControlName="note" class="form-control">
+            <div *ngIf="submitted && form.note.errors">
+              <div class="error-message" *ngIf="form.note.errors.required">Notes is required </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-md-12">
+          <div class="field-wrap-section">
+            <div class="left-section">
+              <div class="form-group-wraper">
+                <div class="form-group">
+                  <label class="form-label">Plan</label>
+                  <div class="select-wraper">
+                    <select class="form-select" formControlName="planType" (change)="changePlanType($event)">
+                      <option disabled value="">Select Plan</option>
+                      <option *ngFor="let type of planTypes" [value]="type">{{type}}</option>
+                    </select>
+                    <img src="../../../../../../assets/images/drop-down-icon.svg">
+                  </div>
+                </div>
+                <div *ngIf="submitted && form.planType.errors">
+                  <div class="error-message" *ngIf="form.planType.errors.required">Plan is required </div>
+                </div>
+              </div>
+              <div class="form-group-wraper">
+                <div class="form-group">
+                  <label class="form-label">Period</label>
+                  <div class="select-wraper">
+                    <select class="form-select" formControlName="period" (change)="changePeriod($event)">
+                      <option disabled value="">Select Period</option>
+                      <option *ngFor="let type of planPeriod" [value]="type">{{type}}</option>
+                    </select>
+                    <img src="../../../../../../assets/images/drop-down-icon.svg">
+                  </div>
+                </div>
+                <div *ngIf="submitted && form.period.errors">
+                  <div class="error-message" *ngIf="form.period.errors.required">Period is required </div>
+                </div>
+              </div>
+              <!-- <div class="form-group-wraper">
+                <div class="form-group">
+                  <label class="form-label">Records Per Workspace</label>
+                  <input type="text" formControlName="records" class="form-control">
+                </div>
+                <div *ngIf="submitted && form.records.errors">
+                  <div class="error-message" *ngIf="form.records.errors.required">Records per group is required
+                  </div>
+                  <div class="error-message" *ngIf="form.records.errors?.pattern">Enter only number
+                  </div>
+                </div>
+              </div> -->
+              <!-- <div class="form-group-wraper">
+                <div class="form-group">
+                  <label class="form-label">Storage Per Seat(GB)</label>
+                  <input type="text" class="form-control" formControlName="storage">
+                </div>
+                <div *ngIf="submitted && form.storage.errors">
+                  <div class="error-message" *ngIf="form.storage.errors.required">Storage per seat is required </div>
+                </div>
+                <div class="error-message" *ngIf="form.seats_per_coupon.errors?.pattern">Enter only number
+                </div>
+              </div> -->
+            </div>
+            <div class="right-section">
+              <div class="form-group-wraper">
+                <div class="form-group">
+                  <input type="text" class="form-control" formControlName="no_of_coupon">
+                  <label class="form-label">No. of Coupons</label>
+                </div>
+                <div *ngIf="submitted && form.no_of_coupon.errors">
+                  <div class="error-message" *ngIf="form.no_of_coupon.errors.required">Number of coupon is required
+                  </div>
+                  <div class="error-message" *ngIf="form.no_of_coupon.errors?.pattern">Enter only number
+                  </div>
+                </div>
+              </div>
+              <div class="form-group-wraper">
+                <div class="form-group">
+                  <input type="text" class="form-control" formControlName="seats_per_coupon">
+                  <label class="form-label">Max member per coupon</label>
+                </div>
+                <div *ngIf="submitted && form.seats_per_coupon.errors">
+                  <div class="error-message" *ngIf="form.seats_per_coupon.errors.required">Seats per person is required
+                  </div>
+                  <div class="error-message" *ngIf="form.seats_per_coupon.errors?.pattern">Enter only number
+                  </div>
+                </div>
+
+              </div>
+              <!-- <div class="form-group-wraper">
+                <div class="form-group">
+                  <input type="text" class="form-control"  formControlName="max_member_per_coupon" maxlength="12">
+                  <label class="form-label">Max member Per Coupon</label>
+                </div>
+                <div *ngIf="submitted && form.max_member_per_coupon.errors">
+                  <div class="error-message" *ngIf="form.max_member_per_coupon.errors.required">Max member Per Coupon
+                  </div>
+                  <div class="error-message" *ngIf="form.max_member_per_coupon.errors?.pattern">Enter only number
+                  </div>
+                </div>
+                
+              </div> -->
+              <!-- <div class="form-group-wraper">
+                price-per-seat-section
+                <div class="form-group">
+                  <div class="input-wraper">
+                    <input type="text" formControlName="price_per_seat"  class="form-control">
+                  </div>
+                  <div class="select-wraper">
+                    <select class="form-select" formControlName="seatOption" (change)="changePricePerSeat($event)">
+                      <option disabled value="">Select</option>
+                      <option *ngFor="let type of pricePerSeat" [value]="type">{{type}}</option>
+                    </select>
+                    <img src="../../../../../../assets/images/drop-down-icon.svg">
+                  </div>
+                  <label class="form-label">Price Per Seat</label>
+                </div>
+                <div *ngIf="submitted && form.price_per_seat.errors">
+                  <div class="error-message" *ngIf="form.price_per_seat.errors.required">Price per seat is required
+                  </div>
+                  <div class="error-message" *ngIf="form.price_per_seat.errors?.pattern">Enter only number
+                  </div>
+                </div>
+                <div *ngIf="submitted && form.seatOption.errors">
+                  <div class="error-message" *ngIf="form.seatOption.errors.required">Seat option is required</div>
+                </div>
+              </div> -->
+              <!-- <div class="form-group">
+                <input type="text" class="form-control" formControlName="acquisition_cost">
+                <label class="form-label">Cost of Acquisition</label>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 date-section">
+          <label class="form-label">Valid dates</label>
+          <input class="form-control" formControlName="startDate" bsDatepicker type="text" [minDate]="today"
+            [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'MM/DD/YYYY' }" placeholder="MM/DD/YYYY">
+          <div *ngIf="submitted && form.startDate.errors">
+            <div class="error-message" *ngIf="form.startDate.errors.required">Start date is required</div>
+          </div>
+          <input class="form-control" formControlName="endDate" bsDatepicker type="text"
+            [minDate]="generateCouponForm.get('startDate').value"
+            [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'MM/DD/YYYY' }" placeholder="MM/DD/YYYY">
+          <div *ngIf="submitted && form.endDate.errors">
+            <div class="error-message" *ngIf="form.endDate.errors.required">End date is required</div>
+          </div>
+        </div>
+        <!-- <div class="col-md-12">
+          <div class="Revenue-section">
+            <div class="left-section">
+              <label class="form-label">Net Revenue</label>
+              <label
+                class="form-label">${{ ((generateCouponForm.get("seats_per_coupon").value * generateCouponForm.get("no_of_coupon").value) * generateCouponForm.get("price_per_seat").value).toFixed(2) }}</label>
+            </div>
+            <div class="right-section">
+              <label class="form-label">$
+                {{ ((generateCouponForm.get("price_per_seat").value - generateCouponForm.get("acquisition_cost").value) * (generateCouponForm.get("seats_per_coupon").value * generateCouponForm.get("no_of_coupon").value)).toFixed(2) }}</label>
+              <label class="form-label">Gross Revenue</label>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-12 text-center mt-4 mb-4">
+          <button type="submit" class="btn" (click)="generateCoupon()">{{ couponId && !numberOfCoupon ? "Edit Coupon" :
+            numberOfCoupon == 1 ? "Email Coupon" : numberOfCoupon > 1 ? "Generate Spreadsheet" : "Generate Coupon"
+            }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

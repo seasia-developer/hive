@@ -1,0 +1,577 @@
+<div class="no-data-section" *ngIf="hasCategoryField === false">
+  <div class="no-data-section-wraper">
+
+    <label>
+      Card layout cannot display the content of this app
+    </label>
+
+    <p>
+      In order to display this app’s content as cards, you need a Category field in your app.
+    </p>
+
+    <p>
+      Contact the admin of this group to modify the app and start using Kanban layout.
+    </p>
+  </div>
+
+</div>
+
+<div class="kanban-section" *ngIf="hasCategoryField">
+  <!-- Columns of selected category options -->
+  <div *ngFor="let category of updatedData[selectedCategory]" [class]="category.id+' kanban-list'">
+
+    <div class="categor-name" [style.background-color]="category.color || 'grey'">
+      {{category.label}}
+    </div>
+
+    <!-- Records of respective category option -->
+    <div cdkDropList #list="cdkDropList" [id]="category.id+'column'" class="drag-drop-list"
+      (cdkDropListDropped)="updateOrder($event, category)" [cdkDropListData]="category.records">
+
+     
+
+      <div *ngIf="!selectedRow">
+        <div class="kanban-box kanban-card-conatiner" *ngFor="let record of category.records" (click)="editRecord(record._id)"
+          [cdkDragStartDelay]="delayDrag ? 500 : 0" [id]="record._id" cdkDrag>
+
+          <!-- BOLD KANBAN TITLE  -->
+          {{kanbanCardDomManipulation()}}
+
+          <div class="kanban-box-cdkDrag">
+            <div class="box-border" [style.background-color]="category.color || 'grey'">
+            </div> 
+            <!-- <div class="img-box" *ngIf="record.attachment">
+              <img [src]="record.attachment">
+            </div>
+
+            <div class="category-txt">
+              Heading of the card goes under the last image attached
+            </div> -->
+
+            
+
+            <div *ngFor="let option of record.display; let optionIndex = index">
+
+              <div class="img-box w-100 px-1 pt-2" *ngIf="option.type === 'image' && option.attachment">
+                <!-- <img [src]="option.attachment" oncontextmenu="false;" class="disableSave"> -->
+                <div *ngIf="checkFileExtensionType(option) === 'img'; else extensionIcon" class="w-100">
+                  <div [ngStyle]="{'background-image': 'url('+ option.attachment +')'}"></div>
+                </div>
+
+                <ng-template #extensionIcon> 
+                   <div class="w-100">
+                    <img style="max-height: 160px;object-fit: contain;" [src]="getFileIconUsingExtension(getFileExtensionType(option))" alt="">
+                   </div>
+                </ng-template>
+
+              </div>
+
+              <div class="category-txt pb-0 kanban-text-row" *ngIf="option.type !== 'image' && option.type!=='relationship'">
+                {{option.val}}
+              </div> 
+
+              <div class="category-txt pb-0" *ngIf="option.type==='relationship'">
+                <div *ngFor='let rel of option.val'>{{rel.recordName}}</div>
+              </div>
+
+            </div> 
+
+            <!-- <div class="category-detail-section">
+
+              <div class="user-profile">
+                <img src="../../../../../../assets/images/user-profile.jpeg">
+              </div>
+
+              <div class="menu-icon">
+                <img src="../../../../../../assets/images/ico-text.svg">
+              </div>
+
+              <div class="chat-icon">
+                <img src="../../../../../../assets/images/box-chat-icon.svg">
+                {{record.commentCount}}
+              </div>
+
+              <div class="file-icon">
+                <img src="../../../../../../assets/images/attachment.svg">
+                {{record.attachmentCount}}
+              </div>
+
+              <div class="date-time-icon">
+                <img src="../../../../../../assets/images/ico-clock.svg">
+                May 4 2020
+              </div>
+
+            </div> -->
+
+            <!-- Multiple selected members -->
+            <div *ngIf="record.users.length > 1" class="multi-select-member-section">
+              <div class="user-profile" *ngFor="let user of record.users">
+                <img [src]="user.avatar">
+              </div>
+            </div>
+
+            <div class="category-detail-section">
+              <div class="user-profile" *ngIf="record.users.length === 1">
+                <img [src]="record.users[0].avatar">
+              </div>
+
+              <div class="menu-icon" *ngIf="record.showDescription">
+                <img src="../../../../../../assets/images/ico-text.svg">
+              </div>
+
+              <div class="chat-icon" *ngIf="record.commentCount">
+                <img src="../../../../../../assets/images/box-chat-icon.svg">
+                {{record.commentCount}}
+              </div>
+
+              <div class="file-icon" *ngIf="record.attachmentCount">
+                <img src="../../../../../../assets/images/attachment.svg">
+                {{record.attachmentCount}}
+              </div>
+
+              <div class="date-time-icon" *ngIf="record.date" [style.background-color]="category.color">
+                <img src="../../../../../../assets/images/ico-clock.svg">
+                {{record.date | date}}
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="selectedRow">
+        <div *ngFor="let key of category.rowKeys; let i = index" class="kanban-box-wraper">
+          <div cdkDropList #list="cdkDropList" [id]="category.id+key+'row'"
+            (cdkDropListDropped)="updateOrder($event, category, key, 'row')" [class]="key+' drag-drop-list'"
+            [cdkDropListData]="category.rowGroups[key]">
+            <div *ngIf="i > 0" class="user-post-section">
+              {{category.members[key]}}
+            </div>
+
+            <div class="kanban-box-wraper-inner">
+              <div class="kanban-box" *ngFor="let record of category.rowGroups[key]" (click)="editRecord(record._id)"
+                [id]="record._id" [cdkDragStartDelay]="delayDrag ? 500 : 0" cdkDrag>
+                <div class="kanban-box-cdkDrag">
+                  <div class="box-border" [style.background-color]="category.color || 'grey'">
+                  </div>
+                  <div *ngFor="let option of record.display">
+                    <div class="img-box" *ngIf="option.type === 'image' && option.attachment">
+                      <!-- <img src="option.attachment" oncontextmenu="false;" class="disableSave"> -->
+                      <div [ngStyle]="{'background-image': 'url('+ option.attachment +')'}"></div>
+                    </div>
+
+                    <div class="category-txt" *ngIf="option.type !== 'image' && option.type!=='relationship'">
+                      {{option.val}}
+                    </div>
+                    <div class="category-txt" *ngIf="option.type==='relationship'">
+                      <div *ngFor='let rel of option.val'>{{rel.recordName}}</div>
+                    </div>
+                  </div>
+
+                  <!-- Multiple selected members -->
+                  <div *ngIf="record.users.length > 1" class="multi-select-member-section">
+                    <div class="user-profile" *ngFor="let user of record.users">
+                      <img [src]="user.avatar">
+                    </div>
+                  </div>
+
+                  <div class="category-detail-section">
+
+                    <div class="user-profile" *ngIf="record.users.length === 1">
+                      <img [src]="record.users[0].avatar">
+                    </div>
+
+                    <div class="menu-icon" *ngIf="record.showDescription">
+                      <img src="../../../../../../assets/images/ico-text.svg">
+                    </div>
+
+                    <div class="chat-icon" *ngIf="record.commentCount">
+                      <img src="../../../../../../assets/images/box-chat-icon.svg">
+                      {{record.commentCount}}
+                    </div>
+
+                    <div class="file-icon" *ngIf="record.attachmentCount">
+                      <img src="../../../../../../assets/images/attachment.svg">
+                      {{record.attachmentCount}}
+                    </div>
+
+                    <div class="date-time-icon" *ngIf="record.date" [style.background-color]="category.color">
+                      <img src="../../../../../../assets/images/ico-clock.svg">
+                      {{record.date | date}}
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+          <div class="add-section text-center">
+            <img appPreventDoubleClick (throttledClick)="addNewRecord(category, key)" [throttleTime]="700"
+              src="../../../../../../assets/images/ico-add.svg">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div *ngIf="!selectedRow" class="add-section text-center">
+      <img src="../../../../../../assets/images/ico-add.svg" appPreventDoubleClick
+        (throttledClick)="addNewRecord(category)" [throttleTime]="700">
+    </div>
+
+  </div>
+
+  <div class="add-new-list" *ngIf="updatedData[selectedCategory] && updatedData[selectedCategory].length">
+    <img src="../../../../../../assets/images/ico-add.svg" (click)="openModal(kanban4,'add-category')">
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- revision-hostory-modal start -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Kanban card layout options start -->
+
+<button type="button" class="btn btn-primary" (click)="openModal(kanbancardlayout, 'layout-options')" hidden>Create
+  template
+  modal
+  kanbancardlayout</button>
+
+<ng-template #kanbancardlayout>
+
+  <div class="kanban-card-layout-modal">
+
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">
+        KANBAN layout options
+      </h4>
+      <img src="../../../../../../assets/images/Close-icon.svg" class="close pull-right" aria-label="Close"
+        (click)="modalRef.hide()">
+    </div>
+    <div class="modal-body">
+      <!-- <div class="user-field">
+        <img src="../../../../../../assets/images/attachment.svg">
+        Attachment
+      </div> -->
+
+      <!-- First option -->
+      <div class="user-field custom-drop-section">
+        <div>
+          <img src="../../../../../../assets/images/attachment.svg">
+          {{selectedLayoutOptions[0].label || 'None'}}
+        </div>
+
+        <div class="drop-icon">
+          <img src="../../../../../../assets/images/light-drop-icon.svg" (click)="toggleLayoutOptionsMenu(1)"
+            id="layout-option">
+
+          <div class="custom-drop-section-option" *ngIf="showLayoutOptionMenu === 1" id="layout-option">
+            <ul>
+              <li (click)="selectedLayoutOptions[0] = ''" id="layout-option">
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png" *ngIf="!selectedLayoutOptions[0]._id">
+                </div>
+                <div class="img-icon">
+                </div>
+                None
+              </li>
+              <li *ngFor="let field of appFields" (click)="selectedLayoutOptions[0] = field;toggleLayoutOptionsMenu(1)"
+                id="layout-option">
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png"
+                    *ngIf="selectedLayoutOptions[0]._id === field._id">
+                </div>
+                <div class="img-icon">
+                  <img [src]="field.icon">
+                </div>
+                {{field.label}}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Second option -->
+      <div class="user-field custom-drop-section second-userfield">
+        <div>
+          <img src="../../../../../../assets/images/Text-icon-1.svg">
+          {{selectedLayoutOptions[1].label || 'None'}}
+        </div>
+
+        <div class="drop-icon">
+          <img src="../../../../../../assets/images/light-drop-icon.svg" (click)="toggleLayoutOptionsMenu(2)"
+            id="layout-option">
+
+          <div class="custom-drop-section-option" *ngIf="showLayoutOptionMenu === 2" id="layout-option">
+            <ul>
+              <li (click)="selectedLayoutOptions[1] = ''" id="layout-option">
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png" *ngIf="!selectedLayoutOptions[1]._id">
+                </div>
+                <div class="img-icon">
+                </div>
+                None
+              </li>
+              <li *ngFor="let field of appFields" (click)="selectedLayoutOptions[1] = field;toggleLayoutOptionsMenu(2)"
+                id="layout-option">
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png"
+                    *ngIf="selectedLayoutOptions[1]._id === field._id">
+                </div>
+                <div class="img-icon">
+                  <img [src]="field.icon">
+                </div>
+                {{field.label}}
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Third option -->
+      <div class="user-field custom-drop-section">
+        <div>
+          <img src="../../../../../../assets/images/Text-icon-1.svg">
+          {{selectedLayoutOptions[2].label || 'None'}}
+        </div>
+
+        <div class="drop-icon">
+          <img src="../../../../../../assets/images/light-drop-icon.svg" (click)="toggleLayoutOptionsMenu(3)"
+            id="layout-option">
+
+          <div class="custom-drop-section-option" *ngIf="showLayoutOptionMenu === 3" id="layout-option">
+            <ul>
+              <li (click)="selectedLayoutOptions[2] = ''" id="layout-option">
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png" *ngIf="!selectedLayoutOptions[2]._id">
+                </div>
+                <div class="img-icon">
+                </div>
+                None
+              </li>
+              <li *ngFor="let field of appFields" (click)="selectedLayoutOptions[2] = field;toggleLayoutOptionsMenu(3)"
+                id="layout-option">
+                <div class="selected-icon" *ngIf="selectedLayoutOptions[2]._id === field._id">
+                  <img src="../../../../../../assets/images/green-tick.png">
+                </div>
+                <div class="img-icon">
+                  <img [src]="field.icon">
+                </div>
+                {{field.label}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="user-field-section-inner">
+        <div class="custom-drop-section">
+          <img src="../../../../../../assets/images/user.svg">
+          <div class="user-txt">
+            Manager
+            <img class="drop-icon" src="../../../../../../assets/images/light-drop-icon.svg">
+          </div>
+        </div>
+        <div class="custom-drop-section">
+          <img src="../../../../../../assets/images/ico-text.svg">
+          <div class="user-txt">
+            Business Description
+            <img class="drop-icon" src="../../../../../../assets/images/light-drop-icon.svg">
+          </div>
+
+          <div class="custom-drop-section-option">
+            <ul>
+              <li>
+                <div class="selected-icon">
+                </div>
+                <div class="img-icon">
+                </div>
+                None
+              </li>
+              <li>
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png">
+                </div>
+                <div class="img-icon">
+                  <img src="../../../../../../assets/images/Text-icon-1.svg">
+                </div>
+                Business Name
+              </li>
+              <li>
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png">
+                </div>
+                <div class="img-icon">
+                  <img src="../../../../../../assets/images/ico-text.svg">
+                </div>
+                Business Description
+              </li>
+              <li>
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png">
+                </div>
+                <div class="img-icon">
+                  <img src="../../../../../../assets/images/phone.svg">
+                </div>
+                Business Phone
+              </li>
+              <li>
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png">
+                </div>
+                <div class="img-icon">
+                  <img src="../../../../../../assets/images/Category-icon-1.svg">
+                </div>
+                Status
+              </li>
+              <li>
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png">
+                </div>
+                <div class="img-icon">
+                  <img src="../../../../../../assets/images/calender-icon.svg">
+                </div>
+                Start
+              </li>
+              <li>
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png">
+                </div>
+                <div class="img-icon">
+                  <img src="../../../../../../assets/images/attachment.svg">
+                </div>
+                Attachment
+              </li>
+              <li>
+                <div class="selected-icon">
+                  <img src="../../../../../../assets/images/green-tick.png">
+                </div>
+                <div class="img-icon">
+                  <img src="../../../../../../assets/images/user.svg">
+          </div>
+          Business Manager
+          </li>
+          </ul>
+        </div>
+      </div>
+      <div class="custom-drop-section">
+        <img src="../../../../../../assets/images/attachment.svg">
+        <div class="user-txt">
+          Attachment
+          <img class="drop-icon" src="../../../../../../assets/images/light-drop-icon.svg">
+        </div>
+      </div>
+      <div class="custom-drop-section">
+        <img src="../../../../../../assets/images/date.svg">
+        <div class="user-txt">
+          Date
+          <img class="drop-icon" src="../../../../../../assets/images/light-drop-icon.svg">
+        </div>
+      </div>
+    </div> -->
+
+      <div class="reset-section text-right">
+        Reset to default
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button>
+        Cancel
+      </button>
+      <button class="green-btn" (click)="updateAppLayoutOptions()">
+        Save
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Kanban – 4 add new category start -->
+
+<ng-template #kanban4>
+
+  <div class="kanban-add-category-modal">
+
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">
+        Add a new category
+      </h4>
+      <img src="../../../../../../assets/images/Close-icon.svg" class="close pull-right" aria-label="Close"
+        (click)="modalRef.hide()">
+    </div>
+
+    <div class="modal-body">
+      <div class="category-section">
+        <div class="form-group">
+          <label for="usr">Category Name</label>
+          <input type="text" class="form-control" (change)="newCategoryName = $event.target.value">
+        </div>
+        <div class="category-bg-color" [ngStyle]="{'backgroundColor': selectedColor}"
+          (click)="showColorMenu = !showColorMenu" id="color-menu">
+          <div class="box-option" *ngIf="showColorMenu">
+            <ul>
+              <li *ngFor="let color of categoryColors" [ngStyle]="{'backgroundColor': color}" id="color-menu"
+                (click)="selectedColor = color"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="green-btn" (click)="addNewCategoryOption()">
+        Create
+      </button>
+    </div>
+  </div>
+</ng-template>

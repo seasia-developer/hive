@@ -1,0 +1,339 @@
+<div class="tab-inner-section">
+  <div class="user-profile-section d-flex">
+    <div class="user-profile-form-section">
+      <div class="user-profile-txt">
+        <label>
+          My Profile
+        </label>
+        <p>
+          By ticking the boxes on the right of each field, you make that section of your profile available to
+          all
+          Voxxi users. The right side shows how it will look.
+        </p>
+      </div>
+      <form [formGroup]="profileForm" role="form">
+        <div class="form-group name-box">
+          <label for="usr">Name <span>*</span></label>
+          <input formControlName="name" type="text" class="form-control">
+          <div *ngIf="isSubmitted && !profileForm.controls.name.value">
+            <div class="error-message">Please enter your Name!</div>
+          </div>
+        </div>
+        <div class="form-group position-box">
+          <label for="usr">Position</label>
+          <input formControlName="position" type="text" class="form-control">
+        </div>
+        <div class="form-group industry-box">
+          <label for="usr">Industry</label>
+          <select class="form-control" formControlName="industry" id="sel1">
+            <option *ngFor="let industry of industryList;let i of index" [ngValue]="industry._id">
+              {{ industry.Title }}</option>
+          </select>
+        </div>
+        <div class="form-group headline-box">
+          <label for="usr">Headline</label>
+          <input formControlName="headline" type="text" class="form-control">
+        </div>
+        <div class="form-group about-box">
+          <label for="usr">About</label>
+          <textarea formControlName="about" class="form-control" autosize></textarea>
+        </div>
+        <div class="form-group email-box">
+          <label for="usr">Email</label>
+          <input formControlName="email" type="email" class="form-control">
+          <div class="check-box">
+            <input class="styled-checkbox" id="styled-checkbox-1" formControlName="emailTicked" type="checkbox">
+          </div>
+        </div>
+        <div class="form-group custom-phone-number">
+          <label for="usr">Phone</label>
+          <div formArrayName="phone" *ngFor="let a of arrayControl; let i = index" style="padding-bottom: 5px;">
+            <div [formGroupName]="i" class="custom-phone-inner d-flex">
+              <select class="form-control place-name" formControlName="type">
+                <option value="">Select Type</option>
+                <option *ngFor='let type of typeList' [value]="type">{{type}}</option>
+              </select>
+              <div class="country-code"
+                *ngIf="arrayControl[i].get('type').value !== 'Skype' && arrayControl[i].get('type').value !== 'Messenger'">
+                <input type="text" formControlName="countryCode" class="form-control place-name"
+                  (change)="getCountryFlag($event, i)">
+              </div>
+              <input type="tel" formControlName="number" class="form-control">
+              <div class="close-icon-img" style="margin: 2px 0px 0px 5px" (click)="removeSelectedPhone(i)">
+                <img src="../../../../../../../assets/images/Close-icon.svg">
+              </div>
+            </div>
+            <div *ngIf="isSubmitted">
+              <div class="error-message"
+                *ngIf="arrayControl[i].get('type').errors && arrayControl[i].get('type').errors.required || arrayControl[i].get('countryCode').errors && arrayControl[i].get('countryCode').errors.required || arrayControl[i].get('number').errors && arrayControl[i].get('number').errors.required">
+                Please enter valid phone number! </div>
+            </div>
+          </div>
+          <div class="check-box">
+            <input class="styled-checkbox" formControlName="phoneTicked" type="checkbox">
+          </div>
+          <a (click)="addAnotherPhone()">
+            + Add Another
+          </a>
+        </div>
+        <div class="form-group website-box">
+          <label for="usr">Website</label>
+          <input formControlName="website" type="text" class="form-control">
+          <div class="check-box">
+            <input class="styled-checkbox" formControlName="websiteTicked" type="checkbox">
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" formControlName="orgTicked" value="">
+              My organization doesn’t have a street address
+            </label>
+          </div>
+        </div>
+        <div *ngIf="!profileForm.get('orgTicked').value">
+          <div class="form-group etc-box">
+            <label for="usr">Apt, Suite, etc.</label>
+            <input formControlName="apt" type="text" class="form-control">
+            <div class="check-box">
+              <input class="styled-checkbox" formControlName="aptTicked" type="checkbox">
+            </div>
+          </div>
+          <div class="form-group address-box">
+            <label for="usr">Address</label>
+            <input formControlName="address" type="text" class="form-control">
+            <!-- <div class="check-box">
+              <input class="styled-checkbox" formControlName="addressTicked" type="checkbox">
+            </div> -->
+          </div>
+
+          <div class="form-group city-box">
+            <label for="usr">City</label>
+            <input formControlName="city" type="text" class="form-control">
+            <!-- <div class="check-box">
+              <input class="styled-checkbox" formControlName="cityTicked" type="checkbox">
+            </div> -->
+          </div>
+          <div class="form-group state-box">
+            <label for="usr">State/Province</label>
+            <input formControlName="state" type="text" class="form-control">
+            <!-- <div class="check-box">
+              <input class="styled-checkbox" formControlName="stateTicked" type="checkbox">
+            </div> -->
+          </div>
+          <div class="form-group code-box">
+            <label for="usr">Zip/Post code</label>
+            <input formControlName="zipcode" type="text" class="form-control">
+            <!-- <div class="check-box">
+              <input class="styled-checkbox" formControlName="zipTicked" type="checkbox">
+            </div> -->
+          </div>
+          <div class="form-group country-box">
+            <label for="usr">Country</label>
+            <input formControlName="country" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="inner-form change-password-box">
+          <div class="sub-ttl">
+            Change Password
+          </div>
+          <div class="form-group current-password-box">
+            <label for="usr">Current</label>
+            <input formControlName="currentpwd" type="password" class="form-control" autocomplete="new-password"
+              [type]="currentpwPasswordType">
+            <div class="view-password">
+              <img *ngIf="currentpwPasswordType === 'password'" src="../../../../assets/images/eye.svg"
+                (click)="currentpwPasswordType = 'text'">
+              <img class="eye-line-icon" *ngIf="currentpwPasswordType === 'text'"
+                src="../../../../assets/images/eye-cross.svg" (click)="currentpwPasswordType = 'password'">
+            </div>
+          </div>
+          <div class="form-group new-password-box">
+            <label for="usr">New</label>
+            <input formControlName="newpwd" type="password" class="form-control password-field-px" [type]="newpwPasswordType" [ngClass]="{'border-danger':passwordLengthError}" (keyup)="checkPasswordLength()" [(ngModel)]="password">
+            <div class="view-password">
+              <img *ngIf="newpwPasswordType === 'password'" src="../../../../assets/images/eye.svg"
+                (click)="newpwPasswordType = 'text'">
+              <img class="eye-line-icon" *ngIf="newpwPasswordType === 'text'"
+                src="../../../../assets/images/eye-cross.svg" (click)="newpwPasswordType = 'password'">
+            </div>
+             <!-- IF PASSWORD LENGTH ERROR  -->
+             <div *ngIf="passwordLengthError">
+              <div *ngIf="password.length < passwordMinLength" class="error-message">Password must be greater than {{passwordMinLength}} characters</div>
+              <div *ngIf="password.length > passwordLength" class="error-message">Password must be less than {{passwordLength}} characters</div>
+            </div>
+            <!-- PASSWORD VALIDATION  -->
+            <div class="error-message"
+              *ngIf="form.newpwd?.errors?.pattern && (form.newpwd?.dirty || form.newpwd?.touched)">
+              Password
+              should be minimum 8 characters long including uppercase, lowercase, digits and special
+              character
+            </div>
+          </div>
+          <div class="form-group repeat-password-box" *ngIf="!disableButtonForInvalidPassword">
+            <label for="usr">Repeat</label>
+            <input formControlName="repeatpwd" type="password" class="form-control" [type]="repeatpwPasswordType">
+            <div class="view-password">
+              <img *ngIf="repeatpwPasswordType === 'password'" src="../../../../assets/images/eye.svg"
+                (click)="repeatpwPasswordType = 'text'">
+              <img class="eye-line-icon" *ngIf="repeatpwPasswordType === 'text'"
+                src="../../../../assets/images/eye-cross.svg" (click)="repeatpwPasswordType = 'password'">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="user-info-section">
+      <div class="inside-user-info-section pb-4">
+        <div class="user-profile-pic">
+          <img [src]="imagePreview ? mediaURL + imagePreview : '../../../../../../../assets/images/user.png'"
+            *ngIf="imagePrevOfRes">
+          <img [src]="imagePreview ? imagePreview : '../../../../../../../assets/images/user.png'"
+            *ngIf="!imagePrevOfRes">
+        </div>
+        <label (click)="openUploadModal()" class="custom-file-upload border-btn">
+          Edit Image
+        </label>
+        <input hidden class="inside-p15" id="file-upload" type='file'>
+        <div class="user-detail-section inside-p15">
+          <div class="user-name">
+            <label>
+              {{profileForm.controls.name.value}}
+            </label>
+            <span>
+              {{profileForm.controls.position.value}}
+              {{ profileForm.controls.businessName.value ? 'at ' +  profileForm.controls.businessName.value : ''}}
+            </span>
+          </div>
+          <div class="user-status">
+          </div>
+        </div>
+        <p class="inside-p15 headline-title">
+          {{profileForm.controls.headline.value}}
+        </p>
+        <div class="user-inner-wraper headline-title-bottom inside-p15">
+          <p>
+            {{profileForm.controls.about.value}}
+          </p>
+        </div>
+        <div class="inside-p15 user-inner-wraper" *ngIf="profileForm.get('emailTicked').value">
+          <div class="title">
+            Email
+          </div>
+          <div class="sub-ttl link-txt">
+            {{profileForm.controls.email.value}}
+          </div>
+        </div>
+        <div class="inside-p15 user-inner-wraper" *ngIf="profileForm.get('phoneTicked').value">
+          <div class="title">
+            Phone
+          </div>
+          <div class="sub-ttl" *ngFor="let arr of arrayControl; let i = index">
+            <div>
+              {{arr.value.type}}
+              {{arrayControl[i].get('type').value === 'Skype' || arrayControl[i].get('type').value === 'Messenger' ? '' : arr.value.countryCode.split(' ')[1]}}
+              {{arr.value.number}}
+            </div>
+          </div>
+        </div>
+        <div class="inside-p15 user-inner-wraper" *ngIf="profileForm.get('websiteTicked').value">
+          <div class="title">
+            Website
+          </div>
+          <div class="sub-ttl link-txt">
+            {{profileForm.controls.website.value}}
+          </div>
+        </div>
+        <div class="inside-p15 user-inner-wraper"
+          *ngIf="!profileForm.get('orgTicked').value && profileForm.get('aptTicked').value">
+          <div class="title">
+            Address
+          </div>
+          <div class="sub-ttl">
+            {{ profileForm.controls.apt.value }}
+            {{ profileForm.controls.apt.value && profileForm.controls.address.value ? ' / ' : ''}}
+            {{ profileForm.controls.address.value }}
+            <br *ngIf="profileForm.controls.apt.value || profileForm.controls.address.value">
+            {{ profileForm.controls.city.value
+            + ' ' + profileForm.controls.state.value
+            + ' ' + profileForm.controls.zipcode.value
+            }}
+            <br
+              *ngIf="profileForm.controls.city.value || profileForm.controls.state.value || profileForm.controls.zipcode.value">
+            {{ profileForm.controls.country.value }}
+          </div>
+        </div>
+        <!-- <div class="inside-p15 user-inner-wraper" *ngIf="!profileForm.get('orgTicked').value && profileForm.get('aptTicked').value">
+          <div class="title">
+            APT,SUITE,ETC.
+          </div>
+          <div class="sub-ttl">
+            {{profileForm.controls.apt.value}}
+          </div>
+        </div>
+        <div class="inside-p15 user-inner-wraper" *ngIf="!profileForm.get('orgTicked').value && profileForm.get('cityTicked').value">
+          <div class="title">
+            CITY
+          </div>
+          <div class="sub-ttl">
+            {{profileForm.controls.city.value}}
+          </div>
+        </div>
+        <div class="inside-p15 user-inner-wraper" *ngIf="!profileForm.get('orgTicked').value && profileForm.get('zipTicked').value">
+          <div class="title">
+            ZIP/POST CODE
+          </div>
+          <div class="sub-ttl">
+            {{profileForm.controls.zipcode.value}}
+          </div>
+        </div>
+        <div class="inside-p15 user-inner-wraper"
+          *ngIf="!profileForm.get('orgTicked').value && profileForm.get('stateTicked').value">
+          <div class="title">
+            STATE/PROVINCE
+          </div>
+          <div class="sub-ttl">
+            {{profileForm.controls.state.value}}
+          </div>
+        </div> -->
+        <!-- <div class="plane-section">
+          <div class="ttl">
+            Your Current Plan
+          </div>
+          <div class="sub-ttl">
+            <span>
+            You are currently on the {{selectedPlan | titlecase}} Plan
+            </span>
+          </div>
+          <div>  Your records limit is {{totalRecords}} records
+          </div>
+          <div> {{usedRecords}} Records used  </div>
+          <p>
+            Your attachment space limit is {{totalSize}}
+          </p>
+          <div class="progress-section">
+            <div class="form-group">
+              <mat-slider disabled min="0" max="100" value='capacity' >
+              </mat-slider>
+              <p>
+                Storage: {{capacity}} capacity
+              </p>
+            </div>
+          </div>
+          <p class="upgrade-txt">
+            Upgrade for a larger attachment capacity
+          </p>
+          <button (click)="upgradePlan()">
+            UPGRADE
+          </button>
+        </div> -->
+      </div>
+      <div class="bottom-btn-section custom-bottom-btn-section py-3">
+        <button class="border-btn">
+          Cancel
+        </button>
+        <button class="green-btn" (click)="submitForm()">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

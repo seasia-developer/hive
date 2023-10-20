@@ -1,0 +1,311 @@
+<app-header></app-header>
+<div class="contnet-section d-flex invite-component">
+
+  <mobile-menu></mobile-menu>
+
+  <div class="max-w-900px middle-section wall-section mx-auto">
+
+    <div class="w-100 flex justify-center my-4" *ngIf="paidGroup && paidGroup._id">
+
+      <div class="w-100 paid-card mx-auto rounded-20 py-5 px-5 my-1 bg-white">
+
+        <div class="w-100">
+
+          <!-- HEADER -->
+          <div class="paid-groups-header row">
+            <div class="col">
+              <div class="w-100 h-4px rounded mb-2" [ngClass]="step === 1 ? 'bg-59ADFF' : 'bg-C3C3C3'"></div>
+              <p [ngClass]="step === 1 ? 'color-59ADFF' : 'color-C3C3C3'">Introduction</p>
+            </div>
+            <div class="col">
+              <div class="w-100 h-4px rounded mb-2" [ngClass]="step === 2 ? 'bg-59ADFF' : 'bg-C3C3C3'"></div>
+              <p [ngClass]="step === 2 ? 'color-59ADFF' : 'color-C3C3C3'">Select Plan</p>
+            </div>
+            <div class="col">
+              <div class="w-100 h-4px rounded mb-2" [ngClass]="step === 3 ? 'bg-59ADFF' : 'bg-C3C3C3'"></div>
+              <p [ngClass]="step === 3 ? 'color-59ADFF' : 'color-C3C3C3'">Pay</p>
+            </div>
+          </div>
+          <!-- HEADER END -->
+
+          <!-- BODY -->
+          <div class="paid-groups-header row my-3 flex-column">
+
+            <!-- STEP 1 -->
+            <div class="col text-center" *ngIf="step === 1">
+              <!-- ROW START -->
+              <div class="w-full mt-2 mb-4">
+
+                <h2 class="color-686868 font-weight-bold mb-3 letter-spacing-1">Hi there!</h2>
+
+                <p class="color-686868 font-weight-bold mb-3 letter-spacing-1" *ngIf="paidGroup.name">
+                  You've been invited to join {{ paidGroup.name }}.</p>
+
+                <p class="color-686868 mb-3 px-5" *ngIf="paidGroup.upsell.message">{{ paidGroup.upsell.message }}</p>
+
+                <div *ngIf="paidGroup.upsell.videoLink" class="w-100 mb-3">
+                  <div class="w-100" id="ytVideoLink" [innerHTML]="yTIFrame"></div>
+                </div>
+
+                <div class="w-100" *ngIf="previewLinkData && previewLinkData.title">
+                  <a class="text-decoration-none" [href]="paidGroup.upsell.videoLink" target="_blank">
+                    <div class="w-100 mb-3 border p-3 rounded-20" *ngIf="previewLinkData">
+                      <h6 class="mb-2 text-dark text-capitalize d-flex text-center align-items-center justify-content-center"> {{ previewLinkData.title }}</h6>
+                      <img class="w-100" [src]="previewLinkData.img" alt="" />
+                    </div>
+                  </a>
+                </div>
+
+                <div class="w-auto d-flex justify-content-center mt-4">
+                  <span id="openModal" class="bg-59ADFF text-white rounded-10 px-5 py-2 text-center cursor-pointer"
+                    (click)="stepBackNext('next')">Unlock Now</span>
+                </div>
+
+              </div>
+              <!-- ROW END -->
+            </div>
+            <!-- STEP 1 END -->
+
+            <!-- STEP 2 -->
+            <div class="col" *ngIf="step === 2">
+              <!-- ROW START -->
+              <div class="w-full mb-4">
+
+                <!-- PREMIUM -->
+                <div class="row mb-3">
+                  <div class="col">
+                    <div class="rounded-10 p-3 cursor-pointer border-59ADFF">
+                      <p class="color-000 text-16 mb-2" *ngIf="paidGroup.upsell.title">{{ paidGroup.upsell.title }}</p>
+                      <p class="color-888888 text-14" *ngIf="paidGroup.upsell.message">{{ paidGroup.upsell.message }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- PREMIUM END -->
+
+                <!-- PLANS -->
+                <div class="row mb-3" *ngIf="paidGroup.paymentOptions.length">
+
+                  <div class="col-12 col-md-4 h-100 mb-3"
+                    *ngFor="let payment of paidGroup.paymentOptions; let paymentIndex = index">
+                    <div class="rounded-10 p-3 cursor-pointer h-100"
+                      [ngClass]="selectedPlanIndex === paymentIndex ? 'border-59ADFF' : 'border-D6D6D6'"
+                      (click)="selectGroupPlan(payment,paymentIndex)">
+                      <p class="color-000 text-16 mb-2 text-capitalize">{{ payment.plan }}</p>
+                      <p class="color-888888 text-14">${{ payment.price }}</p>
+                    </div>
+                  </div>
+
+                </div>
+                <!-- PLANS END -->
+
+                <!-- FIELD START -->
+                <div class="w-100">
+                  <div class="row">
+                    <div class="col-9 col-md-11">
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Promo Code</mat-label>
+                        <input type="text" matInput>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3 col-md-1 d-flex align-items-center">
+                      <span class="text-primary pb-3 cursor-pointer">
+                        Apply
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <!-- FIELD END  -->
+
+              </div>
+              <!-- ROW END -->
+            </div>
+            <!-- STEP 2 END -->
+
+            <!-- STEP 3 -->
+            <div class="col" *ngIf="step === 3">
+              <!-- ROW START -->
+              <div class="w-full mb-4">
+
+                <!-- ROW START  -->
+                <div class="row mb-3">
+
+                  <div class="col-md-6">
+                    <div class="w-100">
+                      <mat-form-field class="w-100" appearance="outline">
+                        <mat-label>Card Number</mat-label>
+                        <div class="position-relative">
+                          <input [class]="cardNumber.length > 19 ? 'text-danger border-none' : 'border-none'"
+                            type="text" matInput [formControl]="cardNumberFormControl" [errorStateMatcher]="matcher"
+                            placeholder="" [(ngModel)]="cardNumber" (ngModelChange)="formatCardNumber($event)">
+                          <img class="position-absolute right-0 -top-18" src="{{cardsLogos[getCardType(cardNumber)]}}"
+                            alt="">
+                        </div>
+                        <mat-error *ngIf="!cardNumberFormControl.hasError('required')">
+                          Please enter a valid title
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="w-100">
+                          <mat-form-field appearance="" class="w-100" appearance="outline">
+                            <mat-label>Expiration Month</mat-label>
+                            <mat-select [(value)]="expMonth" [(ngModel)]="expMonth">
+                              <mat-option *ngFor="let expMonth of expMonths" [value]="expMonth">
+                                {{ pad(expMonth) }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="w-100">
+                          <mat-form-field appearance="" class="w-100" appearance="outline">
+                            <mat-label>Expiration Year</mat-label>
+                            <mat-select [(value)]="expYear" [(ngModel)]="expYear">
+                              <mat-option *ngFor="let expYear of expYears" [value]="expYear">
+                                {{expYear}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="row">
+
+                      <div class="col-md-3">
+                        <div class="w-100">
+                          <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>CVC</mat-label>
+                            <div class="position-relative">
+                              <input type="text" matInput [formControl]="cvcNumberFormControl"
+                                [errorStateMatcher]="matcher" placeholder="" [(ngModel)]="cvcNumber" class="pr-5">
+                              <img class="position-absolute right-0 -top-4"
+                                src="../../../../../../assets/images/cc/cvc.png" alt="">
+                            </div>
+                            <mat-error *ngIf="!cvcNumberFormControl.hasError('required')">
+                              Please enter a valid CVC
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="w-100">
+                          <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>ZIP</mat-label>
+                            <input type="text" matInput [formControl]="zipFormControl" [errorStateMatcher]="matcher"
+                              placeholder="" [(ngModel)]="zip">
+                            <mat-error *ngIf="!zipFormControl.hasError('required')">
+                              Please enter a valid Zip
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="w-100">
+                          <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Country</mat-label>
+                            <mat-select [(value)]="country" [(ngModel)]="country">
+                              <mat-option *ngFor="let country of countries" [value]="country.code">
+                                {{country.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <!-- ROW END -->
+
+                <!-- ROW -->
+                <div class="w-100 mb-2" *ngIf="isValidPaymentFields">
+                  <div class="row">
+                    <div class="col">
+                      <p class="text-danger">
+                        Fields are required *
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- ROW END -->
+
+                <!-- ROW START  -->
+                <div class="mb-3">
+                  <p class="text-secondary">By providing your card information, you allow Voxxi to charge your card for
+                    future payments in accordance with their terms.</p>
+                </div>
+                <!-- ROW END -->
+              </div>
+              <!-- ROW END -->
+            </div>
+            <!-- STEP 3 END -->
+
+            <!-- TOTAL -->
+            <div class="col h-100" *ngIf="step === 2">
+              <div class="row ">
+                <div class="col h-100">
+                  <div class="h-100 d-flex justify-content-between">
+                    <p class="color-000 text-16 mb-2 text-capitalize font-weight-bold letter-spacing-1">Today's Total
+                    </p>
+                    <p class="color-000 text-16 mb-2 text-capitalize font-weight-bold letter-spacing-1">
+                      ${{ selectedPlan.price }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- TOTAL END -->
+
+          </div>
+
+          <!-- FOOTER -->
+          <div class="row mt-3">
+            <div class="col">
+              <div class="w-100">
+                <div class="d-flex justify-content-end">
+                  <div class="w-auto mx-1" *ngIf="step > 1">
+                    <span class="color-000 rounded-10 px-3 py-2 text-center cursor-pointer"
+                      (click)="stepBackNext('back')">Back</span>
+                  </div>
+                  <div class="w-auto mx-1 mr-0" *ngIf="step > 1 && step < 3">
+                    <span class="bg-59ADFF text-white rounded-10 px-3 py-2 text-center cursor-pointer"
+                      (click)="stepBackNext('next')">Next</span>
+                  </div>
+                  <div class="w-auto mx-1 mr-0" *ngIf="step === 3 && !isLoading">
+                    <span class="bg-59ADFF text-white rounded-10 px-3 py-2 text-center cursor-pointer"
+                      (click)="makePayment()">Pay Now</span>
+                  </div>
+                  <div class="w-auto mx-1 mr-0" *ngIf="step === 3 && isLoading">
+                    <span class="bg-59ADFF text-white rounded-10 px-3 py-2 text-center cursor-pointer">Processing
+                      ...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- FOOTER END -->
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+
+  </div>
+
+</div>

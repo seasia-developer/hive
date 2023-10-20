@@ -1,0 +1,312 @@
+<app-header></app-header>
+<div class="contnet-section d-flex">
+  <!-- <app-left-sidebar-menu></app-left-sidebar-menu> -->
+  <app-chat></app-chat>
+  <!-- <mobile-menu></mobile-menu> -->
+  <!-- <div class="bottom-chat-section">
+          <label>
+            Chat (23)
+          </label>
+          <div class="icon-section">
+            <img src="../../../../../../assets/images/setting.svg">
+            <img src="../../../../../../assets/images/setting.svg">
+          </div>
+        </div> -->
+  <div class="right-full-section">
+    <div class="upgrad-payment-section">
+      <div class="checkout-section">
+        <div class="main-ttl">
+          Checkout
+        </div>
+        <div class="plan-btn-section">
+          <!-- <img src="../../../../../../assets/images/plus-plan-btn.svg"> -->
+          <select class="plan-select-btn" name="plan" id="plan" [value]="plan" (change)="changePlan($event, 'plan')">
+            <option value="pro">Pro</option>
+            <option value="plus">Plus</option>
+          </select>
+          <select class="month-select-btn" name="type" id="type" [value]="type" (change)="changePlan($event, 'type')">
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Annually</option>
+          </select>
+          <!-- <img src="../../../../../../assets/images/annuallly-btn.svg"> -->
+        </div>
+        <!-- <p>
+          You have selected the {{plan}} Plan for {{selectedOrg.name}} to be billed at ${{selectedPlan.amount}} per
+          user, per {{type === "monthly" ? "month" : "year"}} for {{orgUsers.length}} users.
+        </p> -->
+        <p class="org-name">{{ selectedOrg.name }}</p>
+        <p class="seat-section">{{ orgUsers.length }} seats</p>
+
+        <p class="select-plan" *ngIf="type === 'yearly'">${{ ((selectedPlan.amount)/12).toFixed(2) }} per user, per month</p>
+
+        <p class="select-plan" *ngIf="type === 'monthly'">${{ selectedPlan.amount }} per user, per month</p>
+
+        <div *ngIf="type !== 'monthly'" class="bil-section">
+          <p>Billed Annually </p>
+          <p class="bil-amount"> ${{ (orgUsers.length * ((selectedPlan.amount)/12) * 12).toFixed(2) }}</p>
+        </div>
+        <div *ngIf="type === 'monthly'" class="bil-section">
+          <p>Billed Monthly </p>
+          <p> ${{ (orgUsers.length * selectedPlan.amount).toFixed(2) }}</p>
+        </div>
+        <div class="remove-section-wraper">
+          <div class="remove-section">
+            <div class="top-section">
+              <label>COUPON</label>
+              <a (click)="removeCode()">[Remove]</a>
+            </div>
+            <div class="bottom-section">
+              <input class="form-control" [(ngModel)]="code" (keyup)="getCouponAvailability($event)">
+            </div>
+          </div>
+          <label *ngIf="code">{{ discountPrice ? "$" + discountPrice : "" }}</label>
+        </div>
+        <div *ngIf="code && type !== 'monthly'" class="bil-section">
+          <p>Total </p>
+          <p class="bil-amount">
+            ${{ annualPrice}}
+          </p>
+        </div>
+        <div *ngIf="code && type === 'monthly'" class="bil-section">
+          <p>Total </p>
+          <p>
+            ${{ monthlyPrice }}
+          </p>
+        </div>
+
+        <!-- <p class="user-txt">
+          {{orgUsers.length}} users x ${{selectedPlan.amount}} * 12 =
+          <span>
+            ${{orgUsers.length * selectedPlan.amount * 12}}
+          </span> per year
+        </p> -->
+        <div class="user-list">
+          <div class="user-box" *ngFor="let user of orgUsers">
+            <img *ngIf="!user.user_id.avatar" src="../../../../../../assets/images/user.png">
+            <img *ngIf="user.user_id.avatar" [src]="mediaUrl + user.user_id.avatar" alt="">
+            <div class="user-info">
+              <label>
+                {{user.user_id.firstName}} {{user.user_id.lastName}}
+              </label>
+              <label>
+                {{user.user_id.email}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="billing-info-section">
+        <div class="main-ttl">
+          Billing information
+        </div>
+        <div class="form-section">
+          <form [formGroup]="paymentForm">
+            <div class="name-section">
+              <div class="left-section">
+                <div class="form-group">
+                  <label for="usr">First name: <span>*</span></label>
+                  <input formControlName="firstName" type="text" class="form-control">
+                </div>
+                <div *ngIf="submitted && paymentForm.controls.firstName.invalid">
+                  <div class="error-message">First Name is required </div>
+                </div>
+              </div>
+              <div class="right-section">
+                <div class="form-group">
+                  <label for="usr">Last name: <span>*</span></label>
+                  <input formControlName="lastName" type="text" class="form-control" id="">
+                </div>
+                <div *ngIf="submitted && paymentForm.controls.lastName.invalid">
+                  <div class="error-message">Last Name is required </div>
+                </div>
+              </div>
+            </div>
+            <div class="org-section">
+              <div class="form-group">
+                <label for="usr">Organisation: <span>*</span></label>
+                <input formControlName="organization" type="text" class="form-control" id="">
+              </div>
+              <div *ngIf="submitted && paymentForm.controls.organization.invalid">
+                <div class="error-message">Organization is required </div>
+              </div>
+            </div>
+            <div class="address-section">
+              <div class="form-group">
+                <label for="usr">Address line 1: <span>*</span></label>
+                <input type="text" formControlName="address_line_1" class="form-control" id="">
+              </div>
+              <div *ngIf="submitted && paymentForm.controls.address_line_1.invalid">
+                <div class="error-message">Address line 1 is required </div>
+              </div>
+            </div>
+            <div class="address-section">
+              <div class="form-group">
+                <label for="usr">Address line 2:</label>
+                <input type="text" formControlName="address_line_2" class="form-control" id="">
+              </div>
+            </div>
+            <div class="zip-city-section">
+              <div class="left-section">
+                <div class="form-group">
+                  <label for="usr">Zip/Postcode: <span>*</span></label>
+                  <input type="text" formControlName="postal_code" class="form-control" id="">
+                </div>
+                <div *ngIf="submitted && paymentForm.controls.postal_code.invalid">
+                  <div class="error-message">Postcode is required </div>
+                </div>
+              </div>
+              <div class="right-section">
+                <div class="form-group">
+                  <label for="usr">City: <span>*</span></label>
+                  <input type="text" formControlName="city" class="form-control" id="">
+                </div>
+                <div *ngIf="submitted && paymentForm.controls.city.invalid">
+                  <div class="error-message">City is required </div>
+                </div>
+              </div>
+            </div>
+            <div class="state-section">
+              <div class="form-group">
+                <label for="usr">State/Country:</label>
+                <input type="text" formControlName="state" class="form-control" id="">
+              </div>
+            </div>
+            <div class="country-section">
+              <div class="form-group">
+                <label for="usr">Country: <span>*</span></label>
+                <input type="text" formControlName="country" class="form-control" id="">
+              </div>
+              <div *ngIf="submitted && paymentForm.controls.country.invalid">
+                <div class="error-message">Country is required </div>
+              </div>
+            </div>
+            <div class="phone-section">
+              <div class="form-group">
+                <label for="usr">Phone: <span>*</span></label>
+                <input type="text" formControlName="phone" class="form-control" id="">
+              </div>
+              <div *ngIf="submitted && paymentForm.controls.phone.invalid">
+                <div class="error-message">Phone is required </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="credit-card-detail-section">
+        <div class="main-ttl">
+          Credit Card Details
+        </div>
+        <div class="card-section">
+          <div class="card-top-section">
+            <label>
+              Enter your payment details
+            </label>
+            <label>
+              Secure form
+              <img src="../../../../../../assets/images/lock.svg">
+            </label>
+          </div>
+          <div class="card-section-inner">
+            <img src="../../../../../../assets/images/credit-card.svg">
+            <form [formGroup]="cardForm" class="card-from-section">
+              <div class="card-number-section">
+                <input type="text" (keypress)="numberOnly($event, 15, cardForm.controls.card_number.value.length)"
+                  formControlName="card_number" class="form-control" id="" placeholder="Card Number">
+                <div *ngIf="submitted && cardForm.controls.card_number.invalid">
+                  <div *ngIf="cardForm.controls.card_number.value" class="error-message"> Invalid Card Number </div>
+                  <div *ngIf="!cardForm.controls.card_number.value" class="error-message"> Card Number is required</div>
+                </div>
+              </div>
+              <div class="time-section">
+                <input type="text" (keypress)="numberOnly($event, 1, cardForm.controls.exp_month.value.length)"
+                  formControlName="exp_month" class="form-control month-section" id="" placeholder="MM">
+                <span>
+                  /
+                </span>
+                <input type="text" (keypress)="numberOnly($event, 1, cardForm.controls.exp_year.value.length)"
+                  formControlName="exp_year" class="form-control year-section" id="" placeholder="YY">
+                <div *ngIf="submitted && (cardForm.controls.exp_year.invalid || cardForm.controls.exp_month.invalid)">
+                  <div *ngIf="cardForm.controls.exp_month.value && cardForm.controls.exp_month.invalid"
+                    class="error-message"> Invalid Expiry month </div>
+                  <div *ngIf="cardForm.controls.exp_year.value && cardForm.controls.exp_year.invalid"
+                    class="error-message"> Invalid Expiry year </div>
+                </div>
+              </div>
+              <div class="cvc-section">
+                <input type="text" (keypress)="numberOnly($event, 2, cardForm.controls.cvc.value.length)"
+                  formControlName="cvc" class="form-control" id="" placeholder="CVC">
+                <div *ngIf="submitted && cardForm.controls.cvc.invalid">
+                  <div *ngIf="!cardForm.controls.cvc.value" class="error-message"> CVC is required</div>
+                  <div *ngIf="cardForm.controls.cvc.value" class="error-message"> Invalid CVC </div>
+                </div>
+              </div>
+            </form>
+            <!-- <input type="text" class="form-control" id="" placeholder="Card Number">
+            <span>
+              MM / YY CSV
+            </span> -->
+          </div>
+        </div>
+        <div class="card-user-txt">
+          You will be charged
+
+          <span *ngIf="code && type !== 'monthly'">
+            ${{ (((annualPrice)/12).toFixed(2)) }}
+          </span>
+          <span *ngIf="code && type === 'monthly'">
+            ${{  monthlyPrice}}
+          </span>
+          <span *ngIf="!code && type === 'monthly'">
+            ${{ (selectedPlan.amount * orgUsers.length).toFixed(2) }}
+          </span>
+          <span *ngIf="!code && type !== 'monthly'">
+            ${{ ((selectedPlan.amount * orgUsers.length * 12)/12).toFixed(2) }}
+          </span>
+          now
+        </div>
+        <p *ngIf="type === 'monthly'">
+          You will be debited ${{ (selectedPlan.amount * orgUsers.length).toFixed(2) }} on {{ date }} of every following
+          {{type === "monthly" ? "month" : "year"}}.
+        </p>
+        <!-- <p *ngIf="code && type === 'monthly'">
+          You will be debited ${{ monthlyPrice }} on {{ date }}
+          of every following
+          {{type === "monthly" ? "month" : "year"}}.
+        </p> -->
+        <p *ngIf="type !== 'monthly'">
+          You will be debited ${{ ((selectedPlan.amount * orgUsers.length * 12)/12).toFixed(2) }} on {{ date }} of every
+          following
+          {{type === "monthly" ? "month" : "year"}}.
+        </p>
+        <!-- <p *ngIf="code && type !== 'monthly'">
+          You will be debited ${{  annualPrice }} on
+          {{ date }} of every
+          following
+          {{type === "monthly" ? "month" : "year"}}.
+        </p> -->
+        <p>
+          We will automatically update your account
+          balance if you change plans or add or remove collaborators.
+        </p>
+        <div class="btn-section">
+          <button [disabled]="btnDisable===true" (click)="upgrade()">
+            upgrade
+          </button>
+          <a (click)=cancel()>
+            Cancel
+          </a>
+          <a (click)="openPrivaceModal(privacymodal)">
+            Privacy
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <button type="button" class="btn btn-primary" (click)="openModal(gridrecord1)" hidden>Create template modal
+  gridrecord1</button> -->
+<ng-template #privacymodal>
+  <div class="grid-record-img-modal">
+    <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl('https://voxxi.io/privacy')"></iframe>
+  </div>
+</ng-template>

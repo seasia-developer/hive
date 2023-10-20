@@ -1,0 +1,187 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.predefined-workspace-section {
+  padding: 16px 20px;
+
+  .main-ttl {
+    color: $black;
+    font-size: $title;
+    font-size: $RobotoRegular;
+    text-transform: uppercase;
+  }
+
+  .add-industry-section {
+    padding: 22px 0px 19px 0px;
+
+    input {
+      border: 1px solid $text-secondary;
+      border-radius: 8px;
+      width: 366px;
+      height: 32px;
+    }
+
+    button {
+      color: $white;
+      font-size: $title;
+      font-family: $RobotoMedium;
+      background-color: $add-btn-bg;
+      border: 1px solid $add-btn-bg;
+      border-radius: 16px;
+      height: 32px;
+      width: 146px;
+    }
+  }
+
+  .industry-section {
+    background-color: $bg_color;
+    border: 1px solid $text-secondary;
+    border-radius: 8px;
+
+    .left-section {
+      width: calc(100% - 142px);
+    }
+
+    .right-section {
+      width: 142px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .top-ttl-section {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid $text-secondary;
+      padding: 2px 18px;
+
+      label {
+        margin-bottom: 0;
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        letter-spacing: 0.4px;
+      }
+    }
+
+    .industry-body-section {
+      height: calc(100vh - 280px);
+      overflow-y: auto;
+
+      ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+          list-style: none;
+          display: flex;
+          align-items: center;
+          padding: 4px 23px;
+          letter-spacing: 0.4px;
+
+          .industry-name {
+            color: $box_txt_color;
+            font-size: $title;
+            font-family: $RobotoRegular;
+          }
+
+          .industry-count {
+            color: $box_txt_color;
+            font-size: $title;
+            font-family: $RobotoRegular;
+          }
+
+          .industry-action {
+            width: 42px;
+
+            label {
+              margin-bottom: 0;
+              cursor: pointer;
+              color: $black;
+              font-size: $edit-lbl;
+              font-family: $RobotoRegular;
+              margin-right: 5px;
+            }
+
+            img {
+              cursor: pointer;
+              width: 11px;
+              height: 11px;
+              object-position: center;
+              object-fit: contain;
+            }
+          }
+
+          .left-section {
+            width: calc(100% - 115px);
+          }
+        }
+      }
+    }
+  }
+
+  .total-section{
+    display: flex;
+    align-items: center;
+    padding: 2px 18px;
+    .left-section{
+      width: calc(100% - 142px);
+      text-align: right;
+      padding-right: 10px;
+    }
+    .right-section{
+      width: 142px;
+    }
+  }
+
+}
+
+@media(max-width:991px) {
+  .predefined-workspace-section {
+    .add-industry-section {
+      input {
+        width: 250px;
+      }
+    }
+  }
+}
+
+@media(max-width:575px) {
+  .predefined-workspace-section {
+    .add-industry-section {
+      display: block !important;
+
+      input {
+        width: 100%;
+      }
+
+      button {
+        margin-top: 15px;
+      }
+    }
+
+    .industry-section {
+      .left-section {
+        width: 70%;
+        padding-right: 15px;
+      }
+
+      .right-section {
+        width: 40%;
+      }
+
+      .industry-body-section {
+        ul {
+          li {
+            .left-section {
+              width: 60%;
+            }
+
+            .right-section {
+              width: 40%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

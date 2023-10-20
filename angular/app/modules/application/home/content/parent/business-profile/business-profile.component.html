@@ -1,0 +1,210 @@
+<div class="tab-inner-section">
+  <div class="user-profile-section d-flex">
+    <div class="user-profile-form-section">
+      <div class="user-profile-txt">
+        <label>
+          Business Profile
+        </label>
+        <p>
+          By ticking the boxes on the right of each field, you make that section of your profile available to
+          all Voxxi users. The right side shows how it will look.
+        </p>
+      </div>
+      <form [formGroup]="businessProfileForm" role="form">
+        <div class="form-group">
+          <label for="usr">Name <span>*</span></label>
+          <input formControlName="name" type="text" class="form-control">
+          <div *ngIf="isSubmitted && !businessProfileForm.controls.name.value">
+            <div class="error-message">Please enter your Name!</div>
+          </div>
+        </div>
+        <div class="form-group industry-box">
+          <label for="usr">Industry</label>
+          <select class="form-control" formControlName="industry" id="sel1">
+            <option *ngFor="let industry of industryList;let i of index" [ngValue]="industry._id">
+              {{ industry.Title }}</option>
+          </select>
+          <img class="drop-icon" src="../../../../../../../assets/images/drop-down-icon.svg">
+        </div>
+        <div class="form-group headline-box">
+          <label for="usr">Headline</label>
+          <input formControlName="headline" type="text" class="form-control">
+        </div>
+        <div class="form-group about-box">
+          <label for="usr">About</label>
+          <textarea formControlName="about" class="form-control" autosize></textarea>
+        </div>
+        <div class="form-group email-box">
+          <label for="usr">Email</label>
+          <input formControlName="email" type="email" class="form-control">
+          <div class="check-box">
+            <input class="styled-checkbox" id="styled-checkbox-1" formControlName="emailTicked" type="checkbox">
+          </div>
+        </div>
+        <div class="form-group custom-phone-number">
+          <label for="usr">Phone</label>
+          <div formArrayName="phone" *ngFor="let a of phoneArray.controls; let i = index" style="padding-bottom: 8px;">
+            <div [formGroupName]="i" class="d-flex custom-phone-inner">
+              <select class="form-control place-name" formControlName="type">
+                <option value="">Select Type</option>
+                <option *ngFor='let type of typeList' [value]="type">{{type}}</option>
+              </select>
+              <div class="country-code"
+                *ngIf="phoneArray.controls[i].get('type').value !== 'Skype' && phoneArray.controls[i].get('type').value !== 'Messenger'">
+                <input type="text" formControlName="countryCode" class="form-control place-name"
+                  (change)="getCountryFlag($event, i)">
+              </div>
+              <input type="tel" formControlName="number" class="form-control">
+              <div style="margin: 2px 0px 0px 5px" (click)="removeSelectedPhone(i)">
+                <img src="../../../../../../../assets/images/Close-icon.svg">
+              </div>
+            </div>
+            <div *ngIf="isSubmitted">
+              <div class="error-message"
+                *ngIf="phoneArray.controls[i].get('type').errors && phoneArray.controls[i].get('type').errors.required || phoneArray.controls[i].get('countryCode').errors && phoneArray.controls[i].get('countryCode').errors.required || phoneArray.controls[i].get('number').errors && phoneArray.controls[i].get('number').errors.required">
+                Please enter valid phone number! </div>
+            </div>
+          </div>
+          <div class="check-box">
+            <input class="styled-checkbox" formControlName="phoneTicked" type="checkbox">
+          </div>
+          <a (click)="addAnotherPhone()">
+            + Add Another
+          </a>
+          <!-- <div class="check-box">
+          </div> -->
+        </div>
+        <div class="form-group website-box">
+          <label for="usr">Website</label>
+          <input formControlName="website" type="text" class="form-control">
+          <div class="check-box">
+            <input class="styled-checkbox" formControlName="websiteTicked" type="checkbox">
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" formControlName="orgTicked" value="">
+              My organization doesn’t have a street address
+            </label>
+          </div>
+        </div>
+        <div *ngIf="!businessProfileForm.get('orgTicked').value" class="address-box">
+          <div class="form-group etc-box">
+            <label for="usr">Apt, Suite, etc.</label>
+            <input formControlName="apt" type="text" class="form-control">
+            <div class="check-box">
+              <input class="styled-checkbox" formControlName="aptTicked" type="checkbox">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="usr">Address</label>
+            <input formControlName="address" type="text" class="form-control">
+          </div>
+          <div class="form-group city-box">
+            <label for="usr">City</label>
+            <input formControlName="city" type="text" class="form-control">
+          </div>
+          <div class="form-group state-box">
+            <label for="usr">State/Province</label>
+            <input formControlName="state" type="text" class="form-control">
+          </div>
+          <div class="form-group zip-box">
+            <label for="usr">Zip/Post code</label>
+            <input formControlName="zipcode" type="text" class="form-control">
+          </div>
+          <div class="form-group country-box">
+            <label for="usr">Country</label>
+            <input formControlName="country" type="text" class="form-control">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="business-avatar-section">
+      <!-- <div class="main-ttl">
+        Business Avatar:
+      </div> -->
+      <div class="inside-user-info-section">
+        <div class="user-profile-pic">
+          <img class="avatar-inner"
+            [src]="imagePreview ? mediaURL + imagePreview : '../../../../../../../assets/images/nav-logo.svg'"
+            *ngIf="imagePrevOfRes">
+          <img class="avatar-inner"
+            [src]="imagePreview ? imagePreview : '../../../../../../../assets/images/nav-logo.svg'"
+            *ngIf="!imagePrevOfRes">
+        </div>
+        <label (click)="openUploadModal()" class="custom-file-upload" style="cursor: pointer;">
+          Edit Avatar
+        </label>
+        <input id="file-upload" type='file' accept="image/png , image/jpeg" (change)='fileupload($event)'>
+        <div class="user-detail-section inside-p15">
+          <div class="user-name">
+            <label>
+              {{businessProfileForm.controls.name.value}}
+            </label>
+          </div>
+          <div class="user-status">
+          </div>
+        </div>
+        <p class="inside-p15 headline-title">
+          {{businessProfileForm.controls.headline.value}}
+        </p>
+        <div class="user-inner-wraper headline-title-bottom inside-p15">
+          <p>
+            {{businessProfileForm.controls.about.value}}
+          </p>
+        </div>
+        <div class="inside-p15 user-inner-wraper" *ngIf="businessProfileForm.get('emailTicked').value">
+          <div class="title">
+            Email
+          </div>
+          <div class="sub-ttl link-txt">
+            {{businessProfileForm.controls.email.value}}
+          </div>
+        </div>
+        <div class="inside-p15 user-inner-wraper" *ngIf="businessProfileForm.get('phoneTicked').value">
+          <div class="title">
+            Phone
+          </div>
+          <div class="sub-ttl" *ngFor="let arr of phoneArray.controls; let i = index">
+            <div>
+              {{arr.value.type}}
+              {{phoneArray.controls[i].get('type').value === 'Skype' || phoneArray.controls[i].get('type').value === 'Messenger' ? '' : arr.value.countryCode.split(' ')[1]}}
+              {{arr.value.number}}
+            </div>
+          </div>
+        </div>
+        <div class="inside-p15 user-inner-wraper" *ngIf="businessProfileForm.get('websiteTicked').value">
+          <div class="title">
+            Website
+          </div>
+          <div class="sub-ttl link-txt">
+            {{businessProfileForm.controls.website.value}}
+          </div>
+        </div>
+        <div class="inside-p15 user-inner-wraper cusotm-pb-30"
+          *ngIf="!businessProfileForm.get('orgTicked').value && businessProfileForm.get('aptTicked').value">
+          <div class="title">
+            Address
+          </div>
+          <div class="sub-ttl">
+            <span *ngIf="businessProfileForm.controls.apt.value">{{ businessProfileForm.controls.apt.value }}</span>
+            <span *ngIf="businessProfileForm.controls.apt.value"> / </span>
+            <span *ngIf="businessProfileForm.controls.address.value">{{ businessProfileForm.controls.address.value }}</span>
+            <br *ngIf="businessProfileForm.controls.apt.value || businessProfileForm.controls.address.value">
+            <span *ngIf="businessProfileForm.controls.city.value">{{ businessProfileForm.controls.city.value }}</span> <span *ngIf="businessProfileForm.controls.state.value">{{businessProfileForm.controls.state.value}}</span> <span *ngIf="businessProfileForm.controls.zipcode.value">{{businessProfileForm.controls.zipcode.value}}</span>
+            <br
+            *ngIf="businessProfileForm.controls.city.value || businessProfileForm.controls.state.value || businessProfileForm.controls.zipcode.value">
+            {{ businessProfileForm.controls.country.value }}
+          </div>
+        </div>
+      </div>
+      <div class="bottom-btn-section">
+        <button class="border-btn">
+          Cancel
+        </button>
+        <button class="green-btn" (click)="submitForm()">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

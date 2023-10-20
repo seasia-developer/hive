@@ -1,0 +1,1186 @@
+<div class="modal-content grid-record-section-wraper">
+  <!-- <div class="modal-header">
+    <img src="../../../../../assets/images/Close-icon.svg" class="close" (click)="closeModal()" data-dismiss="modal">
+  </div> -->
+  <div class="modal-body">
+    <div class="grid-record-inner-section">
+      <div class="left-section">
+        <div class="grid-view-option">
+          <div class="new-record-sub-section" (click)="closeModal()" data-dismiss="modal">
+            <span class="mr-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8zm-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5z"/>
+              </svg>
+            </span>
+            Close
+          </div>
+          <button id="closeRecordModal" hidden data-dismiss="modal"></button>
+          <div class="new-record-sub-section" *ngIf="type=='relation'" (click)="openModal('new')">
+            <img src="../../../../../assets/images/Add new.svg">
+            New
+          </div>
+          <div class="modify-sub-section" *ngIf="type=='relation'" (click)="redirectBuilder()">
+            <img src="../../../../../assets/images/ico-edit.svg">
+            Modify
+          </div>
+          <div class="following-sub-section" (click)="followRecord()">
+            <div class="img-wraper">
+              <img src="../../../../../assets/images/ico-follow-blank.svg">
+              <div class="follow-count">{{followers.length}}</div>
+            </div>
+            {{followers.includes(userData.owner) ? "Unfollow" : "Follow"}}
+            <!-- <span *ngIf="followers.length">{{followers.length}}</span> -->
+          </div>
+          <!-- <div class="Like-sub-section">
+            <img src="../../../../../assets/images/like.svg">
+            Like
+          </div> -->
+          <div class="Share-sub-section" *ngIf="type=='relation'"
+            (click)="openSeparateModal('grid-record-1', gridrecord1)">
+            <img src="../../../../../assets/images/share.svg">
+            Share
+          </div>
+        </div>
+        <form [formGroup]="appForm" *ngIf="formSet">
+          <div *ngFor="let field of appFields">
+            <!-- Text Field -->
+            <div *ngIf="field.type == 'text' && !field.options.Hidden.value">
+              <div class="form-group width-90">
+                <div class="label-info-cls">
+                  <label for="inputdefault">
+                    <img src="../../../../../assets/images/Text-icon-1.svg">
+                    {{field.label}}
+                  </label>
+                  <div class="information-icon-title" *ngIf="field.options.helpText">
+                    <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                      (click)="toggleHelpText(field.label)">
+                  </div>
+                </div>
+                <input *ngIf="field.options.lines === 'Single line'" [formControlName]="field.label"
+                  class="form-control" type="text" (change)="addRecord($event, field)">
+                <textarea *ngIf="field.options.lines === 'Multi line'" class="form-control grid-record-text-area"
+                  rows="2" [id]="field.label" [formControlName]="field.label" (change)="addRecord($event, field)"
+                  (keyup)="setTextAreaLength(field.label)"></textarea>
+
+                <div class="tooltip-section" *ngIf="field.options.helpText && (showHelpText === field.label)">
+                  {{field.options.helpText}}
+                </div>
+              </div>
+            </div>
+
+            <!-- Number Fields -->
+            <div *ngIf="field.type == 'number' && !field.options.Hidden.value">
+              <div class="form-group width-90">
+                <div class="label-info-cls">
+                  <label for="inputdefault">
+                    <img src="../../../../../assets/images/display_icons/number.svg">
+                    {{field.label}}
+                  </label>
+                  <div class="information-icon-title" *ngIf="field.options.helpText">
+                    <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                      (click)="toggleHelpText(field.label)">
+                  </div>
+                </div>
+                <input [id]="field.label" [formControlName]="field.label" class="form-control" type="text"
+                  (change)="addRecord($event, field)"
+                  [cleave]="{numeral: true, numeralDecimalScale: field.options.display.includes('four') ? 4 : field.options.display.includes('two') ? 2 : 0 }">
+                <div class="tooltip-section number-tooltip"
+                  *ngIf="field.options.helpText && (showHelpText === field.label)">
+                  {{field.options.helpText}}
+                </div>
+              </div>
+            </div>
+
+            <!-- Image field -->
+            <div class="upload-section" *ngIf="field.type == 'image' && !field.options.Hidden.value">
+              <div class="form-group width-90">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/attachment.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+
+                <div class="upload-file-section">
+                  <button (click)="openUploadModal(field)">
+                    Attach File
+                  </button>
+                </div>
+                <!-- <ngx-dropzone (change)="addRecord($event, field)">
+                </ngx-dropzone> -->
+
+                <mat-progress-bar *ngIf="showProgress && selectedImageField._id === field._id" mode="determinate"
+                  [value]="progress"></mat-progress-bar>
+
+                <div *ngIf="imageDisplayData" class="upload-img-wraper-section pb-3">
+                  <div class="upload-img-wraper" *ngFor="let file of imageDisplayData[field.label]; index as i;"
+                    (click)="openImages(imageDisplayData[field.label], i)" data-toggle="modal"
+                    data-target="#recordimgmodal">
+
+                    <!-- <img class="user-upload-pic" [src]="file.source"> -->
+
+                     <!-- IMAGE VIEWER  -->
+                    <span *ngIf="!checkTypeAndGetImageDoc(file.source)">
+                      <img class="user-upload-pic cursor-pointer" [src]="file.source">
+                    </span>
+
+                    <!-- DOCX VIEWER COMPONENT  -->
+                    <span *ngIf="checkTypeAndGetImageDoc(file.source)" class="w-100 align-items-center d-flex ngx-doc-thumb cursor-pointer">
+                      <div style="padding-right: 5px;">
+                        <!-- ICON ON EXTENSION -->
+                        <img class="user-upload-pic cursor-pointer" [src]="getFileIconUsingExtension(file.ext)" alt="">
+                      </div>
+                    </span>
+
+                    <img class="close-icon" src="../../../../../assets/images/Close-icon.svg"
+                      (click)="$event.stopPropagation(); removeFile(file, field)">
+                  </div>
+                </div>
+
+                <div class="tooltip-section member-tooltip"
+                  *ngIf="field.options.helpText && (showHelpText === field.label)">
+                  {{field.options.helpText}}
+                </div>
+              </div>
+            </div>
+
+            <!-- Member Field -->
+            <div *ngIf="field.type === 'member' && !field.options.Hidden.value"
+              class="form-group custom-phone custom-member-group">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/Member-icon-1.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <div class="member-list-wraper" (click)="toggleMembersList(field.label)" id="members-menu">
+                <!-- <label>
+                  Select Member
+                </label> -->
+                <!-- <div class="member-list-box-inner"
+                  *ngIf="membersList && membersList[field.label] && membersListMenu === field.label">
+                  <ul>
+                    <li *ngFor="let user of membersList[field.label]; let i = index"
+                      (click)="addRecord(user, field, 'add', i)">
+                      <img [src]="user.avatar">
+                      {{user.firstName}} {{user.lastName}}
+                    </li>
+                  </ul>
+                </div> -->
+                <div class="member-list-box-inner"
+                  *ngIf="membersList && membersList[field.label] && membersListMenu === field.label">
+                  <ul [id]="field.label">
+                    <li *ngFor="let user of membersList[field.label]; let i = index"
+                      (click)="addRecord(user, field, 'add', i)" id="member-list">
+                      <img [src]="user.avatar">
+                      {{user.firstName}} {{user.lastName}}
+                    </li>
+                  </ul>
+                </div>
+                <div *ngIf="selectedMembers && selectedMembers[field.label]" class="member-drop-select-member-section">
+                  <ul>
+                    <li *ngFor="let member of selectedMembers[field.label]; let i = index">
+                      <label class="mb-0">
+                        <img [src]="member.avatar" class="user-img">
+                        {{member.name}}
+                        <img src="../../../../../../../assets/images/close-button.svg" (click)="removeMember(field, i)"
+                          class="cancel-btn">
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- <div *ngIf="selectedMembers && selectedMembers[field.label]" class="select-member-section">
+                <span *ngFor="let member of selectedMembers[field.label]; let i = index">
+                  <img [src]="member.avatar" class="user-img">
+                  <label class="mb-0">
+                    {{member.name}}
+                  </label>
+                  <img src="../../../../../assets/images/cancel.svg" (click)="removeMember(field, i)"
+                    class="close-icon">
+                </span>
+              </div> -->
+
+              <div class="tooltip-section member-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+
+            <!-- Link Field -->
+            <div class="form-group width-90" *ngIf="field.type === 'link' && !field.options.Hidden.value">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/link.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <!-- Link preview -->
+              <div class="link-wraper" *ngIf="linkPreviewData && linkPreviewData[field.label]">
+                <div class="close-btn">
+                  <img src="../../../../../assets/images/dark-cancel.svg">
+                </div>
+                <div class="link-section-body" [innerHTML]="linkPreviewData[field.label].html"></div>
+              </div>
+              <input [formControlName]="field.label" class="form-control" type="text"
+                (change)="addRecord($event, field)">
+              <div class="tooltip-section like-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+
+            <!-- Phone field -->
+            <div *ngIf="field.type === 'phone' && !field.options.Hidden.value" class="width-90 form-group custom-phone">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/phone.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <div [formArrayName]="field.label" *ngFor="let a of arrayControl(field.label); let i = index">
+                <div [formGroupName]="i" class="drop-txt-wraper-box">
+                  <div class="custom-drop-txt-wraper">
+                    <div class="custom-drop">
+                      <select class="form-control" formControlName="type" (change)="addRecord($event, field)">
+                        <option disabled>Select Type</option>
+                        <option *ngFor="let type of phoneTypes" [value]="type">{{type}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <input class="form-control" (change)="addRecord($event, field)" type="tel" formControlName="number">
+
+                  <div class="tooltip-section phone-tooltip"
+                    *ngIf="field.options.helpText && (showHelpText === field.label)">
+                    {{field.options.helpText}}
+                  </div>
+                </div>
+              </div>
+              <a class="add-another-email" (click)="addAnotherPhone(field.label)">
+                +&nbsp;Add Another
+              </a>
+            </div>
+
+            <!-- Email field -->
+            <div *ngIf="field.type === 'email' && !field.options.Hidden.value" class="form-group custom-phone width-90">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/email.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <div [formArrayName]="field.label" *ngFor="let a of arrayControl(field.label); let i = index">
+                <div [formGroupName]="i" class="drop-txt-wraper-box">
+                  <div class="custom-drop-txt-wraper">
+                    <div class="custom-drop">
+                      <select class="form-control" formControlName="type" (change)="addRecord($event, field)">
+                        <option disabled>Select Type</option>
+                        <option *ngFor="let type of emailTypes" [value]="type">{{type}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <input class="form-control" (change)="addRecord($event, field)" type="text" formControlName="text">
+                  <div class="tooltip-section email-tooltip"
+                    *ngIf="field.options.helpText && (showHelpText === field.label)">
+                    {{field.options.helpText}}
+                  </div>
+                </div>
+              </div>
+              <a class="add-another-email" (click)="addAnotherEmail(field.label)">
+                +&nbsp;Add Another
+              </a>
+            </div>
+
+            <!-- Money field -->
+            <div *ngIf="field.type === 'money' && !field.options.Hidden.value" class="form-group custom-phone width-90">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/money.svg" class="card-icon">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <div class="custom-drop-txt-wraper">
+                <div class="custom-drop">
+                  <select class="form-control" [formControlName]="field.label+'Type'"
+                    (change)="addRecord($event, field)" #moneyType>
+                    <option disabled>Select Type</option>
+                    <option *ngFor="let type of moneyTypes">{{type}}</option>
+                  </select>
+                </div>
+                <input class="form-control" (keypress)="numberOnly($event)"
+                  (change)="addRecord($event, field, moneyType.value)" id="inputdefault" type="text"
+                  [formControlName]="field.label">
+                <div class="tooltip-section money-tooltip"
+                  *ngIf="field.options.helpText && (showHelpText === field.label)">
+                  {{field.options.helpText}}
+                </div>
+              </div>
+            </div>
+
+            <!-- Date Field -->
+            <div *ngIf="field.type === 'date' && !field.options.Hidden.value"
+              class="form-group date-section date-position-relative-filed width-90">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/date.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <div class="date-section-inner custom-mobile-start-date">
+                <div class="left-date-section">
+                  <input *ngIf="field.options.display !== 'Show end date'" class="form-control" bsDatepicker
+                    (onHidden)="closeDp()" (onShown)="dpShown = true"
+                    (bsValueChange)="dpValueChange($event, field, 'start')" type="text"
+                    [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'MM/DD/YYYY' }"
+                    [formControlName]="field.label" placeholder="MM/DD/YYYY">
+                  <input class="form-control" *ngIf="field.options.display === 'Show end date'" bsDatepicker
+                    (onHidden)="closeDp()" (onShown)="dpShown = true"
+                    (bsValueChange)="dpValueChange($event, field, 'start')" type="text"
+                    [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'MM/DD/YYYY' }"
+                    [formControlName]="field.label" placeholder="MM/DD/YYYY"
+                    [maxDate]="this.appForm.controls[field.label+'End'].value">
+                </div>
+                <div class="right-date-section">
+                  <input *ngIf="field.options.display === 'Show end date'" class="form-control" bsDatepicker
+                    (onHidden)="closeDp()" (onShown)="dpShown = true"
+                    (bsValueChange)="dpValueChange($event, field, 'end')" type="text"
+                    [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'MM/DD/YYYY' }"
+                    [formControlName]="field.label+'End'" placeholder="MM/DD/YYYY"
+                    [minDate]="this.appForm.controls[field.label].value">
+                </div>
+              </div>
+              <div class="tooltip-section date-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+
+            <!-- Category Field -->
+            <div *ngIf="field.type === 'category'" class="form-group width-90">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/category.svg" class="card-icon">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <div class="custom-drop-txt-wraper" hidden>
+                <div class="custom-drop">
+                  <select class="form-control" [formControlName]="field.label" (change)="addRecord($event, field)">
+                    <option disabled value="">Select a category</option>
+                    <option *ngFor="let option of field.options.selectOptions" [value]="option.label">{{option.label}}
+                    </option>
+                  </select>
+                </div>
+                <div class="tooltip-section category-tooltip"
+                  *ngIf="field.options.helpText && (showHelpText === field.label)">
+                  {{field.options.helpText}}
+                </div>
+              </div>
+              <!-- Inline -->
+              <div class="category-choice-wraper" *ngIf="field.options.display === 'Inline'">
+                <div *ngFor="let option of field.options.selectOptions" class="category-choice-option"
+                  [ngStyle]="{'background-color': selectedCategoryOptions[field._id] && selectedCategoryOptions[field._id].includes(option.id) ? option.color : 'white'}"
+                  (click)="selectCategoryOption(option, field)">
+                  {{option.label}}
+                </div>
+              </div>
+
+
+              <!-- List -->
+              <div class="category-choice-list-wraper" *ngIf="field.options.display === 'List'">
+                <div class="category-choice-list-option" *ngFor="let option of field.options.selectOptions"
+                  (click)="selectCategoryOption(option, field)"
+                  [ngStyle]="{'background-color': selectedCategoryOptions[field._id] && selectedCategoryOptions[field._id].includes(option.id) ? option.color : 'white'}">
+                  {{option.label}}
+                </div>
+              </div>
+
+              <!-- Dropdown -->
+              <div class="category-choice-drop-down-wraper" *ngIf="field.options.display === 'Drop-down list'">
+                <div class="category-choice-select-txt" id="category-dropdown">
+                  {{selectedCategoryMultipleOptions[field._id] ? selectedCategoryMultipleOptions[field._id] : 'No Value'}}
+                  <img src="../../../../../assets/images/ico-back.svg" id="category-dropdown"
+                    (click)="showCategoryDropdown = showCategoryDropdown === field._id ? '' : field._id"
+                    style="cursor: pointer;">
+                  <ul *ngIf="showCategoryDropdown === field._id && !recordData.record.readOnly" id="category-dropdown">
+                    <li *ngFor="let option of field.options.selectOptions" id="category-dropdown"
+                      (click)="selectCategoryOption(option, field)"
+                      [ngStyle]="{'background-color': selectedCategoryOptions[field._id] && selectedCategoryOptions[field._id].includes(option.id) ? option.color : 'white'}">
+                      {{option.label}}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Duration Field -->
+            <div *ngIf="field.type === 'duration' && !field.options.Hidden.value" class="form-group"
+              [formGroupName]="field.label">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/duration.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <div class="custom-time-duration">
+                <div class="duration-item" *ngIf="field.options['Display days']">
+                  <input class="form-control" (keyup)="durationChange($event, field)" id="days" type="number"
+                    formControlName="days">
+                  <span>Days</span>
+                </div>
+                <div class="duration-item" *ngIf="field.options['Display hours']">
+                  <input class="form-control" (keyup)="durationChange($event, field)" id="hours" type="number"
+                    formControlName="hours">
+                  <span>Hours</span>
+                </div>
+                <div class="duration-item" *ngIf="field.options['Display minutes']">
+                  <input class="form-control" (keyup)="durationChange($event, field)" id="minutes" type="number"
+                    formControlName="minutes">
+                  <span>Minutes</span>
+                </div>
+                <div class="duration-item" *ngIf="field.options['Display seconds']">
+                  <input class="form-control" (keyup)="durationChange($event, field)" id="seconds" type="number"
+                    formControlName="seconds">
+                  <span>Seconds</span>
+                </div>
+              </div>
+
+              <div class="tooltip-section duration-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+
+            <!-- Progress Field -->
+            <div *ngIf="field.type === 'progress' && !field.options.Hidden.value" class="form-group">
+              <div class="label-info-cls">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/progress.svg">
+                  {{field.label}}
+                </label>
+                <div class="information-icon-title" *ngIf="field.options.helpText">
+                  <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                    (click)="toggleHelpText(field.label)">
+                </div>
+              </div>
+              <div class="duration-count" *ngIf="progressData && progressData[field.label]">
+                {{progressData[field.label]}}%</div>
+              <div class="duration-count" *ngIf="!progressData || !progressData[field.label]">0%</div>
+              <mat-slider min="0" max="100" (change)="addRecord($event, field)" [formControlName]="field.label">
+              </mat-slider>
+              <!-- <input class="form-control" (change)="addRecord($event, field)" type="date"
+                    [formControlName]="field.label" placeholder="datepicker"> -->
+
+              <div class="tooltip-section progress-tooltip"
+                *ngIf="field.options.helpText && (showHelpText === field.label)">
+                {{field.options.helpText}}
+              </div>
+            </div>
+
+            <!-- Location Field -->
+            <div *ngIf="field.type == 'location' && !field.options.Hidden.value">
+              <div class="form-group">
+                <div class="label-info-cls">
+                  <label for="inputdefault">
+                    <img src="../../../../../assets/images/display_icons/location.svg">
+                    {{field.label}}
+                  </label>
+                  <div class="information-icon-title" *ngIf="field.options.helpText">
+                    <img src="../../../../../assets/images/information.svg" id="tooltip-info"
+                      (click)="toggleHelpText(field.label)">
+                  </div>
+                </div>
+                <input *ngIf="field.options.display === 'Single line address'" [formControlName]="field.label"
+                  class="form-control" type="text" (keyup)="getGeoCode($event, field)">
+                <div
+                  *ngIf="mapSuggestion && mapSuggestion[field.label] && (field.options.display === 'Single line address')"
+                  class="location-suggestion">
+                  <div *ngFor="let item of mapSuggestion[field.label]" (click)="getMap(item, field, 'single')">
+                    {{item.address}}
+                  </div>
+                </div>
+                <div *ngIf="field.options.display === 'Multi-line address'"
+                  class="form-group location-multiline-section" [formGroupName]="field.label">
+                  <label>
+                    Street Address
+                  </label>
+                  <input formControlName="streetAddress" class="form-control" type="text"
+                    (keyup)="getGeoCode($event, field)">
+                  <div *ngIf="mapSuggestion[field.label] && (field.options.display === 'Multi-line address')"
+                    class="location-suggestion">
+                    <div *ngFor="let item of mapSuggestion[field.label]" (click)="getMap(item, field, 'multi')">
+                      {{item.address}}
+                    </div>
+                  </div>
+                  <label>
+                    Postal Code
+                  </label>
+                  <input formControlName="postalCode" class="form-control" type="text"
+                    (change)="addRecord($event, field, 'self-changed')">
+                  <label> City
+                  </label>
+                  <input formControlName="city" class="form-control" type="text"
+                    (change)="addRecord($event, field, 'self-changed')">
+                  <label> State
+                  </label>
+                  <input formControlName="state" class="form-control" type="text"
+                    (change)="addRecord($event, field, 'self-changed')">
+                  <label> Country
+                  </label>
+                  <input formControlName="country" class="form-control" type="text"
+                    (change)="addRecord($event, field, 'self-changed')">
+                </div>
+                <div class="map-img" *ngIf="field.options['Show map']">
+                  <img *ngIf="mapData && mapData[field.label] && mapData[field.label].map"
+                    [src]="mapData[field.label].map">
+                </div>
+
+                <div class="tooltip-section location-tooltip"
+                  *ngIf="field.options.helpText && (showHelpText === field.label)">
+                  {{field.options.helpText}}
+                </div>
+              </div>
+            </div>
+            <!-- Relation ship Field -->
+            <div *ngIf="field.type =='relationship' && !field.options.Hidden" class="relationship-wraper-section">
+              <div class="form-group">
+                <label for="inputdefault">
+                  <img src="../../../../../assets/images/display_icons/relationship.svg">
+                  {{field.label}}
+                </label>
+                <div *ngIf="selectedRecord && selectedRecord[field.label]" class="relationship-wraper-inner">
+                  <div class="relationship-wraper" *ngFor="let record of selectedRecord[field.label]; let i = index;">
+                    <div *ngIf="record.recordName">
+                      <div class="top-section" (click)="openRelationRecordModal(record)">
+                        <label>
+                          {{record.recordName}}
+                        </label>
+                        <img src="../../../../../assets/images/ico-arro.svg">
+                      </div>
+                      <div class="bottom-section">
+                        <div class="left-section">
+                          <div class="start-custom-drop" *ngIf="record.categoryObj"
+                            [style.background-color]="record.selectedCategoryColor">
+                            <div class="custom-start-custom-dro-inner" (click)="record.showOptions=!record.showOptions"
+                              (clickOutside)="record.showOptions=false">
+                              <div [ngClass]="{'active':cat.id==record.selectedCategory}"
+                                *ngFor="let cat of record.categoryObj">
+                                <p *ngIf="cat.id==record.selectedCategory"> {{cat.label}}</p>
+                              </div>
+                              <img src="../../../../../assets/images/drop-down-icon.svg" alt="">
+                            </div>
+                            <div class="custom-drop-inner-section" *ngIf="record.showOptions">
+                              <ul>
+                                <li [ngClass]="{'active':cat.id==record.selectedCategory}"
+                                  *ngFor="let cat of record.categoryObj" (click)="changeCategory(cat, record,field)">
+                                  {{cat.label}}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <label class="mb-0">
+                            {{record.application_id.name}} in {{record.workspace_id.name}} - 10d
+                          </label>
+                        </div>
+                        <div class="right-section" *ngIf="record.memberObj">
+                          <div class="user-pic-section">
+                            <img [src]="record.memberObj.avatar">
+                            <label>
+                              {{record.memberObj.name}}
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="search-section-inner-wraper-drop-down">
+                <div class="form-group search-section-grid-section" *ngIf="field.relationSearch"
+                  (keyup)='getAppList($event,field)' (click)='getAppList($event,field)'>
+                  <div *ngIf="selectedRecord && selectedRecord[field.label]" class="relation-select-member-section">
+                    <ul>
+                      <li *ngFor="let record of selectedRecord[field.label]; let i = index">
+                        <label class="mb-0">
+                          {{record.recordName}} <img src="../../../../../../../assets/images/cancel.svg"
+                            (click)="removeRecord(record, i,field)" class="cancel-icon">
+                        </label>
+                      </li>
+                    </ul>
+                  </div>
+                  <input class="form-control" type="text" id="{{field._id}}"
+                    placeholder="Click to choose or type to search">
+                </div>
+                <div class="search-inner-section" *ngIf="field.appRecords?.length > 0 && displayApps"
+                  (clickOutside)="displayApps=false">
+                  <ul *ngFor="let app of field.appRecords; index as index">
+                    <div class="main-ttl">
+                      {{app.application.name}}
+                    </div>
+                    <div *ngIf="app.list">
+                      <li *ngFor="let record of app.list;">
+                        <div *ngIf="record.recordName">
+                          <label for="" (click)="selectRecord(app,record,field)">
+                            {{record.recordName}}
+                          </label>
+                          <span>
+                            {{app.application.organization_id.name}}
+                          </span>
+                        </div>
+                      </li>
+                    </div>
+                    <div class="no-data-found" *ngIf="app.application && app.application.length === 0">
+                      No Application found
+                    </div>
+                  </ul>
+                </div>
+              </div>
+              <button class="add-remove-btn" (click)="displaySearch(field)">
+                ADD / REMOVE
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="right-section">
+        <ul class="nav nav-tabs">
+          <li [ngClass]="{active: selectedModalTab === 'activity'}" (click)="selectedModalTab = 'activity'"><a
+              data-toggle="tab" href="#activity">activity</a></li>
+          <li [ngClass]="{active: selectedModalTab === 'comments'}" (click)="selectedModalTab = 'comments'"><a
+              data-toggle="tab" href="#comments">comments</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="activity" class="tab-pane fade in active show">
+            <div class="tab-section">
+
+              <div #recordScrollContainer class="user-msg-section" *ngIf="selectedModalTab === 'activity'">
+                <div class="user-msg-wraper" *ngFor="let activity of appActivities">
+                  <div class="user-name-time">
+                    <label class="cursor-pointer" (click)="goToPublicProfile(activity.user._id)">
+                      {{ activity.user.firstName }} {{ activity.user.lastName }}
+                    </label>
+                    <span>
+                      {{ activity.createdAt | dateFormat }}
+                    </span>
+                  </div>
+                  <div class="user-comment-box">
+                    <img *ngIf="activity.user" [src]="activity.user.avatar">
+                    <div *ngIf="activity.activity_type" class="user-comment-box-inner">
+                      <div *ngIf="activity.cells && activity.cells.length" class="business-txt-section">
+                        <p *ngFor="let cell of activity.cells; let j=index">
+                          <span *ngIf="activity.application_id.toString() == cell.field_id.application_id.toString()">
+                            {{cell?.field_id?.label}}:
+                            <a class="anchorCls"
+                              *ngIf="(cell.old_value[0].text && cell.old_value[0].text.length <=20 && cell.type === 'string') || cell.old_value[0].number || cell.old_value[0].date">
+                              {{cell.old_value[0].text || cell.old_value[0].number || (cell.old_value[0].date && cell.old_value[0].end ? (cell.old_value[0].date| date : 'MMM d, y')  +'-'+ (cell.old_value[0].end| date : 'MMM d, y') :(cell.old_value[0].date ? (cell.old_value[0].date| date : 'MMM d, y'):""))}}
+                            </a>
+                            <a class="anchorCls" *ngIf="cell.old_value[0].tel">
+                              <span *ngFor="let item of cell.old_value[0].tel; let i = index">
+                                {{item.number || item.type}}<span *ngIf="i != (cell.old_value[0].tel.length - 1)">,
+                                </span>
+                              </span>
+                            </a>
+                            <a class="anchorCls" *ngIf="cell.record && cell.record.length<20">
+                              <span>
+                                {{cell.record}}
+                              </span>
+                            </a>
+                            <a class="anchorCls" *ngIf="cell.type === 'object' && !cell.record">
+                              <span *ngFor="let item of cell.old_value[0].text; let i = index">
+                                {{item.text || item.type}}<span *ngIf="i != (cell.old_value[0].text.length - 1)">,
+                                </span>
+                              </span>
+                            </a>
+                            <a class="anchorCls"
+                              *ngIf="(!cell.old_value[0].text && !cell.old_value[0].number && !cell.old_value[0].date) && !cell.old_value[0].tel || (cell.old_value[0].text && cell.old_value[0].text.length >20) || (cell.old_value[0].text && (cell.record && cell.record.length>20))">
+                              Changed
+                            </a>
+                            <img src="../../../../../assets/images/eye.svg" *ngIf='cell?.field_id?.type!="calculator"'
+                              (click)='openRevisionModal(appActivities,revisionhistory,cell.field_id._id,cell,j,activity)'>
+                          </span>
+                        </p>
+                      </div>
+                      <div *ngIf="(activity.cells && !activity.cells.length)">
+                        {{activity.activity_text}}
+                      </div>
+                    </div>
+                    <div *ngIf="!activity.activity_type"
+                      class="user-comment-box-inner user-reference user-comment-wraper-box">
+                      <div [innerHTML]="activity.comment_text"></div>
+                      <div class="user-action-post-section" *ngIf="activity.image && activity.image.length>0">
+                        <div class="img-section">
+                          <img *ngFor="let avatar of activity.image" [src]="mediaUrl+avatar.attachment.path">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="user-msg-section user-comment-msg-section" *ngIf="selectedModalTab === 'comments'">
+                <div class="user-msg-wraper" *ngFor="let data of appComments">
+                  <div class="user-name-time">
+                    <label class="cursor-pointer" (click)="goToPublicProfile(data.user_id._id)">
+                      {{data.user_id.firstName}} {{data.user_id.lastName}}
+                    </label>
+                    <span>
+                      {{data.createdAt | dateFormat}}
+                    </span>
+                  </div>
+                  <div class="user-comment-box">
+                    <img [src]="data.user_id.avatar">
+                    <div class="user-comment-box-inner user-reference">
+                      <div class="user-comments-section-wraper" [innerHTML]="data.comment"></div>
+                      <div class="user-action-post-section" *ngIf="data.image && data.image.length>0">
+                        <div class="img-section">
+                          <img *ngFor="let avatar of data.image" [src]="mediaUrl+avatar.attachment.path">
+                        </div>
+                      </div>
+                      <div class="icon-section">
+                        <img *ngIf="userData.owner === data.user_id._id" src="../../../../../assets/images/ico-edit.svg"
+                          (click)="editRecordComment(data._id, data)">
+                        <img *ngIf="data.isLiked === 'false'" src="../../../../../assets/images/like.svg"
+                          (click)="likeRecordComment(data._id)">
+                        <img *ngIf="data.isLiked === 'true'" src="../../../../../assets/images/blue-like.svg"
+                          (click)="likeRecordComment(data._id)">
+                        <img *ngIf="userData.owner === data.user_id._id"
+                          src="../../../../../assets/images/delete-small.svg" (click)="deleteRecordComment(data._id)">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="user-comment-section user-comment-mention-section mention-user-comment-section"
+                [ngClass]="{readOnlyCommentArea: this.recordData ?  this.recordData.record.readOnly:''}">
+                <img [src]="userData?.avatar ? mediaUrl + userData?.avatar : '../../../../../assets/images/user.png'">
+
+                <!-- <div class="form-control heightUnset" id="commentSectionRecord" type="text" placeholder="Comment"
+                  [mentionListTemplate]="mentionList" (opened)="falseMentionUserSelect()"
+                  (closed)="trueMentionUserSelect()" [mention]="mentionUsersList"
+                  [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentioned, dropUp: true}"
+                  (keyup)="addComment($event)" contenteditable="true" [innerHTML]="editComment"></div>
+                <button (click)="openMentionList()"
+                  style="cursor:pointer; border: none; background: none; bottom: 20px; position: absolute; right: 0;">
+                  @ </button> -->
+
+                  <app-mention-user-list [init]="mentionUsersList"></app-mention-user-list>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="recordimgmodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal body -->
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModalBox()">
+          <img src="../../../../../../assets/images/close-cal.svg">
+        </button>
+        <div id="demo1" class="carousel slide d-flex align-items-center" data-wrap="true" data-ride="carousel">
+          <!-- The slideshow -->
+          <div class="carousel-inner d-flex align-items-center">
+            <div class="carousel-item" [id]="'recordImage-'+i" *ngFor="let image of carouselImages; index as i">
+              <div class="img-box-wraper d-flex flex-column">
+                <!-- <img [src]="image.source"> -->
+
+                <!-- IMAGE VIEWER  -->
+                <span *ngIf="!checkTypeAndGetImageDoc(image.source)">
+
+                  <span *ngIf="image.type === 'vid'">
+
+                    <span *ngIf="image.ext === '.mp4'">
+                      <video width="100%" height="400" controls muted>
+                        <source [src]="image.path" type="video/mp4">
+                        <source [src]="image.path" type="video/ogg">
+                        Your browser does not support the video tag.
+                      </video>
+                    </span>
+
+                    <span *ngIf="image.ext !== '.mp4'">
+                      <p class="text-white text-center">Your browser does not support the video format!</p>
+                      <p class="text-center">
+                        <a target="_blank" [href]="image.path" class="btn btn-success bg-success text-white my-2">Download</a>
+                      </p>
+                    </span>
+
+                  </span>
+
+                  <span *ngIf="image.type !== 'vid' && image.type !== 'audio'">
+                    <img class="user-upload-pic cursor-pointer" [src]="image.source">
+                  </span>
+                </span>
+
+                <!-- DOCX VIEWER COMPONENT  -->
+                <span *ngIf="checkTypeAndGetImageDoc(image.source)" class="w-100 d-flex ngx-doc-thumb cursor-pointer justify-content-center">
+
+                  <span class="w-100 w-full" *ngIf="image.type === 'audio'">
+                    <audio controls muted>
+                      <source [src]="image.path" type="audio/ogg">
+                      <source [src]="image.path" type="audio/mpeg">
+                      Your browser does not support the audio element.
+                    </audio>
+                  </span>
+
+
+                  <div class="position-relative w-100 w-full d-flex justify-content-center align-items-center min-h-100px" *ngIf="image.type !== 'audio'">
+
+                    <!-- LOADER  -->
+                    <div *ngIf="!getSupportedFormat(image.ext)" class="loader-row position-absolute inset-0 my-5 z-index-999">
+                      <div class="loader loader-col"></div>
+                    </div>
+
+                    <!-- IF FILE NOT SUPPORTED  -->
+                    <div *ngIf="getSupportedFormat(image.ext)" class="w-100">
+                      <span *ngIf="image.ext !== '.mp4'">
+                        <p class="text-white text-center">Your browser does not support the file format!</p>
+                        <p class="text-center">
+                          <a target="_blank" [href]="getAttachmentcUrl(image.source,'view')" class="btn btn-success bg-success text-white my-2">Download</a>
+                        </p>
+                      </span>
+                    </div>
+
+                    <!-- IF FILE SUPPORTED  -->
+                    <ngx-doc-viewer *ngIf="!getSupportedFormat(image.ext)"  class="position-relative overflow-hidden z-index-9999" [url]="getAttachmentcUrl(image.source,'view')" viewer="google" disableContent='none'
+                      style="width:100%;height:400px;">
+                    </ngx-doc-viewer>
+
+                 </div>
+
+                </span>
+
+                <p class="text-white d-flex text-center justify-content-center align-items-center my-4">
+
+                <!-- IMAGE OPENER  -->
+                <a *ngIf="!checkTypeAndGetImageDoc(image.source)" class="mx-2 cursor-pointer text-decoration-none text-white" [href]="image.path" target="_blank" >Open</a>
+
+                <!-- DOCX OPENER COMPONENT -->
+                <a *ngIf="checkTypeAndGetImageDoc(image.source)" class="mx-2 cursor-pointer text-decoration-none text-white" [href]="getAttachmentcUrl(image.source,'view')" target="_blank" >Open</a>
+
+                <!-- <span class="mx-2">|</span> -->
+
+                <!-- IMAGE VIEWER -->
+                <!-- <span *ngIf="!checkTypeAndGetImageDoc(image.source)">
+                  <span class="mx-2 cursor-pointer text-decoration-none text-white" (click)="getAttachmentcUrl(image.source,'download')" target="_self" >Download</span>
+                </span> -->
+
+                <!-- DOCX VIEWER COMPONENT -->
+                <!-- <span *ngIf="checkTypeAndGetImageDoc(image.source)">
+                  <span class="mx-2 cursor-pointer text-decoration-none text-white" (click)="getAttachmentcUrl(image.source,'download')" target="_self" >Download</span>
+                </span> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Left and right controls -->
+          <a class="carousel-control-prev" href="#demo1" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </a>
+          <a class="carousel-control-next" href="#demo1" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #mentionList let-item="item">
+  <img [src]="item.avatar && item.avatar !== '' ? mediaUrl + item.avatar : '../../../../../../assets/images/user.png'">
+  {{ item.fullName }}
+</ng-template>
+
+<ng-template #revisionhistory>
+
+  <div class="revision-hostory-modal">
+
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Revision history</h4>
+      <img src="../../../../../assets/images/Close-icon.svg" id="close-revision-modal" class="close pull-right"
+        aria-label="Close" (click)="revisionModalRef.hide()">
+    </div>
+    <div class="modal-body">
+      <div class="top-section">
+        <label>
+          Showing changes to: {{this.recordName}};
+        </label>
+        <button
+          *ngIf='rightRecord &&  (rightRecord | keyvalue)?.length &&  (currentRightIndex < revisionRecord.length - 1) && currentRightIndex >=0'
+          (click)='editRecord(rightRecord)'>
+          Revert to this revision
+        </button>
+      </div>
+      <div class="btn-section">
+        <button class="previous-btn" *ngIf='leftRecord &&  (leftRecord | keyvalue)?.length'
+          (click)='changeRecord("left")'>
+          <img src="../../../../../../assets/images/white-ico-back.svg">
+          Previous revision
+        </button>
+        <button class="next-btn"
+          *ngIf='rightRecord &&  (rightRecord | keyvalue)?.length && (currentRightIndex < revisionRecord.length- 1)'
+          (click)='changeRecord("right")'>
+          Next revision
+          <img src="../../../../../../assets/images/white-ico-next.svg">
+        </button>
+      </div>
+
+
+      <div class="user-detail">
+
+        <div class="left-section">
+          <div class="user-info" *ngIf='leftRecord && (leftRecord | keyvalue)?.length'>
+            <img [src]="leftRecord.user.avatar">
+            <label>
+              {{leftRecord.user.firstName+" "+leftRecord.user.lastName}}
+            </label>
+            <span>
+              {{leftRecord.createdAt  | date:'dd/MM/yyyy hh:mm'}}
+              <!-- 23/10/2019 22:34 -->
+            </span>
+          </div>
+        </div>
+
+        <div class="right-section">
+          <div class="user-info" *ngIf='rightRecord && (rightRecord | keyvalue)?.length'>
+            <img [src]="rightRecord.user.avatar">
+            <label>
+              {{rightRecord.user.firstName+" "+rightRecord.user.lastName}}
+            </label>
+            <span>
+              {{rightRecord.createdAt  | date:'dd/MM/yyyy hh:mm'}}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="user-revision-section">
+        <label>
+          Showing changes to: {{revisionRecord[0].cells[0].field_id.label}}:
+        </label>
+
+        <div class="user-revision-section-inner">
+          <!-- <td-ngx-text-diff [left]="leftVal" [right]="rightVal" [diffContent]="contentObservable$" [showToolbar]=false>
+          </td-ngx-text-diff> -->
+          <div class="left-section">
+            <p [innerHTML]="leftVal"></p>
+          </div>
+
+          <div class="right-section">
+            <p [innerHTML]="rightVal"></p>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+</ng-template>
+<ng-template #gridrecord1>
+  <div class="grid-record-img-modal">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Share {{activeApplication.name}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <div class="ttl">
+        Choose to give access to either
+      </div>
+
+      <div class="access-section">
+        <div class="access-section-inner">
+          <img src="../../../../../../../assets/images/a-modal.svg">
+          <label>
+            Only this Record
+          </label>
+          <p>
+            Share this specific record with one or more people. Good when you want to get a quick feedback.
+          </p>
+
+          <button (click)="openSeparateModal('grid-record-2', gridrecord2, 'record')">
+            Share this record
+          </button>
+        </div>
+        <div class="invite-people-section">
+          <img src="../../../../../../../assets/images/invite-people.svg">
+          <label>
+            Invite to {{activeApplication.workspace_id.name}}
+          </label>
+          <p>
+            One or more people to access the entire {{activeApplication.workspace_id.name}} Group.
+          </p>
+
+          <button (click)="openSeparateModal('grid-record-2', gridrecord2, 'workspace')">
+            Invite to {{activeApplication.workspace_id.name}}
+          </button>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</ng-template>
+<ng-template #gridrecord2>
+  <div class="grid-record-modal" id="grid-modal">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Share
+        {{shareRecordModalType === 'record' ? activeApplication.name : activeApplication.workspace_id.name}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Give access to
+        {{shareRecordModalType === 'record' ? activeApplication.name : activeApplication.workspace_id.name}} only
+      </p>
+      <p>
+        Anyone you add will be able to interact with this item and follow future progress.
+      </p>
+
+      <div class="shared-user-list-custom" *ngFor="let user of selectedShareRecordUsers">
+        <div *ngIf="user.user_id">
+          {{user.user_id.firstName}} {{user.user_id.lastName}} <img src="../../../../../../../assets/images/cancel.svg"
+            (click)="removeSelectedShareRecordUser(user)">
+        </div>
+        <div *ngIf="!user.user_id">
+          {{user}} <img src="../../../../../../../assets/images/cancel.svg"
+            (click)="removeSelectedShareRecordUser(user, 'email-only')">
+        </div>
+      </div>
+
+      <div class="user-type-drop-down">
+        <img src="../../../../../assets/images/user-avtar.svg" class="user-icon">
+        <input type="text" class="form-control" placeholder="Type an email address or username"
+          (keyup)="searchUsers($event)">
+        <img src="../../../../../../../assets/images/light-drop-icon.svg">
+      </div>
+      <div class="kanban-add-section" *ngIf="showRecordEmailOnly">
+        <div class="input-group">
+          {{shareRecordEmailOnly}}
+          <div class="action-section">
+            <button (click)="addUser('')">Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="kanban-add-section" *ngFor="let user of suggestedUsers">
+        <div class="input-group">
+          {{user.user_id.firstName}} {{user.user_id.lastName}}
+          <div class="action-section">
+            <button (click)="addUser(user)"> Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="user-msg-section">
+        <textarea class="form-control" rows="2" placeholder="Write a personal message" (change)="addMessage($event)"
+          autosize></textarea>
+      </div>
+
+
+      <div class="user-role-section" *ngIf="shareRecordModalType === 'workspace'">
+        <label>
+          Role:
+        </label>
+        <div class="custom-drop" id="workspace-role">
+          <label>
+            {{shareWorkspaceRole === 'member' ? "Member" : shareWorkspaceRole === 'admin' ? "Workspace Admin" : "Light Member"}}
+          </label>
+          <img id="workspace-role" src="../../../../../../../assets/images/dark-drop-down-icon.svg"
+            (click)="showWorkspaceRoleOptions = !showWorkspaceRoleOptions">
+
+          <div class="role-option" id="workspace-role" *ngIf="showWorkspaceRoleOptions">
+            <ul id="workspace-role">
+              <li id="workspace-role" (click)="setWorkspaceRole('admin')">
+                Group Admin
+              </li>
+              <li id="workspace-role" (click)="setWorkspaceRole('member')">
+                Member
+              </li>
+              <li id="workspace-role" (click)="setWorkspaceRole('light')">
+                Light member
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="user-info-section" *ngIf="shareRecordModalType === 'record'" (click)="shareRecordCheckBoxClicked()">
+        <label class="check-container">Share
+          {{shareRecordModalType === 'record' ? activeApplication.name : activeApplication.workspace_id.name}} with
+          read-only access
+          <input type="checkbox" id="readOnlyCheckbox" [disabled]="orgPlan !== 'pro'">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="user-info-popup" *ngIf="showUpgradePlanPopup" (clickOutside)="hideUpgradePlanPopup($event)">
+          <p>
+            Sharing an item with read-only access is a feature that is available on the Pro plan. Free and Plus plans
+            have access to the standard item share tool, which gives guests full read and write access on a shared
+            item.
+          </p>
+          <button (click)="upgradePlan()">
+            Upgrade
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="modal-footer text-right">
+      <button (click)="shareRecord()">
+        Add to {{shareRecordModalType === 'record' ? activeApplication.name : activeApplication.workspace_id.name}}
+      </button>
+    </div>
+  </div>
+</ng-template>

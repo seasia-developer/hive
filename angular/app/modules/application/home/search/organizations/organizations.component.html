@@ -1,0 +1,125 @@
+<div class="sort-section">
+
+  <label for="">
+    Sort by:
+  </label>
+
+  <div (clickOutside)="clickedOutside($event)" style="position: relative;"
+    [ngClass]="showMenu === 'location' ? 'custom-drop-section1 location-drop-section show' : 'custom-drop-section1 location-drop-section'">
+    <div id="filter-menu" (click)="toggleMenu('location')"
+      [ngClass]="showMenu === 'location' ? 'custom-drop-section location-drop-section show' : 'custom-drop-section location-drop-section'">
+      <div id="filter-menu">
+        <label id="filter-menu">
+          Location
+        </label>
+        <img id="filter-menu" src="../../../../../assets/images/drop-down-icon.svg">
+      </div>
+    </div>
+
+
+    <div class="custom-drop-section-inner" id="filter-menu" *ngIf="showMenu === 'location'">
+      <div id="filter-menu" class="top-section">
+        <input id="filter-menu" type="text" class="form-control searchCls" (keyup)="searchLocations($event)"
+          placeholder="Add a country/region">
+        <ul *ngIf="displayLocation && (searchedLocations && searchedLocations.length)">
+          <li id="filter-menu" *ngFor="let location of searchedLocations">
+            <label id="filter-menu" class=" check-container"
+              (click)="selectLocationOption($event, location)">{{location.country}}
+            </label>
+          </li>
+        </ul>
+      </div>
+
+
+      <ul>
+        <li id="filter-menu" *ngFor="let location of locationOptions">
+          <label id="filter-menu" class=" check-container">{{location.country}}
+            <input id="filter-menu" type="checkbox"
+              [checked]="filterSettings.organization.location.includes(location.country)"
+              (change)="addLocationOption($event, location.country)">
+            <span id="filter-menu" class="checkmark"></span>
+          </label>
+          <img (click)="removeSettings(location,'location')" id="filter-menu"
+            src="../../../../../../assets/images/ico-close.svg">
+        </li>
+      </ul>
+
+      <div id="filter-menu" class="btn-section text-right">
+        <button id="filter-menu" (click)="saveSettings()">
+          Apply
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div (clickOutside)="clickedOutside($event)" style="position: relative;" [ngClass]="showMenu === 'employee' ? 'custom-drop-section1 employees-drop-section show' : 'custom-drop-section1 employees-drop-section'">
+    <div id="filter-menu" (click)="toggleMenu('employee')"
+      [ngClass]="showMenu === 'employee' ? 'custom-drop-section employees-drop-section show' : 'custom-drop-section employees-drop-section'">
+      <div id="filter-menu">
+        <label id="filter-menu">
+          Employees
+        </label>
+        <img id="filter-menu" src="../../../../../assets/images/drop-down-icon.svg">
+      </div>
+    </div>
+
+    <div class="custom-drop-section-inner" id="filter-menu" *ngIf="showMenu === 'employee'">
+      <ul>
+        <li id="filter-menu" *ngFor="let size of employees">
+          <label id="filter-menu" class=" check-container">{{size}}
+            <input id="filter-menu" type="checkbox" [checked]="filterSettings.organization.employees.includes(size)"
+              (change)="addEmployeeOption($event, size)">
+            <span id="filter-menu" class="checkmark"></span>
+          </label>
+        </li>
+      </ul>
+
+      <div class="btn-section text-right">
+        <button id="filter-menu" (click)="saveSettings()">
+          Apply
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="showing-section" *ngIf="helperService.searchKeyword">
+  <p>
+    Showing {{totalOrg}} results for {{helperService.searchKeyword}}
+  </p>
+</div>
+
+<div class="user-list">
+
+  <div class="user-box d-flex align-items-center" *ngFor="let org of organizations">
+    <div class="user-info d-flex align-items-center">
+      <div class="user-img">
+        <img [src]="org.avatar">
+      </div>
+      <div class="user-detail">
+        <div class="user-name">
+          <a style="cursor: pointer;" routerLink="/application/home/org-profile"
+            [queryParams]="{ organizationId: org._id,type:'profile'}">{{org.name}}</a>
+        </div>
+        <div class="user-followers">
+          {{org.size}} <span *ngIf="org.totalFollow"> - {{org.totalFollow}} followers</span>
+        </div>
+        <div class="user-about">
+          {{org.about}}
+        </div>
+      </div>
+    </div>
+    <div class="user-action d-flex flex-column">
+      <button [ngClass]="{'active':org.follow && org.follow=='true'}"
+        (click)='following(org)'>{{org.follow && org.follow=='true' ? "Following":"Follow"}}</button>
+      <button>
+        <a style="cursor: pointer;" routerLink="/application/home/org-profile"
+          [queryParams]="{ organizationId: org._id,type:'profile'}">Contact</a>
+      </button>
+    </div>
+  </div>
+</div>

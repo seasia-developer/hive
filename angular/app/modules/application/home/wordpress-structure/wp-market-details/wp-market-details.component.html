@@ -1,0 +1,206 @@
+<div class="contnet-section d-flex">
+  <div class="market-left-side-section">
+    <div class="main-ttl" (click)="goToMarket()">
+      CATEGORIES
+    </div>
+    <ul>
+      <li *ngFor="let category of categorys">
+        <a (click)="getMarketWorkspace(category._id)">{{category.Title}}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="market-right-side-section" *ngIf="marketDetail">
+    <!-- <button class="workspace-btn" data-toggle="modal" data-target="#marketassignmodal">
+      Use this Workspace
+    </button> -->
+    <!-- Modal -->
+      <div class="modal fade ignoreBackdropClick" id="marketassignmodal" ignoreBackdropClick="true" aria-hidden="true" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static"  config="{ignoreBackdropClick: true, keyboard: false}">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="close" id="closeModal" data-dismiss="modal">
+              <img src="../../../../../assets/images/white-cancel.svg">
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="workspace-body-section">
+              <div class="inner-section right-inner-section">
+                <div class="ttl">
+                  Choose a Group
+                </div>
+                <p>
+                  Add this Group to an existing Group
+                </p>
+                <div class="form-group select-drop">
+                  <span (click)="toggleOrgWsList()">
+                    <label style="cursor: pointer;">{{ selectedWorkspace.name || "Select a workspace" }}</label>
+                    <img style="cursor: pointer;" src="../../../../../assets/images/drop-down-icon.svg">
+                  </span>
+                  <div *ngIf="showOrgWsList" class="select-drop-inner">
+                  </div>
+                  <!-- <select class="form-control" id="sel1">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                    </select> -->
+                </div>
+                <!-- <input type="text"> -->
+                <button (click)="cloneWorkspace('id')">
+                  Lets go
+                </button>
+              </div>
+              <div class="inner-section">
+                <div class="ttl">
+                  Create a New Group
+                </div>
+                <p>
+                  What name will the new Group be called?
+                </p>
+                <div class="form-group select-drop-right">
+                  <select style="cursor: pointer;" class="form-control" id="organization" #org>
+                    <option *ngFor="let org of orgWsList" [value]="org._id">{{ org.name }}</option>
+                  </select>
+                  <img src="../../../../../assets/images/drop-down-icon.svg">
+                </div>
+                <input type="text" #workspaceName placeholder="Workspace name">
+                <button (click)="cloneWorkspace('name', org.value, workspaceName.value)">
+                  Lets go
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="marketplace-workspace-overview-section">
+      <div class="banner-section">
+        <img [src]="marketDetail.image ? mediaUrl + marketDetail.image : '../../../../../assets/images/banner-img.png'">
+      </div>
+      <div class="img-detail-section d-flex">
+        <div class="left-section">
+          <div class="main-ttl">
+            {{marketDetail.title}}
+          </div>
+          <div class="hashlink-section">
+            <ul>
+              <li *ngFor="let item of categories">
+                {{item.Title}}
+              </li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <p>
+              {{marketDetail.description}}
+            </p>
+          </div>
+        </div>
+        <div class="right-section">
+          <button class="workspace-btn" (click)="checkAuth()">
+            Use this Group
+          </button>
+          <div class="created-user-detail">
+            <div class="user-detail-section-inner">
+              <div class="user-by">
+                Your Rating:
+              </div>
+              <div class="user-name">
+                <b *ngFor="let item of [1,2,3,4,5]">
+                  <img *ngIf="rated >= item" src="../../../../../assets/images/fill-star.svg">
+                  <img *ngIf="rated < item" src="../../../../../assets/images/star.svg">
+                </b>
+                <img class="cancel-btn" src="../../../../../assets/images/dark-cancel.svg">
+              </div>
+            </div>
+            <div class="user-detail-section-inner">
+              <div class="user-by">
+                Overall Rating:
+              </div>
+              <div class="user-name">
+                <b *ngFor="let rating of [1,2,3,4,5]">
+                  <img *ngIf="avgRating >= rating" src="../../../../../assets/images/fill-star.svg">
+                  <img *ngIf="avgRating < rating" src="../../../../../assets/images/star.svg">
+                </b>
+              </div>
+            </div>
+            <div class="user-detail-section-inner">
+              <div class="user-by">
+                Created by:
+              </div>
+              <div class="user-name" *ngIf="orgInfo">
+                {{orgInfo.name}}
+              </div>
+            </div>
+          </div>
+          <!-- <div class="user-action-section">
+            <button (click)=profile()>
+              Profile
+            </button>
+            <img [src]="orgInfo && orgInfo.avatar ? mediaUrl + orgInfo.avatar : '../../../../../../assets/images/nav-logo.svg'">
+            <b *ngIf="followUser">
+              <button (click)="following(marketDetail.owner._id, 'unfollow')" class="unfollow">Unfollow</button>
+            </b>
+            <b *ngIf="!followUser">
+              <button (click)="following(marketDetail.owner._id, 'follow')">Follow </button>
+            </b>
+          </div> -->
+        </div>
+      </div>
+      <!-- <iframe width="100%" height="100%" frameBorder="0" [src]="urlSafe"></iframe> -->
+      <div *ngIf="applications?.length > 0">
+        <div class="tab-section">
+          <ul class="nav nav-tabs">
+            <li *ngFor="let item of applications; let i = index;" [ngClass]="{'active':item.isSelected}">
+              <!-- <a data-toggle="tab" href="#staff">
+              <img src="../../../../../../assets/images/staff.svg">
+              {{ item.name }}
+            </a> -->
+              <a (click)="changeApp(item._id, i)">
+                {{ item.name }}
+              </a>
+              <!-- <img class="icon-box" src="../../../../../../assets/images/drop-down-icon.svg"> -->
+            </li>
+            <li class="create-app-icon">
+              <img src="../../../../../../assets/images/plus-icon.svg">
+            </li>
+          </ul>
+        </div>
+        <app-application-view></app-application-view>
+      </div>
+      <div class="comment-section">
+        <div class="view-all-comment">
+          View all {{commentCount}} comments
+        </div>
+        <div class="user-comment-box" *ngFor="let item of allComment">
+          <div class="user-img">
+            {{item.avatar}}
+            <img [src]="item.user_id.avatar ? mediaUrl + item.user_id.avatar : '../../../../../assets/images/user.png'">
+          </div>
+          <div class="user-detail">
+            <div class="user-name">
+              {{item.user_id.firstName}} {{item.user_id.lastName}}
+              <span>
+                {{item.date}}
+              </span>
+            </div>
+            <div class="user-msg">
+              {{item.comment}}
+            </div>
+          </div>
+        </div>
+        <!-- <div class="user-add-comment-section">
+          <div class="user-img">
+            <img [src]="avatar != '' ? avatar : '../../../../../../../assets/images/user.png'">
+          </div>
+          <div class="txt-comment-section">
+            <form [formGroup]="addCommentForm">
+              <input type="text" id="fname" formControlName="comment_text" name="comment_text" placeholder="Add comment"
+                (keyup)="submitForm($event)">
+            </form>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

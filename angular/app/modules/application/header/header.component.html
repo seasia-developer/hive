@@ -1,0 +1,463 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top px-0">
+    <div class="container" *ngIf="showHeaderWithLogoOnly">
+      <div class="main-top-navbar-section" *ngIf="showHeaderOption">
+        <div>
+          <a class="navbar-brand custom-main-logo" (click)="redirectHome()">
+            <img
+              class="desktop-logo"
+              src="../../../../assets/images/voxxi-logo.svg"
+            />
+          </a>
+        </div>
+        </div>
+    </div>
+
+
+    <div class="container" *ngIf="showHeaderWithAllOptions">
+      <div class="main-top-navbar-section" *ngIf="showHeaderOption">
+        <div class="logo-icon-min-w-300">
+          <a class="navbar-brand custom-main-logo" (click)="redirectHome()">
+            <img
+              class="desktop-logo"
+              src="../../../../assets/images/voxxi-logo.svg"
+            />
+            <!-- <img class="mobile-logo" src="../../../../assets/images/nav-logo.svg"> -->
+          </a>
+
+          <!-- <a
+            class="navbar-brand custom-main-logo home-main-logo"
+            (click)="redirectHome()"
+          >
+            <img
+              class="home-icon"
+              src="../../../../assets/images/ico-voxxi-home.svg"
+            />
+          </a> -->
+        </div>
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
+
+        <!-- mobile navbar section start -->
+
+        <div class="mobile-menu-list">
+          <div class="mobile-left-menu">
+            <ul class="navbar-nav">
+              <!-- <li class="nav-item active" (click)="goToTask()">
+                <a class="nav-link">
+                  <img src="../../../../assets/images/task.svg" />
+                </a>
+              </li> -->
+              <li class="nav-item notification-icon">
+                <a
+                  class="nav-link"
+                  routerLink="/application/home/notifications"
+                >
+                  <img src="../../../../assets/images/notification-icon.svg" />
+                  <div class="count-section">
+                    {{ helperService.notificationCount || 0 }}
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/application/home/calendar">
+                  <img src="../../../../assets/images/calendar1.svg" />
+                </a>
+              </li>
+              <li class="nav-item" routerLink="/application/home/market">
+                <a class="nav-link">
+                  <img src="../../../../assets/images/cart1.svg" />
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <img
+                    class="chat-img"
+                    src="../../../../assets/images/chat1.svg"
+                  />
+                </a>
+              </li>
+              <!-- <li class="nav-item">
+              <a class="nav-link">
+                <img class="preview1-img" src="../../../../assets/images/preview1.svg">
+              </a>
+            </li> -->
+            </ul>
+          </div>
+
+          <div class="mobile-right-menu">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" (click)="toggleMenu()">
+                  <img
+                    class="preview1-img"
+                    src="../../../../assets/images/preview1.svg"
+                  />
+                </a>
+              </li>
+              <li class="nav-item user-profile" (click)="toggleProfile()">
+                <a class="nav-link">
+                  <img
+                    id="avatar"
+                    *ngIf="
+                      helperService.loggedUser &&
+                      !helperService.loggedUser.avatar
+                    "
+                    src="../../../../assets/images/user.png"
+                  />
+                  <img
+                    id="default-image"
+                    *ngIf="
+                      helperService.loggedUser &&
+                      helperService.loggedUser.avatar
+                    "
+                    [src]="env.MEDIA_URL + helperService.loggedUser.avatar"
+                  />
+                </a>
+
+                <!-- Home avatar menu start -->
+
+                <div class="user-profile-menu" *ngIf="showProfile">
+                  <ul class="navbar-nav">
+                    <li
+                      routerLink="/application/home/parent/my-profile"
+                      id="profileTab"
+                    >
+                      Profile
+                    </li>
+                    <!-- <li id="tasks" routerLink="/application/home/task">
+                      Tasks
+                    </li> -->
+                    <li routerLink="/application/home/notifications">
+                      Notifications
+                    </li>
+                    <li routerLink="/application/home/calendar">Calendar</li>
+                    <li routerLink="/application/home/market">Templates</li>
+                    <li (click)="helperService.showContacts = true">Chat</li>
+                    <li
+                      *ngIf="isSuperAdmin"
+                      routerLink="/application/home/admin"
+                    >
+                      Admin
+                    </li>
+                    <li (click)="onLogout()">Log out</li>
+                  </ul>
+                </div>
+
+                <!-- Home avatar menu end -->
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- mobile navbar section end -->
+      </div>
+
+      <!-- mobile-search-section start -->
+
+      <div class="mobile-search-section">
+        <div class="mobile-search-inner-section" *ngIf="showMobileOption">
+          <div class="search-wraper">
+            <input
+              class="form-control"
+              (focus)="showSearchOptions = true"
+              (blur)="hideOptions()"
+              (keydown.enter)="redirectUrl()"
+              (keyup)="search($event)"
+              type="text"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <img
+              class="search-icon"
+              src="../../../../assets/images/preview1.svg"
+            />
+          </div>
+          <img
+            class="close-icon"
+            src="../../../../assets/images/cancel.svg"
+            (click)="mainMenuHide()"
+          />
+        </div>
+
+        <div class="search-option-user-list" *ngIf="showSearchResult">
+          <ul>
+            <li *ngFor="let item of searchData">
+              <img
+                *ngIf="item.type != 'post'"
+                [src]="
+                  item.avatar && item.avatar !== undefined
+                    ? mediaUrl + item.avatar
+                    : '../../../../../../assets/images/nav-logo.svg'
+                "
+              />
+              <label *ngIf="item.type != 'post'">
+                <a
+                  *ngIf="item.type == 'user'"
+                  style="cursor: pointer"
+                  (click)="redirectProfile(item)"
+                >
+                  {{ item.name }}</a
+                >
+                <a
+                  *ngIf="item.type == 'organization'"
+                  style="cursor: pointer"
+                  (click)="redirectProfile(item)"
+                >
+                  {{ item.name }}</a
+                >
+
+                <span *ngIf="item.type == 'user'">
+                  {{ item.position ? "- " + item.position : "" }}
+                  {{
+                    item.organization.name ? "@ " + item.organization.name : ""
+                  }}
+                </span>
+                <span *ngIf="item.type == 'organization'">
+                  - Organization
+                </span>
+              </label>
+            </li>
+            <li class="view-all-result-section" (click)="redirectUrl()">
+              View all results for {{ helperService.searchKeyword }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- <div class="search-option" *ngIf="showSearchOptions"> -->
+        <!-- <ul>
+            <li routerLink="/application/home/search/people">
+              People
+            </li>
+            <li routerLink="/application/home/search/organizations">
+              Organizations
+            </li>
+            <li routerLink="/application/home/search/industries">
+              Industry
+            </li>
+            <li routerLink="/application/home/search/posts">
+              Posts
+            </li> -->
+        <!-- <li>
+              Tasks
+            </li>
+            <li>
+              Notifications
+            </li> -->
+        <!-- </ul> -->
+        <!-- </div> -->
+      </div>
+
+      <!-- mobile-search-section end -->
+
+      <div class="collapse navbar-collapse flex-grow-1 d-none d-md-block" id="navbarCollapse">
+        <ul id="header-nav-list" class="navbar-nav justify-content-between align-items-center">
+          <div class="d-flex flex-grow-1">
+            <span class="w-100 d-flex flex-grow-1 justify-content-between align-items-center">
+              <li class="search-section d-flex w-100">
+                <form class="form-inline d-flex w-100">
+                  <div class="form-section-inner w-100" style="max-width:620px">
+                    <input
+                      id="filter-options"
+                      (clickOutside)="clickedOutside($event)"
+                      class="form-control mr-sm-2"
+                      [value]="helperService.searchKeyword"
+                      autocomplete="off"
+                      type="text"
+                      (focus)="showSearchOptionsDesk = true"
+                      (blur)="hideOptions()"
+                      (keyup)="search($event)"
+                      placeholder="Search"
+                      aria-label="Search"
+                      (keydown.enter)="redirectUrl()"
+                    />
+                    <img src="../../../../assets/images/search.svg" />
+                  </div>
+                  <!-- <button
+                    class="btn btn-outline-success"
+                    (click)="upgradePlan()"
+                    type="button"
+                    *ngIf="upgradeFlag"
+                      >
+                    Upgrade
+                  </button> -->
+                </form>
+
+                <div class="search-option-user-list" *ngIf="showSearchResult">
+                  <ul>
+                    <li *ngFor="let item of searchData">
+                      <img
+                        *ngIf="item.type != 'post'"
+                        [src]="
+                          item.avatar && item.avatar !== undefined
+                            ? mediaUrl + item.avatar
+                            : '../../../../../../assets/images/nav-logo.svg'
+                        "
+                      />
+                      <label *ngIf="item.type != 'post'">
+                        <a
+                          *ngIf="item.type == 'user'"
+                          style="cursor: pointer"
+                          (click)="redirectProfile(item)"
+                        >
+                          {{ item.name }}</a
+                        >
+                        <a
+                          *ngIf="item.type == 'organization'"
+                          style="cursor: pointer"
+                          (click)="redirectProfile(item)"
+                        >
+                          {{ item.name }}</a
+                        >
+
+                        <span *ngIf="item.type == 'user'">
+                          {{ item.position ? "- " + item.position : "" }}
+                          {{
+                            item.organization.name
+                              ? "@ " + item.organization.name
+                              : ""
+                          }}
+                        </span>
+                        <span *ngIf="item.type == 'organization'">
+                          - Organization
+                        </span>
+                      </label>
+                    </li>
+                    <li class="view-all-result-section" (click)="redirectUrl()">
+                      View all results for {{ helperService.searchKeyword }}
+                    </li>
+                  </ul>
+                </div>
+                <!-- <div class="search-option" *ngIf="showSearchOptionsDesk"> -->
+                <!-- <ul>
+                    <li routerLink="/application/home/search/people">
+                      People
+                    </li>
+                    <li routerLink="/application/home/search/organizations">
+                      Organizations
+                    </li>
+                    <li routerLink="/application/home/search/industries">
+                      Industry
+                    </li>
+                    <li routerLink="/application/home/search/posts">
+                      Posts
+                    </li> -->
+                <!-- <li routerLink="/application/home/search/tasks">
+                      Tasks
+                    </li>
+                    <li routerLink="/application/home/search/notifications">
+                      Notifications
+                    </li> -->
+                <!-- </ul> -->
+                <!-- </div> -->
+              </li>
+              <span class="w-auto d-none align-items-center">
+                  <li
+                  matTooltip="Notifications"
+                  class="nav-item notification-icon px-2 max-w-20"
+                >
+                  <a class="nav-link" routerLink="/application/home/notifications">
+                    <img src="../../../../assets/images/notification-icon.svg" />
+                    <div class="count-section">
+                      {{ helperService.notificationCount || 0 }}
+                    </div>
+                  </a>
+                </li>
+                <!-- <li
+                  matTooltip="Task"
+                  class="nav-item active tickbox-light-icon px-2 max-w-20"
+                  (click)="goToTask()"
+                >
+                  <a class="nav-link">
+                    <img src="../../../../assets/images/task.svg" />
+                    <div class="count-section"></div>
+                  </a>
+                </li> -->
+                <li
+                  matTooltip="Calendar"
+                  class="nav-item calendar-icon px-2 max-w-20"
+                >
+                  <a class="nav-link" routerLink="/application/home/calendar">
+                    <img src="../../../../assets/images/calendar.svg" />
+                  </a>
+                </li>
+                <li
+                  matTooltip="Market"
+                  class="nav-item business-icon px-2 max-w-20"
+                  routerLink="/application/home/market"
+                >
+                  <a class="nav-link">
+                    <img src="../../../../assets/images/marketplace.svg" />
+                  </a>
+                </li>
+                <li
+                  matTooltip="Chat"
+                  class="nav-item chat-icon px-2 max-w-20"
+                  (click)="helperService.showContacts = true"
+                >
+                  <a class="nav-link">
+                    <img src="../../../../assets/images/chat.svg" />
+                  </a>
+                </li>
+              </span>
+            </span>
+            <span class="profile-icon-min-w-260 d-flex justify-content-end">
+              <li
+              matTooltip="Profile"
+              class="nav-item user-profile px-2 max-w-20"
+              (click)="toggleProfile()"
+            >
+              <a class="nav-link">
+                <img
+                  id="avatar"
+                  *ngIf="
+                    helperService.loggedUser && !helperService.loggedUser.avatar
+                  "
+                  src="../../../../assets/images/user.png"
+                />
+                <img
+                  id="default-image"
+                  *ngIf="
+                    helperService.loggedUser && helperService.loggedUser.avatar
+                  "
+                  [src]="env.MEDIA_URL + helperService.loggedUser.avatar"
+                />
+              </a>
+
+              <!-- Home avatar menu start -->
+
+              <div *ngIf="showProfile" class="user-profile-menu">
+                <ul>
+                  <li routerLink="/application/home/parent/my-profile">
+                    Profile
+                  </li>
+                  <!-- <li id="tasks" routerLink="/application/home/task">
+                    Tasks
+                  </li> -->
+                  <li routerLink="/application/home/notifications">
+                    Notifications
+                  </li>
+                  <li routerLink="/application/home/calendar">Calendar</li>
+                  <li routerLink="/application/home/market">Templates</li>
+                  <li (click)="helperService.showContacts = true">Chat</li>
+                  <!-- <li  (click)="upgradePlan()"  *ngIf="upgradeFlag">
+                    Upgrade
+                  </li> -->
+                  <li *ngIf="isSuperAdmin" routerLink="/application/home/admin">
+                    Admin
+                  </li>
+                  <li (click)="onLogout()">Log out</li>
+                </ul>
+              </div>
+
+              <!-- Home avatar menu end -->
+            </li>
+            </span>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

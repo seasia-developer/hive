@@ -1,0 +1,62 @@
+<app-header></app-header>
+
+<div class="contnet-section d-flex">
+
+  <app-left-sidebar-menu></app-left-sidebar-menu>
+  <app-chat></app-chat>
+  <!-- <div class="bottom-chat-section">
+    <label>
+      Chat (23)
+    </label>
+    <div class="icon-section">
+      <img src="../../../../../../assets/images/setting.svg">
+      <img src="../../../../../../assets/images/setting.svg">
+    </div>
+  </div> -->
+
+  <mobile-menu></mobile-menu>
+  <div class="right-full-section custom-cal-new">
+    <div class="middle-section">
+      
+      <div class='calender-main-section'>
+          <full-calendar id="orgWsCal" #orgWsCalendar deepChangeDetection="true" [options]='calendarOptions'></full-calendar>
+      </div>
+
+      <button id="deleteRecordModalButton" type="button" class="btn btn-info btn-lg" data-toggle="modal"
+        data-target="#deleteRecordModal" hidden></button>
+      <!-- Delete record confirmation modal -->
+        <div class="modal fade ignoreBackdropClick" id="deleteRecordModal" ignoreBackdropClick="true" aria-hidden="true" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static"  config="{ignoreBackdropClick: true, keyboard: false}">
+        <div class="modal-dialog app-builder-section-modal help-section">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <img src="../../../../../assets/images/Close-icon.svg" id="closeModal" class="close" data-dismiss="modal">
+              <h4 class="modal-title">Delete Record</h4>
+            </div>
+            <div class="modal-body">
+
+              <div class="search-section">
+                Are you sure that you want to delete the record?
+                <!-- <img src="../../../../../assets/images/search-icon-light.svg"> -->
+              </div>
+
+              <div class="btn-section">
+                <button class="gray-btn" data-dismiss="modal">
+                  No
+                </button>
+                <button class="green-btn" (click)="confirmDeleteRecord()" data-dismiss="modal">
+                  Yes
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+

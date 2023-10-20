@@ -1,0 +1,51 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.left-side-section {
+  width: 300px;
+  padding-right: 30px;
+  padding-left: 10px;
+  padding-top: 1px;
+
+  @media(max-width:767px){
+    width: 100%;
+    padding: 0;
+  }
+
+  .main-title {
+    color: $box_txt_color;
+    font-size: $title;
+    font-family: $RobotoMedium;
+    padding: 6px 0px 4px 0px;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+
+    li {
+      list-style: none;
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      padding: 6px 0px 7px 10px;
+      margin-bottom: 2px;
+      cursor: pointer;
+
+      &.active {
+        background-color: $white;
+        box-shadow: 0px 0px 0px 1px $text-light inset;
+        border-radius: 4px;
+      }
+
+      &:hover {
+        background-color: $white;
+        box-shadow: 0px 0px 0px 1px $text-light inset;
+        border-radius: 4px;
+      }
+
+      &:focus{
+        outline: none;
+      }
+    }
+  }
+}

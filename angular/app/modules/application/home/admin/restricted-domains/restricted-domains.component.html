@@ -1,0 +1,47 @@
+  <div class="restricted-section">
+    <div class="main-ttl">
+      Restricted Domains
+    </div>
+
+    <div class="add-section">
+      <form class="form-inline" [formGroup]="restrictedDomainForm">
+        <input class="form-control" formControlName="domain" type="text" aria-label="Search">
+        <button class="btn btn-outline-success" (click)="addDomain()">
+          ADD
+        </button>
+      </form>
+    </div>
+
+    <div class="restricted-detail-section d-flex">
+      <div class="restricted-list">
+        <ul>
+          <li *ngFor="let item of domains">
+            <label>
+              {{item.domain}}
+            </label>
+            <img src="../../../../../../assets/images/cancel.svg" (click)="removeDomain(item._id)">
+          </li>
+          <!-- <li>
+            <label>
+              gmail.com
+            </label>
+            <img src="../../../../../../assets/images/cancel.svg">
+          </li> -->
+        </ul>
+      </div>
+
+      <div class="restricted-detail">
+        <div class="ttl">
+          Public Domains
+        </div>
+        <p>
+          Add domains to this list that are public domains and not a designated business domain.
+        </p>
+        <p>
+          Users signing up with a domain ie. gmail.com will not all be assigned to the same account.
+        </p>
+      </div>
+    </div>
+
+
+  </div>

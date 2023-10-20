@@ -1,0 +1,93 @@
+<div class="left-icon-section">
+  <div class="left-icon-section-wraper desktop-left-sidenav">
+
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+      <div *ngFor="let item of helperService.orgList" cdkDrag>
+        <div class="icon-wraper" [ngClass]="{'active':item._id === helperService.selectedItemId}"
+          (click)="getWorkspaces(item._id,item.role, item.backrgoundColor,'click')">
+          <img style="width: 30px;height: 30px;" matTooltip="{{item.name}}"
+            [src]="item.avatar ? MEDIA_URL + item.avatar : '../../../../../../assets/images/nav-logo.svg'">
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let id of sharedRecordOrgIds">
+      <div class="icon-wraper img-wrapper-icon" [ngClass]="{'active': id === helperService.selectedItemId}"
+        (click)="getOrgSharedRecords(id)">
+        <img style="width: 30px;height: 30px;"
+          [src]="homeService.sharedRecords[id][0].record.organization_id.avatar ? MEDIA_URL + homeService.sharedRecords[id][0].record.organization_id.avatar : '../../../../../../assets/images/nav-logo.svg'">
+      </div>
+    </div>
+    <div class="icon-wraper add-icon" [ngClass]="{'active':isAdd}">
+      <img src="../../../../../../assets/images/Add new.svg" (click)="showOptions(false)" id="add-org-plus">
+      <div class="icon-wraper-option-section" [ngClass]="!helperService.orgList.length ? 'org-null' : '' " *ngIf="isAdd">
+        <ul>
+          <li (click)="goToAddOrg()" id="add-org">
+            Add Organization
+          </li>
+          <li (click)="showOrgs()" id="add-ws">
+            Add Group
+          </li>
+          <div class="icon-wraper-option-section-inner" *ngIf="isShowOrgs">
+            <ul>
+              <li>
+                Organization
+                <img id="showOrgsForWS" (click)="showOrgs()" src="../../../../../../assets/images/plus-icon.svg">
+                <div class="organization-inner">
+                  <ul>
+                    <span *ngFor="let item of helperService.orgList">
+                      <li
+                        (click)="addWorkSpace(item._id,item.role, item.backrgoundColor)" id="org-list" *ngIf="item.role === 'admin'">
+                        {{ item.name }}
+                     </li>
+                    </span>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <li (click)="showAppOrgs()" id="add-app">
+            Add App
+          </li>
+          <div class="icon-wraper-option-section-inner" *ngIf="showOrgForApp">
+            <ul>
+              <li>
+                Organization
+                <img id="plusIconOrgs" (click)="showOrgForApp = !showOrgForApp"
+                  src="../../../../../../assets/images/plus-icon.svg">
+                <div class="organization-inner">
+                  <ul>
+                    <span *ngFor="let item of helperService.orgList">
+                    <li [ngClass]="{'active': selectedOrganizationLiTag === item._id}"
+                      (click)="showOrgWorkSpaces(item)" id="org-list" *ngIf="item.role === 'admin'">
+                      {{ item.name }}
+
+                      <div class="icon-wraper-option-section-inner custom-workspace-section-desktop"
+                        *ngIf="showWorkspacesFlag">
+                        <ul>
+                          <li>
+                            Group
+                            <img id="plusIconWorkspaces" (click)="showWorkspacesFlag = !showWorkspacesFlag"
+                              src="../../../../../../assets/images/plus-icon.svg">
+                            <div class="organization-inner">
+                              <ul>
+                                <li *ngFor="let item of workspaceList" (click)="addApp(item._id)" id="ws-list">
+                                  {{ item.name }}
+                                </li>
+                              </ul>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+
+                    </li>
+                    </span>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

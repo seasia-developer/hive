@@ -1,0 +1,7 @@
+.groups-list-action-inner{
+    display: none;
+}
+.groups-list-action:hover .groups-list-action-inner{
+ display: flex;
+ right: 15px;
+}

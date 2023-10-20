@@ -1,0 +1,72 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.middle-section {
+  width: calc(100% - 560px);
+  background-color: transparent;
+}
+@media (max-width: 1200px) {
+  .middle-section {
+    width: calc(100% - 560px);
+  }
+}
+
+@media (max-width: 767px) {
+  .contnet-section {
+    display: block !important;
+
+    .middle-section {
+      width: 100%;
+    }
+  }
+}
+
+
+@media (max-width: 575px) {
+  .contnet-section {
+    padding: 0px 15px;
+  }
+}
+
+.color-686868{
+  color: #686868;
+}
+
+.bg-59ADFF{
+  background-color: #59ADFF;
+}
+
+.bg-C3C3C3 {
+  background-color: #C3C3C3;
+}
+
+.rounded-20 {
+  border-radius: 20px;
+}
+
+.rounded-10 {
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.border-59ADFF{
+  border: 2px solid #59ADFF;
+}
+
+.border-D6D6D6{
+  border: 2px solid #D6D6D6;
+}
+
+.-top-18{
+  top: -18px;
+}
+
+.-top-4{
+  top: -4px;
+}
+
+.border-none{
+  border: none;
+}

@@ -1,0 +1,256 @@
+<app-header></app-header>
+<div class="contnet-section d-flex">
+  <!-- <app-left-sidebar-menu></app-left-sidebar-menu> -->
+  <app-chat></app-chat>
+  <mobile-menu></mobile-menu>
+  <div class="right-full-section">
+    <div class="upgrade-yearly-section d-flex justify-content-between">
+      <div class="upgrade-txt">
+        <div class="main-ttl">Upgrade</div>
+        <p>Your current plan is the Free plan</p>
+        <p>Choose the plan you wish to upgrade to</p>
+        <div class="use-list">
+          <label> Usage </label>
+          <ul>
+            <li>Organizations</li>
+            <li>App & Workspaces</li>
+            <li>Storage</li>
+            <li>Revisions</li>
+            <li>External users</li>
+            <li>Guest Role</li>
+            <li>Light user role</li>
+          </ul>
+        </div>
+        <div class="essential-list">
+          <label> Essentials </label>
+          <ul>
+            <li>Grid, calendar, form and kanban views</li>
+            <li>Realtime collaboration and commenting</li>
+          </ul>
+        </div>
+        <div class="advance-list">
+          <label> Advanced </label>
+          <ul>
+            <li>Additional color and styling options</li>
+          </ul>
+        </div>
+        <div class="support-list">
+          <label> Support </label>
+          <ul>
+            <li>Email support</li>
+            <li>Self-serve knowledge base</li>
+            <li>Priority support response</li>
+            <li>Dedicated customer success manager</li>
+            <li>Individualized onboarding and training</li>
+          </ul>
+        </div>
+      </div>
+      <div class="upgrade-chart">
+        <div class="switch-section">
+          <label> Annually </label>
+          <label class="switch">
+            <input
+              type="checkbox"
+              (change)="updateType($event)"
+              [checked]="type === 'monthly'"
+              id="plan-switch"
+            />
+            <span class="slider round"></span>
+          </label>
+          <label> Monthly </label>
+        </div>
+        <div class="graph-section d-flex">
+          <div class="graph-box">
+            <div class="title">Plus</div>
+            <div class="price-section">
+              <span> $ </span>
+              {{
+                type === "monthly"
+                  ? plans.monthly.plus.amount
+                  : (plans.yearly.plus.amount / 12).toFixed(2)
+              }}
+            </div>
+            <div class="time-section">
+              <label> per month </label>
+              <label> per employee </label>
+            </div>
+            <button (click)="upgradePlan('plus')">Upgrade</button>
+            <div class="use-list">
+              <ul>
+                <li>Unlimited</li>
+                <li>Unlimited</li>
+                <li>25 Gig</li>
+                <li>Unlimited</li>
+                <li>Unlimited</li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li></li>
+              </ul>
+            </div>
+            <div class="essential-list">
+              <ul>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+              </ul>
+            </div>
+            <div class="advance-list">
+              <ul>
+                <li></li>
+              </ul>
+            </div>
+            <div class="support-list">
+              <ul>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
+            </div>
+          </div>
+          <div class="graph-box">
+            <div class="title">Pro</div>
+            <div class="price-section">
+              <span> $ </span>
+              {{
+                type === "monthly"
+                  ? plans.monthly.pro.amount
+                  : (plans.yearly.pro.amount / 12).toFixed(2)
+              }}
+            </div>
+            <div class="time-section">
+              <label> per month </label>
+              <label> per employee </label>
+            </div>
+            <button (click)="upgradePlan('pro')">Upgrade</button>
+            <div class="use-list">
+              <ul>
+                <li>Unlimited</li>
+                <li>Unlimited</li>
+                <li>50 Gig</li>
+                <li>Unlimited</li>
+                <li>Unlimited</li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+              </ul>
+            </div>
+            <div class="essential-list">
+              <ul>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+              </ul>
+            </div>
+            <div class="advance-list">
+              <ul>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+              </ul>
+            </div>
+            <div class="support-list">
+              <ul>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li></li>
+                <li></li>
+              </ul>
+            </div>
+          </div>
+          <div class="graph-box">
+            <div class="title">Enterprise</div>
+            <div class="price-section">
+              <span> </span>
+              POA
+            </div>
+            <div class="time-section">
+              <!-- <label>
+                per {{ type === 'monthly' ? 'month' : 'year' }}
+              </label>
+              <label>
+                per employee
+              </label> -->
+            </div>
+            <a href="mailto:sales@voxxi.io">
+              <button>Contact Us</button>
+            </a>
+            <div class="use-list">
+              <ul>
+                <li>Unlimited</li>
+                <li>Unlimited</li>
+                <li>1000 Gig</li>
+                <li>Unlimited</li>
+                <li>Unlimited</li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+              </ul>
+            </div>
+            <div class="essential-list">
+              <ul>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+              </ul>
+            </div>
+            <div class="advance-list">
+              <ul>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+              </ul>
+            </div>
+            <div class="support-list">
+              <ul>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+                <li>
+                  <img src="../../../../../assets/images/ico-check.svg" />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

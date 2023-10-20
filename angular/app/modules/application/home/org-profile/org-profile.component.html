@@ -1,0 +1,135 @@
+<app-header></app-header>
+
+<div class="contnet-section d-flex">
+  <app-left-sidebar-menu></app-left-sidebar-menu>
+  <app-chat></app-chat>
+  <div class="market-right-side-section">
+
+    <div class="img-box-section">
+
+      <div class="img-box">
+        <img
+          [src]="profile && profile.bannerImg ? mediaUrl + profile.bannerImg : '../../../../../assets/images/Voxxi-organization-placeholder-image.png'">
+        <img *ngIf="validUser" class="edit-icon" src="../../../../../assets/images/ico-edit.svg"
+          (click)="openUploadBannerModal()">
+      </div>
+
+      <div class="img-detail-section">
+        <div class="left-section">
+          <img
+            [src]="profile && profile.avatar ? mediaUrl + profile.avatar : '../../../../../assets/images/nav-logo.svg'">
+          <!-- <img *ngIf="validUser" class="edit-icon" src="../../../../../assets/images/ico-edit.svg"
+            (click)="openUploadModal()"> -->
+        </div>
+        <div class="right-section">
+          <label *ngIf="profile">
+            {{ profile.name }}
+          </label>
+          <div class="btn-section">
+            <button *ngIf="profileEmail">
+              <div>
+                <a href="mailto:{{ profileEmail }}">
+                  Email
+                </a>
+              </div>
+              <!-- <div *ngIf="!profileEmail">
+                <a>
+                  Email
+                </a>
+              </div> -->
+            </button>
+            <button *ngIf="profileWebsite">
+              <div>
+                <a href="{{ profileWebsite }}" target="_blank">
+                  Website
+                </a>
+              </div>
+              <!-- <div *ngIf="!profileWebsite">
+                <a>
+                  Website
+                </a>
+              </div> -->
+            </button>
+            <div *ngIf="followUser" class="follow-btn">
+              <button (click)="following(profile.owner._id, 'unfollow')" class="unfollow">Unfollow</button>
+            </div>
+            <div *ngIf="!followUser" class="follow-btn">
+              <button (click)="following(profile.owner._id, 'follow')">Follow </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="box-section about-profile-tab-section">
+      <ul class="nav nav-tabs">
+        <li class="nav-item {{inactive}}" (click)="activeClass('profile')">
+          <a class="nav-link " data-toggle="tab" href="#Profile">Profile</a>
+        </li>
+        <li class="nav-item {{active}}" (click)="activeClass('workspace')">
+          <a class="nav-link" data-toggle="tab" href="#Workspaces">Groups</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane container active" style="padding-left:0!important;padding-right:0!important;" id="Profile">
+          <div class="tab-inner-section">
+            <p *ngIf="userInfo && userInfo.businessDescription">
+              {{userInfo.businessDescription}}
+            </p>
+            <!-- <b *ngIf="userInfo && !userInfo.businessDescription">
+              <p>
+                Sitemaster is a website design business a website design business a website design business a website
+                design
+                business a website design business a website design business a website design business a website design
+                business
+              </p>
+              <p>
+                a website design business a website design business a website design business a website design
+                business a website design business a website design business a website design business a website design
+                business a website design business a website design business a website design business a website design
+                business a website design business a website design business a website design business
+              </p>
+            </b> -->
+          </div>
+        </div>
+        <div class="tab-pane container fade" id="Workspaces">
+          <div class="tab-inner-section workplace-inner-section">
+            <div class="marketplace-section-wraper">
+              <div class="workspace-banner-section">
+                <div class="img-box" *ngFor="let workspace of workspaceInfo">
+                  <div class="img-wraper">
+                    <img
+                      [src]="workspace.image ? mediaUrl + workspace.image : '../../../../../assets/images/banner-img.png'">
+                  </div>
+                  <div class="img-detail">
+                    <div class="img-ttl">
+                      {{workspace.title}}
+                    </div>
+                    <div class="img-description">
+                      {{workspace.description}}
+                    </div>
+
+                    <div class="bottom-section d-flex align-items-center justify-content-between">
+                      <div class="img-sub-ttl">
+                        {{workspace.profile?.businessName? workspace.profile.businessName: workspace.user.firstName+' '+ workspace.user.lastName}}
+                      </div>
+                      <div class="rate-section">
+                        <b *ngFor="let item of [1,2,3,4,5]">
+                          <img *ngIf="workspace.ratingAverage >= item" src="../../../../../assets/images/fill-star.svg">
+                          <img *ngIf="workspace.ratingAverage < item" src="../../../../../assets/images/star.svg">
+                        </b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,106 @@
+<div class="tab-inner-section">
+
+  <div class="main-ttl">
+    Send me an email when
+  </div>
+
+  <div class="notification-inner">
+    <ul>
+      <li>
+        <label class="check-container">I receive any messages or notifications
+          <input type="checkbox" (change)="selectAllForsendMeAnEmail()" [checked]="isSendMeAnEmail">
+          <span class="checkmark"></span>
+        </label>
+      </li>
+      <li>
+        <label class="check-container" *ngFor="let item of sendMeAnEmail; let i = index;">{{ item.title }}
+          <input type="checkbox" (click)="sendMeEmailChild(item, $event)" [checked]="item.isChecked">
+          <span class="checkmark"></span>
+        </label>
+      </li>
+      <!-- <li>
+        <label class="check-container">I am given a task, @mentioned, or added to a project, etc.
+          <input type="checkbox" checked="checked">
+          <span class="checkmark"></span>
+        </label>
+      </li>
+      <li>
+        <label class="check-container">Changes in group membership occur (add, leave, join etc)
+          <input type="checkbox" checked="checked">
+          <span class="checkmark"></span>
+        </label>
+      </li>
+      <li>
+        <label class="check-container">I am being reminded about something
+          <input type="checkbox" checked="checked">
+          <span class="checkmark"></span>
+        </label>
+      </li>
+      <li>
+        <label class="check-container">Something else happens on anything I follow, or have interacted with
+          <input type="checkbox" checked="checked">
+          <span class="checkmark"></span>
+        </label>
+      </li> -->
+    </ul>
+  </div>
+
+  <div class="main-ttl">
+    On-screen notification settings
+  </div>
+
+  <div class="notification-inner">
+    <ul>
+      <li>
+        <label class="check-container">Enable on-screen notifications
+          <input type="checkbox" (change)="selectAllForOnScreenNotification()" [checked]="isOnScreenNotification">
+          <span class="checkmark"></span>
+        </label>
+      </li>
+      <li>
+        <label class="check-container" *ngFor="let item of onScreenNotification">{{ item.title }}
+          <input type="checkbox" (click)="onScreenNotificationChild(item, $event)" [checked]="item.isChecked">
+          <span class="checkmark"></span>
+        </label>
+      </li>
+      <!-- <li>
+        <label class="check-container">Enable web notifications (Notifications Center)
+          <input type="checkbox" checked="checked">
+          <span class="checkmark"></span>
+        </label>
+      </li> -->
+    </ul>
+  </div>
+
+  <div class="main-ttl">
+    Daily Digest
+  </div>
+
+  <div class="notification-inner">
+    <ul>
+      <li>
+        <label class="check-container">Send me the Daily Digest
+          <input type="checkbox" (click)="selectAllForDailyDigest()" [checked]="isDailyDigest">
+          <span class="checkmark"></span>
+        </label>
+      </li>
+      <li>
+        <p>
+          Get an email every morning to catch up on activities you are involved in - including the last 24 hrs and the
+          upcoming day.
+        </p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="btn-section text-right">
+    <button class="border-btn">
+      Cancel
+    </button>
+
+    <button class="green-btn" (click)="onUpdate()">
+      Update
+    </button>
+  </div>
+
+</div>

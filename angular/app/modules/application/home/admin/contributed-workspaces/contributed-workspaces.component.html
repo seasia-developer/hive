@@ -1,0 +1,226 @@
+<div class="contributed-workspace-section">
+
+  <div class="top-wraper">
+    <div class="ttl-wraper">
+      <div class="main-ttl">
+        Contributors Groups
+      </div>
+
+      <div class="add-img-section">
+        <span>
+          Review and either approve or reject the Group
+        </span>
+      </div>
+    </div>
+
+    <div class="search-section">
+      <img src="../../../../../../assets/images/ico-preview.svg">
+      <input class="form-control" type="text" placeholder="Search" aria-label="Search" (keyup)="search($event)">
+    </div>
+  </div>
+
+  <div class="workspace-banner-section">
+    <div class="img-box" *ngFor="let item of contributedWorkspaces" (click)="openModal(contributedWSDetail, item._id)">
+      <div class="img-wraper">
+        <img [src]="mediaUrl + item.image">
+      </div>
+      <div class="img-detail">
+        <div class="img-ttl">
+          {{ item.title }}
+        </div>
+        <div class="img-description">
+          {{ item.description }}
+        </div>
+        <div class="bottom-section">
+          <div class="img-sub-ttl">
+            {{ item.user.firstName + ' ' + item.user.lastName }}
+          </div>
+          <div class="rate-section">
+            <img src="../../../../../../assets/images/fill-star.svg">
+            <img src="../../../../../../assets/images/fill-star.svg">
+            <img src="../../../../../../assets/images/fill-star.svg">
+            <img src="../../../../../../assets/images/fill-star.svg">
+            <img src="../../../../../../assets/images/star.svg">
+          </div>
+        </div>
+      </div>
+      <div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #contributedWSDetail>
+  <div class="market-process-modal">
+    <div class="modal-header">
+      <img src="../../../../../../assets/images/Close-icon.svg" class="close pull-right" aria-label="Close"
+        (click)="closeModal()">
+    </div>
+    <div class="market-process-inner">
+      <div class="modal-body">
+
+        <div class="contributed-workspace-section-modal">
+          <div class="banner-section">
+            <img
+              [src]="contributedWorkspaceDetail.image ? mediaUrl + contributedWorkspaceDetail.image : '../../../../../../assets/images/banner-img.png'">
+          </div>
+
+          <div class="img-detail-section d-flex">
+            <div class="left-section">
+              <div class="main-ttl">
+                {{ contributedWorkspaceDetail.title }}
+              </div>
+              <div class="description-section">
+                <p>{{ contributedWorkspaceDetail.description }}</p>
+              </div>
+            </div>
+
+            <div class="right-section">
+              <button class="approve-btn" [disabled]="contributedWorkspaceDetail.status === 'approved'"
+                (click)="setStatus('accept')">
+                {{ contributedWorkspaceDetail.status === 'approved' ? 'Approved' : 'Approve' }}
+              </button>
+
+              <div class="created-user-detail">
+                <div class="user-detail-section-inner">
+                  <div class="user-by">
+                    Created by:
+                  </div>
+                  <div class="user-name">
+                    {{ contributedWorkspaceDetail.owner.firstName + ' ' + contributedWorkspaceDetail.owner.lastName }}
+                  </div>
+                </div>
+
+                <div class="user-detail-section-inner">
+                  <div class="user-by">
+                    Category:
+                  </div>
+                  <div class="user-name">
+                    <label class="m-0 user-name-txt"
+                      *ngFor="let Category of contributedWorkspaceDetail.categories; index as index">
+                      {{ Category.Title }}
+                      {{ (index === (contributedWorkspaceDetail.categories.length - 1)) ? '' : ', ' }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <button class="reject-btn" *ngIf="contributedWorkspaceDetail.status !== 'approved'"
+                (click)="setStatus('reject')">
+                Reject
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="contributedWorkspaceApplications?.length > 0">
+            <div class="tab-section">
+              <ul class="nav nav-tabs">
+                <li *ngFor="let item of contributedWorkspaceApplications; let i = index;"
+                  [ngClass]="{'active':item.isSelected}">
+                  <!-- <a data-toggle="tab" href="#staff">
+                  <img src="../../../../../../assets/images/staff.svg">
+                  {{ item.name }}
+                </a> -->
+                  <a (click)="changeApp(item._id, i)">
+                    {{ item.name }}
+                  </a>
+                  <!-- <img class="icon-box" src="../../../../../../assets/images/drop-down-icon.svg"> -->
+                </li>
+                <li class="create-app-icon">
+                  <!-- <img (click)="createApp()" src="../../../../../../assets/images/ico-plus-white.png"> -->
+                  <img src="../../../../../../assets/images/plus-icon.svg">
+                </li>
+                <!-- <li class="active">
+                <a data-toggle="tab" href="#rolls">
+                  <img src="../../../../../../assets/images/rolls.svg">
+                  Rolls
+                </a>
+              </li>
+              <li class="active">
+                <a data-toggle="tab" href="#deliverables">
+                  <img src="../../../../../../assets/images/deliverables.svg">
+                  Deliverables
+                </a>
+              </li>
+              <li class="active">
+                <a data-toggle="tab" href="#task">
+                  <img src="../../../../../../assets/images/tasks.svg">
+                  Tasks
+                </a>
+              </li>
+              <li class="active">
+                <a data-toggle="tab" href="#meeting">
+                  <img src="../../../../../../assets/images/meetings.svg">
+                  Meetings
+                </a>
+              </li>
+              <li class="active">
+                <a data-toggle="tab" href="#requests">
+                  <img src="../../../../../../assets/images/requests.svg">
+                  Requests
+                </a>
+              </li> -->
+              </ul>
+
+              <!-- <div class="tab-content">
+              <div id="staff" class="tab-pane fade in active">
+                <h3>HOME</h3>
+                <p>Some content.</p>
+              </div>
+              <div id="rolls" class="tab-pane fade in">
+                <h3>HOME</h3>
+                <p>Some content.</p>
+              </div>
+              <div id="deliverables" class="tab-pane fade in">
+                <div class="tab-inner-section">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Firstname</th>
+                          <th>Lastname</th>
+                          <th>Email</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>John</td>
+                          <td>Doe</td>
+                          <td>john@example.com</td>
+                        </tr>
+                        <tr>
+                          <td>Mary</td>
+                          <td>Moe</td>
+                          <td>mary@example.com</td>
+                        </tr>
+                        <tr>
+                          <td>July</td>
+                          <td>Dooley</td>
+                          <td>july@example.com</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div id="task" class="tab-pane fade in">
+                <h3>HOME</h3>
+                <p>Some content.</p>
+              </div>
+              <div id="meeting" class="tab-pane fade in">
+                <h3>HOMEmeeting</h3>
+                <p>Some content.</p>
+              </div>
+              <div id="requests" class="tab-pane fade in">
+                <h3>HOMErequests</h3>
+                <p>Some content.</p>
+              </div>
+            </div> -->
+            </div>
+            <app-application-view *ngIf="isDisplayGridview"></app-application-view>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

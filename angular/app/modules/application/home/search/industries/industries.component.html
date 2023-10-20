@@ -1,0 +1,277 @@
+<div class="sort-section">
+
+  <label for="">
+    Sort by:
+  </label>
+  <div (clickOutside)="clickedOutside($event)" style="position: relative;"
+    [ngClass]="showMenu === 'industry' ? 'custom-drop-section1 location-drop-section show' : 'custom-drop-section1 location-drop-section'">
+    <div (click)="toggleMenu('industry')" id="filter-menu">
+      <div id="filter-menu"
+        [ngClass]="showMenu === 'industry' ? 'custom-drop-section location-drop-section show' : 'custom-drop-section location-drop-section'">
+        <label id="filter-menu">
+          Industry
+        </label>
+        <img id="filter-menu" src="../../../../../assets/images/drop-down-icon.svg">
+      </div>
+    </div>
+      <div id="filter-menu" class="custom-drop-section-inner" *ngIf="showMenu === 'industry'">
+        <ul id="filter-menu">
+          <li id="filter-menu" *ngFor="let ind of industryOptions">
+
+            <label id="filter-menu" class=" check-container">{{ind.Title}}
+              <input id="filter-menu" name="filterSettings.industry.industry" type="radio"
+                [checked]="filterSettings.industry.industry === ind._id" (click)="selectIndustry(ind)">
+              <span id="filter-menu" class="checkmark"></span>
+            </label>
+
+            <!-- <label id="filter-menu" class="check-container choose-container" (click)="selectIndustry(ind)">
+          <img id="filter-menu" *ngIf="filterSettings.industry.industry === ind._id"
+          src="../../../../../../assets/images/check-tick-box.svg">
+          {{ind.Title}}
+        
+        </label> -->
+
+          </li>
+        </ul>
+      </div>
+   
+  </div>
+
+  <div (clickOutside)="clickedOutside($event)" style="position: relative;"
+    [ngClass]="showMenu === 'location' ? 'custom-drop-section1 location-drop-section show' : 'custom-drop-section1 location-drop-section'">
+    <div id="filter-menu" (click)="toggleMenu('location')"
+      [ngClass]="showMenu === 'location' ? 'custom-drop-section location-drop-section show' : 'custom-drop-section location-drop-section'">
+      <div id="filter-menu">
+        <label id="filter-menu">
+          Location
+        </label>
+        <img id="filter-menu" src="../../../../../assets/images/drop-down-icon.svg">
+      </div>
+
+
+    </div>
+    <div class="custom-drop-section-inner" *ngIf="showMenu === 'location'">
+      <div id="filter-menu" class="top-section">
+        <input type="text" id="filter-menu" class="form-control searchCls" (keyup)="searchLocations($event)"
+          placeholder="Add a country/region">
+        <ul *ngIf="displayLocation && (searchedLocations && searchedLocations.length)">
+          <li id="filter-menu" *ngFor="let location of searchedLocations">
+            <label id="filter-menu" class=" check-container"
+              (click)="selectLocationOption($event, location)">{{location.country}}
+            </label>
+          </li>
+        </ul>
+      </div>
+      <ul>
+        <li id="filter-menu" *ngFor="let location of locationOptions">
+          <label id="filter-menu" class=" check-container">{{location.country}}
+            <input id="filter-menu" type="checkbox"
+              [checked]="filterSettings.industry.location.includes(location.country)"
+              (change)="addLocationOption($event, location.country)">
+            <span id="filter-menu" class="checkmark"></span>
+          </label>
+          <img (click)="removeSettings(location,'location')" id="filter-menu"
+            src="../../../../../../assets/images/ico-close.svg">
+        </li>
+      </ul>
+
+      <div id="filter-menu" class="btn-section text-right">
+        <button id="filter-menu" (click)="saveSettings()">
+          Apply
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div (clickOutside)="clickedOutside($event)" style="position: relative;"
+    [ngClass]="showMenu === 'employee' ? 'custom-drop-section1 employees-drop-section show' : 'custom-drop-section1 employees-drop-section'">
+    <div id="filter-menu" (click)="toggleMenu('employee')"
+      [ngClass]="showMenu === 'employee' ? 'custom-drop-section employees-drop-section show' : 'custom-drop-section employees-drop-section'">
+      <div id="filter-menu">
+        <label id="filter-menu">
+          Employees
+        </label>
+        <img id="filter-menu" src="../../../../../assets/images/drop-down-icon.svg">
+      </div>
+
+
+
+    </div>
+    <div class="custom-drop-section-inner" *ngIf="showMenu === 'employee'">
+      <ul>
+        <li id="filter-menu" *ngFor="let size of employees">
+          <label id="filter-menu" class=" check-container">{{size}}
+            <input id="filter-menu" type="checkbox" [checked]="filterSettings.industry.employees.includes(size)"
+              (change)="addEmployeeOption($event, size)">
+            <span id="filter-menu" class="checkmark"></span>
+          </label>
+        </li>
+      </ul>
+
+      <div class="btn-section text-right">
+        <button id="filter-menu" (click)="saveSettings()">
+          Apply
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
+
+<div class="showing-section" *ngIf="helperService.searchKeyword">
+  <p>
+    Showing {{totalCount}} results for {{helperService.searchKeyword}}
+  </p>
+</div>
+
+<div class="user-list">
+
+  <div class="user-box d-flex align-items-center" *ngFor="let org of organizations">
+    <div class="user-info d-flex align-items-center">
+      <div class="user-img">
+        <img [src]="org.avatar">
+      </div>
+      <div class="user-detail">
+        <div class="user-name">
+          <a style="cursor: pointer;" routerLink="/application/home/org-profile"
+            [queryParams]="{ organizationId: org._id,type:'profile'}">{{org.name}}</a>
+        </div>
+        <div class="user-followers">
+          {{org.size}} <span *ngIf="org.totalFollow"> - {{org.totalFollow}} followers</span>
+        </div>
+        <div class="user-about">
+          {{org.about}}
+        </div>
+      </div>
+    </div>
+    <div class="user-action d-flex flex-column">
+      <button [ngClass]="{'active':org.follow && org.follow=='true'}"
+        (click)='following(org)'>{{org.follow && org.follow=='true' ? "Following":"Follow"}}</button>
+
+      <button>
+        <a style="cursor: pointer;" routerLink="/application/home/org-profile"
+          [queryParams]="{ organizationId: org._id,type:'profile'}">Contact</a>
+      </button>
+    </div>
+  </div>
+
+  <!-- <div class="user-box d-flex align-items-center">
+    <div class="user-info d-flex align-items-center">
+      <div class="user-img">
+        <img src="../../../../../../assets/images/home-depo.png">
+      </div>
+      <div class="user-detail">
+        <div class="user-name">
+          Home Depot
+        </div>
+        <div class="user-followers">
+          10,001+ employees - 1,984,753 followers
+        </div>
+        <div class="user-about">
+          The world’s largest home improvement specialty retailer, values and rewards dedicated, knowledgeable and
+          experienced professionals
+        </div>
+      </div>
+    </div>
+    <div class="user-action d-flex flex-column">
+      <button class="active">
+        Following
+      </button>
+
+      <button>
+        Contact
+      </button>
+    </div>
+  </div>
+
+  <div class="user-box d-flex align-items-center">
+    <div class="user-info d-flex align-items-center">
+      <div class="user-img">
+        <img src="../../../../../../assets/images/home-depo.png">
+      </div>
+      <div class="user-detail">
+        <div class="user-name">
+          Home Depot
+        </div>
+        <div class="user-followers">
+          10,001+ employees - 1,984,753 followers
+        </div>
+        <div class="user-about">
+          The world’s largest home improvement specialty retailer, values and rewards dedicated, knowledgeable and
+          experienced professionals
+        </div>
+      </div>
+    </div>
+    <div class="user-action d-flex flex-column">
+      <button class="active">
+        Following
+      </button>
+
+      <button>
+        Contact
+      </button>
+    </div>
+  </div>
+
+  <div class="user-box d-flex align-items-center">
+    <div class="user-info d-flex align-items-center">
+      <div class="user-img">
+        <img src="../../../../../../assets/images/home-depo.png">
+      </div>
+      <div class="user-detail">
+        <div class="user-name">
+          Home Depot
+        </div>
+        <div class="user-followers">
+          10,001+ employees - 1,984,753 followers
+        </div>
+        <div class="user-about">
+          The world’s largest home improvement specialty retailer, values and rewards dedicated, knowledgeable and
+          experienced professionals
+        </div>
+      </div>
+    </div>
+    <div class="user-action d-flex flex-column">
+      <button class="active">
+        Following
+      </button>
+
+      <button>
+        Contact
+      </button>
+    </div>
+  </div>
+
+  <div class="user-box d-flex align-items-center">
+    <div class="user-info d-flex align-items-center">
+      <div class="user-img">
+        <img src="../../../../../../assets/images/home-depo.png">
+      </div>
+      <div class="user-detail">
+        <div class="user-name">
+          Home Depot
+        </div>
+        <div class="user-followers">
+          10,001+ employees - 1,984,753 followers
+        </div>
+        <div class="user-about">
+          The world’s largest home improvement specialty retailer, values and rewards dedicated, knowledgeable and
+          experienced professionals
+        </div>
+      </div>
+    </div>
+    <div class="user-action d-flex flex-column">
+      <button class="active">
+        Following
+      </button>
+
+      <button>
+        Contact
+      </button>
+    </div>
+  </div> -->
+
+</div>

@@ -1,0 +1,33 @@
+<app-header></app-header>
+<div class="contnet-section d-flex">
+  <div class="market-left-side-section">
+    <app-left-sidebar-menu></app-left-sidebar-menu>
+    <app-chat></app-chat>
+  </div>
+  <div class="profile-section">
+    <div class="middle-tab-section">
+      <mobile-menu></mobile-menu>
+      <ul class="nav nav-tabs">
+        <li [ngClass]="{ active: activeTabId === 'profile', preActiveTab: activeTabId === 'businessprofile' }"><a
+            data-toggle="tab" id='profileTab' (click)="navigateComponent('profile')">My Profile</a></li>
+        <li [ngClass]="{ active: activeTabId === 'businessprofile', preActiveTab: activeTabId === 'workspace' }"><a
+            data-toggle="tab" id='profileTab' (click)="navigateComponent('businessprofile')">Business Profile</a></li>
+        <li [ngClass]="{ active: activeTabId === 'workspace', preActiveTab: activeTabId === 'services'}"><a
+            data-toggle="tab" id='profileTab' (click)="navigateComponent('workspace')">My Group</a></li>
+        <li [ngClass]="{ active: activeTabId === 'services', preActiveTab: activeTabId === 'email-notification' }"><a
+            data-toggle="tab" id='profileTab' (click)="navigateComponent('services')">Services</a></li>
+        <li [ngClass]="{ active: activeTabId === 'email-notification' }"><a data-toggle="tab"
+            (click)="navigateComponent('email-notification')" id='profileTab'>Email & Notifications</a></li>
+        <li [ngClass]="{ active: activeTabId === 'platform-billing' }"><a data-toggle="tab"
+            (click)="navigateComponent('platform-billing')" id='profileTab'>Platform Billing</a></li>
+
+        <li *ngIf="isMonetisationTab" [ngClass]="{ active: activeTabId === 'monetization' }"><a data-toggle="tab"
+            (click)="navigateComponent('monetization')" id='profileTab'>Monetization</a></li>
+
+        <li [ngClass]="{ active: activeTabId === 'billing' }"><a data-toggle="tab"
+            (click)="navigateComponent('billing')" id='profileTab'>Billing</a></li>
+      </ul>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

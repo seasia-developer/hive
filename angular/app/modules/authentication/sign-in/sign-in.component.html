@@ -1,0 +1,118 @@
+<div class="contant_sec">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="logo_img">
+        <a><img src="../../assets/images/voxxi-logo.svg"></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="welcom-text">
+    <p>Welcome back! Please login to your account</p>
+  </div>
+
+  <div class="middle-body-section">
+    <div class="left_col">
+      <img src="../assets/images/d.svg">
+    </div>
+    <div class="right_col">
+      <form [formGroup]="signInForm">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group login-google-btn">
+
+              <button type="button" class="btn btn-primary" value="google"
+                (click)="_loginWithGoogle()">Login with Google</button>
+
+              <!-- <button type="button" class="btn btn-primary" value="google"
+                (click)="signInWithGoogle()">Login with Google</button> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group or-txt-section">
+              <h2>OR</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group email-box">
+              <p class="error" *ngIf="showError">
+                {{errorMessage}}
+              </p>
+              <input type="email" class="form-control" id="email"
+                placeholder="Email" name="email" formControlName="email">
+              <div *ngIf="submitted && form.email.errors">
+                <div class="error-message" *ngIf="form.email.errors.required">Email Id is required </div>
+                <div class="error-message" *ngIf="form.email.errors.email"> Enter valid Email Id </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row password-box-animation" [ngClass]="isValidEmail ? 'active' : ''">
+          <div class="col-lg-12">
+            <div class="form-group password-box re-password-box">
+              <input [type]="confirmPasswordType"
+                class="form-control password-field-px"  id="password" [ngClass]="{'border-danger':passwordLengthError}" placeholder="Password" name="password" (keyup)="checkPasswordLength()" [(ngModel)]="password" formControlName="password">
+              <div class="view-password">
+                <img *ngIf="confirmPasswordType === 'password'" src="../../../../assets/images/eye.svg"
+                  (click)="confirmPasswordType = 'text'">
+                <img *ngIf="confirmPasswordType === 'text'" src="../../../../assets/images/eye-cross.svg"
+                  (click)="confirmPasswordType = 'password'">
+              </div>
+               <!-- IF PASSWORD LENGTH ERROR  -->
+               <div *ngIf="passwordLengthError">
+                <div *ngIf="password.length < passwordMinLength" class="error-message">Password must be greater than {{passwordMinLength}} characters</div>
+                  <div *ngIf="password.length > passwordLength" class="error-message">Password must be less than {{passwordLength}} characters</div>
+              </div>
+              <!-- PASSWORD VALIDATION  -->
+              <div *ngIf="submitted && form.password.errors">
+                <div class="error-message" *ngIf="form.password.errors.required">Password is required </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group btn-section">
+              <button *ngIf="!isValidEmail" type="submit" class="btn btn-submit" (click)="checkMail()" [disabled]="disableButtonForInvalidPassword">Continue</button>
+              <button *ngIf="isValidEmail" type="submit" class="btn btn-submit " (click)="signIn()"  
+              [disabled]="disableButtonForInvalidPassword || submitted">
+
+              <span *ngIf="submitted" class="btn-loader open"></span> 
+              <span *ngIf="!submitted">Submit</span>
+            
+            </button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label class="form-check-label">
+                Remember me
+                <input type="checkbox" name="remember" formControlName="remember">
+                <span class="checkmark"></span>
+              </label>
+              <label class="forgot-label" routerLink="/auth/forgot-password">Forgot Password</label>
+            </div>
+          </div>
+
+          <div class="col-12" *ngIf="!emailIsverified && loginEmail">
+            <div class="w-100 mt-50px-imp text-center">
+              <p class="text-center">Didn’t you receive the email?</p>
+              <button class="text-center text-danger cursor-pointer border-0 bg-transparent" (click)="resendSignUpVerification()">Resend the confirmation</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group-terms">
+          <p class="terms-account login-add">Don't have an account yet? <a routerLink="/auth/sign-up">Sign Up</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+  <app-support-links></app-support-links>
+</div>

@@ -1,0 +1,243 @@
+<div class="right-side-section" *ngIf="!userIdFromPostList">
+  <div class="box-wraper" *ngIf="percentCount != 100.0">
+    <div class="user-complate-profile d-flex align-items-center">
+      <div class="user-img">
+        <img src="../../../../../../assets/images/user.png" *ngIf="!avatar">
+        <img [src]="mediaUrl + avatar" *ngIf="avatar">
+      </div>
+      <div class="user-complate-profile-inner d-flex flex-column">
+        <label>
+          {{ percentCount }}%
+        </label>
+        <span>
+          Completed
+        </span>
+      </div>
+    </div>
+
+    <div class="user-profile-section">
+      <ul>
+        <li>
+          <label class="checkbox-container">
+            <input type="checkbox" checked="checked" [checked]="statusArray[0]" disabled>
+            <span class="checkmark"></span>
+          </label>
+          <label class="user-profile-txt" (click)="goToMyProfile()">Upload photo</label>
+        </li>
+        <li>
+          <label class="checkbox-container">
+            <input type="checkbox" checked="checked" [checked]="statusArray[1]" disabled>
+            <span class="checkmark"></span>
+          </label>
+          <label class="user-profile-txt" (click)="goToMyProfile()">Enter your Position</label>
+        </li>
+        <li>
+          <label class="checkbox-container">
+            <input type="checkbox" checked="checked" [checked]="statusArray[2]" disabled>
+            <span class="checkmark"></span>
+          </label>
+          <label class="user-profile-txt" (click)="goToBusinessProfile()">Add business profile</label>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box-wraper">
+    <div class="online-section">
+      <div class="title">
+        WHOS ONLINE
+      </div>
+      <ul>
+        <li *ngFor="let follower of socketService.onlineUsers" class="d-flex align-items-center justify-content-between" style="cursor: pointer;">
+          <div class="user-detail d-flex align-items-center" (click)="getMessages(follower)">
+            <img [src]="follower.user.avatar && follower.user.avatar !== undefined ? mediaUrl + follower.user.avatar : '../../../../../../assets/images/user.png'">
+            <div class="user-name">
+              {{follower.user.firstName}} {{follower.user.lastName}} 
+              <span>
+                <!-- Tesla -->
+              </span>
+            </div>
+          </div>
+          <div class="user-status">
+            <img *ngIf="follower.followsBack" src="../../../../../../assets/images/online.svg">
+            <img *ngIf="!follower.followsBack" src="../../../../../../assets/images/offline.svg">
+          </div>
+        </li>
+
+        <!-- <li class="d-flex align-items-center justify-content-between">
+          <div class="user-detail d-flex align-items-center">
+            <img src="../../../../../../assets/images/user.png">
+            <div class="user-name">
+              Steve Rivers -
+              <span>
+                Tesla
+              </span>
+            </div>
+          </div>
+          <div class="user-status">
+            <img src="../../../../../../assets/images/offline.svg">
+          </div>
+        </li>
+        <li class="d-flex align-items-center justify-content-between">
+          <div class="user-detail d-flex align-items-center">
+            <img src="../../../../../../assets/images/user.png">
+            <div class="user-name">
+              Steve Rivers -
+              <span>
+                Tesla
+              </span>
+            </div>
+          </div>
+          <div class="user-status">
+            <img src="../../../../../../assets/images/offline.svg">
+          </div>
+        </li>
+        <li class="d-flex align-items-center justify-content-between">
+          <div class="user-detail d-flex align-items-center">
+            <img src="../../../../../../assets/images/user.png">
+            <div class="user-name">
+              Steve Rivers -
+              <span>
+                Tesla
+              </span>
+            </div>
+          </div>
+          <div class="user-status">
+            <img src="../../../../../../assets/images/online.svg">
+          </div>
+        </li>
+        <li class="d-flex align-items-center justify-content-between">
+          <div class="user-detail d-flex align-items-center">
+            <img src="../../../../../../assets/images/user.png">
+            <div class="user-name">
+              Steve Rivers -
+              <span>
+                Tesla
+              </span>
+            </div>
+          </div>
+          <div class="user-status">
+            <img src="../../../../../../assets/images/online.svg">
+          </div>
+        </li>
+        <li class="d-flex align-items-center justify-content-between">
+          <div class="user-detail d-flex align-items-center">
+            <img src="../../../../../../assets/images/user.png">
+            <div class="user-name">
+              Steve Rivers -
+              <span>
+                Tesla
+              </span>
+            </div>
+          </div>
+          <div class="user-status">
+            <img src="../../../../../../assets/images/online.svg">
+          </div>
+        </li>
+        <li class="d-flex align-items-center justify-content-between">
+          <div class="user-detail d-flex align-items-center">
+            <img src="../../../../../../assets/images/user.png">
+            <div class="user-name">
+              Steve Rivers -
+              <span>
+                Tesla
+              </span>
+            </div>
+          </div>
+          <div class="user-status">
+            <img src="../../../../../../assets/images/offline.svg">
+          </div>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="right-side-section" *ngIf="userIdFromPostList">
+  <div class="user-info-section">
+    <div class="inside-user-info-section">
+      <div class="user-profile-pic">
+        <img src="../../../../../assets/images/user.png" *ngIf="!userInfo?.avatar">
+        <img [src]="mediaUrl + userInfo?.avatar" *ngIf="userInfo?.avatar">
+        <div class="user-status" [ngClass]="{online: helperService.userActiveStatuses.data && helperService.userActiveStatuses.data[userIdFromPostList]}">
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="border-btn" *ngIf="businessRelationshipStatus" (click)="assignTask()">
+          Assign Task
+        </button>
+        <div *ngIf="!userIdFromSubscribe">
+          <button class="green-btn" (click)="doFollowUnfollow()" *ngIf="userId !== userIdFromPostList">
+            {{ followType === "follow" ? 'Unfollow' : 'Follow' }}
+          </button>
+        </div>
+        <div *ngIf="userIdFromSubscribe">
+          <button class="green-btn" (click)="doFollowUnfollow()" *ngIf="userId !== userIdFromSubscribe">
+            {{ followType === "follow" ? 'Unfollow' : 'Follow' }}
+          </button>
+        </div>
+      </div>
+      <div class="user-detail-section inside-p15">
+        <div class="user-name">
+          <label *ngIf="userInfo?.firstName">
+            {{ userInfo.firstName + " " + userInfo.lastName }}
+          </label>
+          <span *ngIf="userInfo?.position">
+            {{ userInfo.position }} {{ userInfo.businessName ? ' at ' + userInfo.businessName : ''}}
+          </span>
+        </div>
+      </div>
+      <p class="inside-p15 headline-title" *ngIf="userInfo?.headline">
+        {{ userInfo.headline }}
+      </p>
+      <div class="user-inner-wraper headline-title-bottom inside-p15" *ngIf="userInfo?.about">
+        <p>{{ userInfo.about }}</p>
+      </div>
+      <div class="inside-p15 user-inner-wraper" *ngIf="userInfo?.email">
+        <div class="title">
+          Email
+        </div>
+        <div class="sub-ttl link-txt">
+          {{ userInfo.email }}
+        </div>
+      </div>
+      <div class="inside-p15 user-inner-wraper" *ngIf="userInfo?.phone">
+        <div class="title">
+          Phone
+        </div>
+        <div class="sub-ttl" *ngFor="let arr of userInfo?.phone; let i = index">
+          <div>
+            {{ arr.type }}
+            {{ arr.type === 'Skype' || arr.type === 'Messenger' ? '' : arr.countryCode }}
+            {{ arr.number }}
+          </div>
+        </div>
+      </div>
+      <div class="inside-p15 user-inner-wraper" *ngIf="userInfo?.website">
+        <div class="title">
+          Website
+        </div>
+        <div class="sub-ttl link-txt">
+          {{ userInfo.website }}
+        </div>
+      </div>
+      <div class="inside-p15 user-inner-wraper" *ngIf="userInfo?.aptSuite">
+        <div class="title">
+          Address
+        </div>
+        <div class="sub-ttl">
+          {{ userInfo.aptSuite }}
+          {{ userInfo.aptSuite && userInfo.address ? ' / ' : ''}}
+          {{ userInfo.address }}
+          <br *ngIf="userInfo.aptSuite || userInfo.address">
+          {{ userInfo.city
+            + ' ' + userInfo.state
+            + ' ' + userInfo.zip
+            }}
+          <br *ngIf="userInfo.city || userInfo.state || userInfo.zip">
+          {{ userInfo.country }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

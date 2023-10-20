@@ -1,0 +1,55 @@
+@import "../../../../../SCSS/custom-variable";
+
+::-webkit-input-placeholder {
+  color: $box_txt_color !important;
+  font-size: $box_small_text !important;
+}
+
+:-ms-input-placeholder {
+  color: $box_txt_color !important;
+  font-size: $box_small_text !important;
+}
+
+::placeholder {
+  color: $box_txt_color !important;
+  font-size: $box_small_text !important;
+}
+
+@media(max-width:575px) {
+  .organization-content {
+    .organization-body {
+      .form-group {
+        ul {
+          li {
+            margin: 0 10px 12px;
+
+            &:first-child {
+              margin-left: 10px;
+            }
+
+            &:nth-child(11) {
+              margin-left: 10px;
+            }
+
+            &:nth-child(21) {
+              margin-left: 10px;
+            }
+
+            &:last-child {
+              margin-right: 10px;
+            }
+
+            &:nth-child(10) {
+              margin-right: 10px;
+            }
+
+            &:nth-child(20) {
+              margin-right: 10px;
+            }
+            
+          }
+        }
+      }
+    }
+  }
+}

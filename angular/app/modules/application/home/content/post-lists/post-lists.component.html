@@ -1,0 +1,1974 @@
+<app-header></app-header>
+<div class="contnet-section d-flex">
+  <app-left-sidebar-menu></app-left-sidebar-menu>
+  <app-chat></app-chat>
+  <mobile-menu></mobile-menu>
+  <div class="middle-section wall-section">
+    <div class="w-100">
+      <div class="tab-section" *ngIf="homeService.applicationList && homeService.applicationList.length">
+        <div class="middle-tab-section">
+
+          <div *ngIf="isDisplayApps && homeService.wsRole && homeService.wsRole !== 'light_member'"
+            id="middle-apps-tabs-container" class="middle-apps-tabs-container position-relative min-height-30px">
+
+            <ul class="nav nav-tabs w-100 no-selection" *ngIf="appsNav">
+              <!-- TABS MOVE TO LEFT -->
+              <li id="scroll-left-button" (click)="scrollAppTabToLeft()"
+                class="scroll-left-button position-absolute top-0 bottom-0 left-0 z-index-999 cursor-pointer border-top-left-radius-0 px-2">
+                <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                      d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+                  </svg>
+                </span>
+              </li>
+              <!-- TABS MOVE TO RIGHT -->
+              <li id="scroll-right-button" (click)="scrollAppTabToRight()"
+                class="position-absolute top-0 bottom-0 right-0 z-index-999 cursor-pointer border-top-right-radius-0 px-2">
+                <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                      d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                  </svg>
+                </span>
+              </li>
+            </ul>
+
+            <div class="w-100 min-height-30px overflow-hidden" [ngClass]="{ 'px-4' : appsNav }">
+
+              <div id="apps-slider-container-cs" class="w-100" [ngClass]="{ 'px-1' : appsNav }">
+
+                <ul #container1 id="apps-tabs-container"
+                  class="elements horizontal nav nav-tabs position-relative mb-0 pb-0 h-100 flex flex-grow-1"
+                  cdkDropListLockAxis="x" cdkDropListOrientation="horizontal" (cdkDragStartDelay)="5000" cdkDropList
+                  (cdkDropListDropped)="dropTab($event)" (cdkDropListSorted)="dragTab($event)"
+                  [ngClass]="{ 'px-2' : appsNav }">
+
+                  <!-- <div class="w-100 min-height-30px" [ngClass]="{ 'px-1' : appsNav }">
+                <ul id="apps-tabs-container" class="nav nav-tabs position-relative z-index-999 mb-0 pb-0 h-100 flex flex-grow-1 min-height-30px" (cdkDragStartDelay)="5000" cdkDropListOrientation="horizontal" cdkDropList
+                  (cdkDropListDropped)="dropTab($event)" [ngClass]="{ 'px-2' : appsNav }"> -->
+
+                  <li class="nav-tabs-drag-custom flex flex-grow-0 element horizontal" cdkDrag vsDragScroll
+                    [vsDragScrollContainer]="container1" *ngFor="let app of homeService.applicationList; index as i"
+                    [ngClass]="{active: activeAppIndex === i}" (click)="activeAppIndex = i">
+                    <!-- <div class="example-custom-placeholder" *cdkDragPlaceholder></div> -->
+                    <a class="d-flex align-items-center" id="app-view" data-toggle="tab"
+                      (click)="changeApplication(app)" style="cursor: pointer;">
+                      {{app.name}}
+                    </a>
+                  </li>
+                  <li style="min-width: 25px;"
+                    *ngIf="(helperService.orgRole && helperService.orgRole!='light_member' && helperService.orgRole!='undefined')  || (homeService.wsRole=='admin' || homeService.wsRole=='member') || helperService.orgRole === ''">
+                    <img src="../../../../../assets/images/plus-icon.svg" style="width: 12px;"
+                      (click)="goToAddApp(homeService.activeWorkspaceId)">
+                  </li>
+                  <!-- <li class="active">
+                  <a data-toggle="tab" href="#Clients">
+                    Clients
+                  </a>
+                  <div class="icon-box">
+                    <img src="../../../../../../assets/images/drop-down-icon.svg">
+                  </div>
+                </li>
+                <li>
+                  <a data-toggle="tab" href="#Projects">
+                    Projects
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="tab" href="#Tasks">
+                    Tasks
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="tab" href="#Meetings">
+                    Meetings
+                  </a>
+                </li> -->
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="tab-content d-none">
+            <!-- <div id="Clients" class="tab-pane fade in active show">
+              <div class="tab-inner-section">
+                <div class="search-section">
+                  <div class="box-wraper">
+                    <div class="search-section-inner">
+                      <input type="text" class="form-control" placeholder="Whatsss on Your mind?">
+                      <span>
+                        @
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <div id="Projects" class="tab-pane fade">
+              <div class="tab-inner-section">
+                Projects section
+              </div>
+            </div>
+            <div id="Tasks" class="tab-pane fade">
+              <div class="tab-inner-section">
+                task section
+              </div>
+            </div>
+            <div id="Meetings" class="tab-pane fade">
+              <div class="tab-inner-section">
+                meetings
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #SocialSharepost>
+        <div class="social-create-post-modal-section" id="sharePop" (clickOutside)="clickedOutside($event)">
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Share Post</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="addShareForm">
+              <div class="user-post-section">
+                <div class="user-post-inner-section">
+                  <div class="user-img">
+                    <img
+                      [src]="userData?.avatar ? mediaUrl + userData?.avatar : '../../../../../assets/images/user.png'">
+                  </div>
+                  <div class="user-post-comment post-modal-user-comment-section">
+                    <div ngDefaultControl formControlName="comment" name="comment" class="form-control  heightUnset"
+                      id="commentSectionShare" type="text" placeholder="What's on your Mind?"
+                      [mentionListTemplate]="mentionList" (opened)="tempFunc()" (closed)="tempFunc1()"
+                      [mention]="mentionUserList"
+                      [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentionedShare, dropUp: true}"
+                      [innerHTML]="editShareComment" (keyup)="addComment($event)" (keyup)="findUrl($event)"
+                      contenteditable="true" style="white-space: pre-line;">&nbsp;
+                    </div>
+                    <div class="post-link-section" *ngFor="let url of urlData">
+                      <div class="post-link-inner">
+                        <!-- <a href="{{url.url}}" target="_blank">{{url.url}}</a> -->
+                        <a href="{{url.url}}" target="_blank">
+                          <img class="urlCls" [src]='url.image'></a>
+                        <a href="{{url.url}}" target="_blank">
+                          <div class="link-box-section">
+                            <label>{{url.title}}</label>
+                            <div class="post-link-detail">{{url.description}}</div>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- already added post -->
+                <div class="post-add-share-post-modal">
+                  <div class="post-add-share-post-inner">
+                    <div class="user-img">
+                      <img
+                        [src]="sharePostComment.user.avatar && sharePostComment.user.avatar !== undefined ? mediaUrl + sharePostComment.user.avatar : '../../../../../../assets/images/user.png'">
+                      <div class="user-status"
+                        [ngClass]="{online: helperService.userActiveStatuses.data && helperService.userActiveStatuses.data[sharePostComment.user._id] || userData.owner == sharePostComment.user._id}">
+                      </div>
+                    </div>
+                    <div class="user-detail">
+                      <div class="user-name">
+                        <span>{{sharePostComment.user.name}}</span>
+                      </div>
+                      <div class="user-post">
+                        {{sharePostComment.user.position}}
+                        <span *ngIf="sharePostComment.user.businessName">
+                          at {{sharePostComment.user.businessName}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="user-comment-section" *ngIf="mentionUserList.length > 0"> -->
+                  <div class="user-comment-section">
+                    <div ngDefaultControl class="form-control  heightUnset" id="commentShare" type="text"
+                      [mentionListTemplate]="mentionList" [mention]="mentionUserList"
+                      [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentioned, dropUp: true}"
+                      [innerHTML]="sharePostComment.comment" contenteditable="false" style="white-space: pre-line;">
+                      &nbsp;
+                    </div>
+                  </div>
+                  <!-- </div> -->
+                  <div class="post-link-section" *ngIf='sharePostComment.comment_rich_link'>
+                    <div class="post-link-inner" *ngFor="let url of sharePostComment.comment_rich_link">
+                      <!-- <a href="{{url.url}}" target="_blank">{{url.url}}</a> -->
+                      <a href="{{url.url}}" rel="nofollow noopener" target="_blank"><img class="urlCls"
+                          [src]='url.image'></a>
+                      <a href="{{url.url}}" rel="nofollow noopener" target="_blank">
+                        <div class="link-box-section">
+                          <label>{{url.title}}</label>
+                          <div class="post-link-detail">{{url.description}}</div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="img-upload-section">
+                    <div class="img-preview-section">
+                      <div class="upload-img-wraper" *ngFor="let file of sharePostComment.avatar; index as index">
+                        <img class="preview-img" [src]="mediaUrl + file.attachment.srcPath">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="btn-section share-btn">
+                  <button (click)="share()" [disabled]="btnDisable">
+                    Share
+                  </button>
+                </div>
+
+              </div>
+            </form>
+
+          </div>
+          <!-- </div>
+        </div> -->
+        </div>
+      </ng-template>
+
+      <ng-template #Socialcreatepost
+        *ngIf="userPermissionsOnRole(helperService.orgRole,homeService.wsRole,homeOrgId,homeWsId)">
+        <div class="social-create-post-modal-section" id="postPop" (clickOutside)="clickedOutside($event)">
+          <div class="modal-header">
+            <h4 class="modal-title pull-left"> {{ isEdit ? 'Edit' : 'Create' }} Post</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="addPostForm">
+              <div class="user-post-section">
+                <div class="user-post-inner-section">
+                  <div class="user-img">
+                    <img
+                      [src]="userData?.avatar ? mediaUrl + userData?.avatar : '../../../../../assets/images/user.png'">
+                  </div>
+
+                  <div class="user-post-comment post-modal-user-comment-section">
+                    <div ngDefaultControl formControlName="comment" name="comment" class="form-control  heightUnset"
+                      id="commentSection" type="text" placeholder="Whats on your Mind?" (opened)="tempFunc()"
+                      (closed)="tempFunc1()" [innerHTML]="editComment" (keyup)="addComment($event)"
+                      (keyup)="findUrl($event)" contenteditable="true" style="white-space: pre-line;" autofocus>&nbsp;
+                    </div>
+                    <!-- <div ngDefaultControl formControlName="comment" name="comment" class="form-control  heightUnset"
+                    id="commentSection" type="text" placeholder="Whats on your Mind?"
+                    [mentionListTemplate]="mentionList" (opened)="tempFunc()" (closed)="tempFunc1()"
+                    [mention]="mentionUserList"
+                    [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentioned, dropUp: true}"
+                    [innerHTML]="editComment" (keyup)="addComment($event)" (keyup)="findUrl($event)"
+                    contenteditable="true" style="white-space: pre-line;" autofocus>&nbsp;
+                  </div> -->
+                    <!-- <div  class="quill-editor" id="editor">
+                      <quill-editor  [modules]="quill" ngDefaultControl formControlName="comment"  name="comment" [style]="{height: '200px'}"></quill-editor>
+                    </div> -->
+                    <!-- <app-post-mention ngDefaultControl formControlName="comment" name="comment"></app-post-mention> -->
+                  </div>
+                  <!-- <button (click)="openMentionList()"
+                    style="cursor:pointer; border: none; background: none; bottom: 0px; position: absolute; right: 5px;">
+                    @ </button> -->
+
+
+                </div>
+                <!-- <div class="mention-section text-right" (click)="openMentionList()">
+                    @
+                  </div> -->
+
+
+                <!-- add div for preview -->
+                <div class="post-link-section" *ngFor="let url of urlData">
+                  <div class="post-link-inner">
+                    <!-- <a href="{{url.url}}" target="_blank">{{url.url}}</a> -->
+                    <a href="{{url.url}}" target="_blank"> <img class="urlCls" [src]='url.image'></a>
+                    <a href="{{url.url}}" target="_blank">
+                      <div class="link-box-section">
+                        <label>{{url.title}}</label>
+                        <div class="post-link-detail">{{url.description}}</div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="img-upload-section">
+                  <div *ngIf="!isEdit" class="img-preview-section">
+                    <div class="upload-img-wraper" *ngFor="let file of imageData; index as index">
+                      <img class="preview-img" [src]="file.source" *ngIf="!imagePrevOfRes">
+                      <img class="preview-img" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                      <img class="cancel-img" (click)="removeImg(index)" *ngIf="!imagePrevOfRes"
+                        src="../../../../../../assets/images/Close-icon.svg">
+                      <img class="cancel-img" (click)="removeUpdatedImg(index)" *ngIf="imagePrevOfRes"
+                        src="../../../../../../assets/images/Close-icon.svg">
+                    </div>
+                  </div>
+                  <div *ngIf="isEdit" class="img-preview-section">
+                    <div class="upload-img-wraper" *ngFor="let file of updatedImageData; index as index">
+                      <img class="preview-img" [src]="mediaUrl+file.source" *ngIf="!imagePrevOfRes">
+                      <img class="preview-img" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                      <!-- <img class="close-icon" (click)="removeUpdatedImg(index)"
+                          src="../../../../../assets/images/Close-icon.svg"> -->
+                      <img class="cancel-img" (click)="removeUpdatedImg(index)"
+                        src="../../../../../../assets/images/dark-cancel.svg">
+                    </div>
+                    <div class="upload-img-wraper" *ngFor="let file of updateNewImage; index as index">
+                      <img class="preview-img" [src]="file.source" *ngIf="!imagePrevOfRes">
+                      <img class="preview-img" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                      <img class="cancel-img" (click)="removeUpdatedNewImg(index)"
+                        src="../../../../../../assets/images/dark-cancel.svg">
+                    </div>
+                  </div>
+                </div>
+                <div class="post-upload-section">
+                  <div class="upload-section-inner" (click)="openUploadModal()">
+                    <img src="../../../../../../assets/images/Image333.svg">
+                    <label>
+                      Images
+                    </label>
+                  </div>
+                  <!-- <div class="upload-section-inner" (click)="openUploadModal()">
+                    <img src="../../../../../../assets/images/ico-paperclip.svg">
+                    <label>
+                      Document
+                    </label>
+                  </div> -->
+                </div>
+                <div class="btn-section">
+                  <button (click)="submitForm()" [disabled]="btnDisable">
+                    Post
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+      </ng-template>
+
+
+      <ng-template #mentionList let-item="item">
+        <img
+          [src]="item.avatar && item.avatar !== '' ? mediaUrl + item.avatar : '../../../../../../assets/images/user.png'">
+        {{ item.fullName }}
+      </ng-template>
+      <button id="deleteRecordModalButton" type="button" class="btn btn-info btn-lg" data-toggle="modal"
+        data-target="#deleteRecordModal" hidden></button>
+      <!-- Delete post confirmation modal -->
+      <div class="modal fade ignoreBackdropClick" id="deleteRecordModal" ignoreBackdropClick="true" aria-hidden="true"
+        tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static"
+        config="{ignoreBackdropClick: true, keyboard: false}">
+        <div class="modal-dialog app-builder-section-modal help-section">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <img src="../../../../../assets/images/Close-icon.svg" id="closeModal" class="close" data-dismiss="modal">
+              <h4 class="modal-title">Delete Post</h4>
+            </div>
+            <div class="modal-body">
+              <div class="search-section">
+                Are you sure that you want to delete the post?
+                <!-- <img src="../../../../../assets/images/search-icon-light.svg"> -->
+              </div>
+              <div class="btn-section">
+                <button class="gray-btn" data-dismiss="modal">
+                  No
+                </button>
+                <button class="green-btn" (click)="confirmDeleteRecord()" data-dismiss="modal">
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button id="deleteCommentModalButton" type="button" class="btn btn-info btn-lg" data-toggle="modal"
+        data-target="#deleteCommenrModal" hidden></button>
+      <!-- Delete record confirmation modal -->
+      <div class="modal fade ignoreBackdropClick" id="deleteCommenrModal" ignoreBackdropClick="true" aria-hidden="true"
+        tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static"
+        config="{ignoreBackdropClick: true, keyboard: false}">
+        <div class="modal-dialog app-builder-section-modal help-section">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <img src="../../../../../assets/images/Close-icon.svg" id="closeModal" class="close" data-dismiss="modal">
+              <h4 class="modal-title">Delete Comment</h4>
+            </div>
+            <div class="modal-body">
+              <div class="search-section">
+                Are you sure that you want to delete the comment?
+                <!-- <img src="../../../../../assets/images/search-icon-light.svg"> -->
+              </div>
+              <div class="btn-section">
+                <button class="gray-btn" data-dismiss="modal">
+                  No
+                </button>
+                <button class="green-btn" (click)="confirmDeleteComment()" data-dismiss="modal">
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        [ngClass]="homeService.applicationList && homeService.applicationList.length ? 'search-section tab-search-section' : 'search-section'"
+        *ngIf="userPermissionsOnRole(helperService.orgRole,homeService.wsRole,homeOrgId,homeWsId)">
+        <div class="box-wraper">
+          <div class="search-section-inner">
+            <input type="text" class="form-control" placeholder="Whats on your mind?"
+              (click)="openModal(Socialcreatepost,'add')" autofocus>
+            <span>
+              @
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- <b>
+        <i>
+      Employee Role : {{helperService.orgRole}}
+      <br/>
+      Group Role : {{homeService.wsRole}}
+      --- Selected WS Id
+      <br/>
+      homeOrgId : {{homeOrgId}}
+       --- Selected Org Id
+      <br/>
+      homeWsId : {{homeWsId}}
+      </i>
+      </b> -->
+
+      <!-- <div class="extra posts-container" *ngIf="helperService.orgRole && helperService.orgRole !== 'light_member'"></div> -->
+      <div class="extra posts-container"
+        *ngIf="userPermissionsOnRole(helperService.orgRole,homeService.wsRole,homeOrgId,homeWsId)">
+        <div class="user-post-box-section posts-wrapper-1" *ngIf="activityList && activityList.length">
+          <div class="w-100" *ngFor="let activity of activityList; index as i">
+            <div *ngIf="true ? onlightUserPermission(activity.application_id) : true">
+              <div class="" *ngIf="isLightMemberPermission(activity.activity_sub_type,activity.workspaceRole)">
+                <div class="box-wraper">
+                  <div class="user-post-box">
+                    <div class="top-section">
+                      <div class="user-img">
+                        <img
+                          [src]="activity.user.avatar && activity.user.avatar !== undefined ? mediaUrl + activity.user.avatar : '../../../../../../assets/images/user.png'">
+                        <div class="user-status"
+                          [ngClass]="{online: helperService.userActiveStatuses.data && helperService.userActiveStatuses.data[activity.user._id] || userData.owner == activity.user._id}">
+                        </div>
+                      </div>
+                      <div class="user-detail">
+                        <div class="user-name">
+                          <span (click)="goToPublicProfile(activity.user._id , activity.workspace_id )">{{activity.user.name}}</span>
+                        </div>
+
+                        <div class="user-post">
+                          {{activity.user.position}}
+                          <span *ngIf="activity.user.businessName">
+                            at <a routerLink="/application/home/org-profile"
+                              [queryParams]="{ organizationId: activity.user.orgId,type:'profile'}">{{activity.user.businessName}}</a>
+                          </span>
+                        </div>
+
+                        <div class="user-date">
+                          <span *ngIf="activity.updatedAt">{{getActivityDateFormat(activity.updatedAt)}}</span>
+                          <span *ngIf="activity.createdAt">{{getActivityDateFormat(activity.createdAt)}}</span>
+                        </div>
+
+                        <div class="user-date">
+                          <span class="cursor-pointer color-2976DE" *ngIf="activity.organizationName"
+                            (click)="getOrgData(activity.organization_id,activity.organizationRole)">{{activity.organizationName}}</span>
+                          <span *ngIf="activity.organizationName && activity.workspaceName" class="mx-1">-</span>
+                          <span class="cursor-pointer color-2976DE" *ngIf="activity.workspaceName"
+                            (click)="getGroupData(activity.workspace_id,activity.workspaceRole)">{{activity.workspaceName}}</span>
+                        </div>
+
+                        <span class="record-ttl"
+                          *ngIf="activity.activity_sub_type=='CREATED_POST'|| activity.activity_sub_type=='SHARED_POST'">
+                          {{activity.createdAt | dateFormatActivity}}
+                        </span>
+                      </div>
+                      <div class="more-option created-or-shared-post" id="post-edit"
+                        *ngIf="(activity.activity_sub_type=='CREATED_POST' || activity.activity_sub_type=='SHARED_POST') && (userData.isSuperAdmin==true || activity.user._id==userData.owner)"
+                        (click)="toggleMenu(activity._id)">
+                        <img src="../../../../../../assets/images/more.svg" id="post-edit">
+                        <div class="more-option-dropdown" id="post-edit"
+                          *ngIf="openMenu === activity._id && ((activity.organization | keyvalue)?.length || (activity.workspace | keyvalue)?.length || activity.user._id==userData.owner || userData.isSuperAdmin==true)">
+                          <ul
+                            *ngIf="((activity.organization | keyvalue)?.length && activity.organizationRole!='light_member'|| (activity.workspace | keyvalue)?.length || activity.user._id==userData.owner || userData.role=='admin' || userData.isSuperAdmin==true)">
+                            <li *ngIf="activity.activity_sub_type=='CREATED_POST' && activity.user._id==userData.owner"
+                              (click)="editPost(activity)" id="post-edit" (clickOutside)="clickedOutside($event)">
+                              Edit
+                            </li>
+                            <li *ngIf="activity.activity_sub_type=='SHARED_POST' && activity.user._id==userData.owner"
+                              (click)="editShare(activity)" id="post-edit" (clickOutside)="clickedOutside($event)">
+                              Edit
+                            </li>
+                            <li (click)="deletePost(activity)" id="post-edit">
+                              Delete
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="post-middle-section CREATED_POST" *ngIf="activity.activity_sub_type=='CREATED_POST'">
+                      <div class="user-txt post-user-txt">
+                        <div style="white-space: pre-line; word-break: break-all;" [innerHTML]="activity.comment">
+                        </div>
+                      </div>
+                      <!-- add div for rich link -->
+                      <div class="post-link-section" *ngIf='activity.comment_rich_link'>
+                        <div class="post-link-inner" *ngFor="let url of activity.comment_rich_link">
+                          <!-- <a href="{{url.url}}" target="_blank">{{url.url}}</a> -->
+                          <a href="{{url.url}}" rel="nofollow noopener" target="_blank">
+                            <img class="urlCls" [src]='url.image'></a>
+                          <a href="{{url.url}}" rel="nofollow noopener" target="_blank">
+                            <div class="link-box-section">
+                              <label>{{url.title}}</label>
+                              <div class="post-link-detail">{{url.description}}</div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="user-post-single-img-section" *ngIf="activity.avatar && activity.avatar.length==1">
+                        <img style="cursor: pointer;" (click)="openImgModal(activity.avatar,1)"
+                          [src]="mediaUrl+activity.avatar[0].attachment.srcPath">
+                      </div>
+                      <div class="user-post-two-img-section" *ngIf="activity.avatar && activity.avatar.length==2">
+                        <img style="cursor: pointer;" (click)="openImgModal(activity.avatar,2)"
+                          *ngFor="let image of activity.avatar" [src]="mediaUrl+image.attachment.srcPath">
+                      </div>
+                      <div class="user-post-three-img-section" *ngIf="activity.avatar && activity.avatar.length==3">
+                        <img style="cursor: pointer;" (click)="openImgModal(activity.avatar,3)"
+                          *ngFor="let image of activity.avatar" [src]="mediaUrl+image.attachment.srcPath">
+                      </div>
+                      <div class="user-post-four-img-section" *ngIf="activity.avatar && activity.avatar.length==4">
+                        <img style="cursor: pointer;" (click)="openImgModal(activity.avatar,4)"
+                          *ngFor="let image of activity.avatar" [src]="mediaUrl+image.attachment.srcPath">
+                      </div>
+                      <div class="user-post-five-img-section" *ngIf="activity.avatar && activity.avatar.length>4">
+                        <div *ngFor="let image of activity.avatar|slice:0:5; let i=index" [class]="'img-title-'+ i">
+                          <img style="cursor: pointer;" (click)="openImgModal(activity.avatar,'all')"
+                            [src]="mediaUrl+image.attachment.srcPath">
+                          <div class="img-count" *ngIf="activity.avatar.length-5>0">
+                            <label (click)="openImgModal(activity.avatar,'all')">
+                              <!-- data-toggle="modal" data-target="#imgmodal" -->
+                              +{{activity.avatar.length-5}}
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="user-action-section mt-2">
+                        <ul>
+                          <li [ngClass]='activity.actClass' (click)="addLikes(activity)">
+                            <img class="unlike-icon" src="../../../../../../assets/images/like.svg">
+                            <img class="like-active-icon" src="../../../../../../assets/images/like-active.svg">
+                            Like {{activity.likesCount && activity.likesCount >0 ?activity.likesCount:''}}
+                          </li>
+                          <li (click)="focusComment(activity._id)"
+                            *ngIf="activity.user_id == userData.owner || userData.role=='admin' || userPermissionsOnRole(helperService.orgRole,homeService.wsRole,homeOrgId,homeWsId)">
+                            <img class="comment-icon" src="../../../../../../assets/images/ico-comment.svg">
+                            Comment
+                          </li>
+                          <li *ngIf="activity.activity_sub_type=='CREATED_POST'"
+                            (click)="sharePost(SocialSharepost,activity)">
+                            <img src="../../../../../../assets/images/chat-icon.svg">
+                            Share {{activity.shareCount && activity.shareCount>0?activity.shareCount:''}}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- add shared post portion -->
+                    <div class="post-middle-section SHARED_POST" *ngIf="activity.activity_sub_type=='SHARED_POST'">
+                      <div class="user-txt post-user-txt">
+                        <div style="white-space: pre-line;word-break: break-all;" [innerHTML]="activity.comment">
+                        </div>
+                      </div>
+                      <!-- add div for rich link -->
+                      <div class="post-link-section" *ngIf='activity.comment_rich_link'>
+                        <div class="post-link-inner" *ngFor="let url of activity.comment_rich_link">
+                          <!-- <a href="{{url.url}}" target="_blank">{{url.url}}</a> -->
+                          <a href="{{url.url}}" rel="nofollow noopener" target="_blank"><img class="urlCls"
+                              [src]='url.image'></a>
+                          <a href="{{url.url}}" rel="nofollow noopener" target="_blank">
+                            <div class="link-box-section">
+                              <label>{{url.title}}</label>
+                              <div class="post-link-detail">{{url.description}}</div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+
+                      <!-- add divs for related post data -->
+                      <div class="share-post-section">
+                        <div class="user-post-box">
+                          <div class="top-section">
+                            <div class="user-img">
+                              <img
+                                [src]="activity.shareUser.avatar && activity.shareUser.avatar !== undefined ? mediaUrl + activity.shareUser.avatar : '../../../../../../assets/images/user.png'">
+                              <div class="user-status"
+                                [ngClass]="{online: helperService.userActiveStatuses.data && helperService.userActiveStatuses.data[activity.user._id] || userData.owner == activity.user._id}">
+                              </div>
+                            </div>
+                            <div class="user-detail">
+                              <div class="user-name">
+                                <span
+                                  (click)="goToPublicProfile(activity.shareUser._id)">{{activity.shareUser.name}}</span>
+                                <div class="user-post">
+                                  {{activity.shareUser.position}}
+                                  <span *ngIf="activity.user.businessName">
+                                    at {{activity.shareUser.businessName}}
+                                  </span>
+                                </div>
+                                <span class="record-ttl">
+                                  {{activity.shareData.createdAt | dateFormatActivity}}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="user-txt post-user-txt">
+                            <div style="white-space: pre-line;word-break: break-all;" [innerHTML]="activity.shareData.comment">
+                            </div>
+                          </div>
+                          <!-- add div for rich link -->
+                          <div class="post-link-section" *ngIf='activity.shareData.comment_rich_link'>
+                            <div class="post-link-inner" *ngFor="let link of activity.shareData.comment_rich_link">
+                              <!-- <a href="link.url" target="_blank">{{link.url}}</a> -->
+                              <a href="{{link.url}}" rel="nofollow noopener" target="_blank"><img class="urlCls"
+                                  [src]='link.image'></a>
+                              <a href="{{link.url}}" rel="nofollow noopener" target="_blank">
+                                <div class="link-box-section">
+                                  <label>{{link.title}}</label>
+                                  <div class="post-link-detail">{{link.description}}</div>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="user-post-single-img-section"
+                          *ngIf="activity.shareData.avatar && activity.shareData.avatar.length==1">
+                          <img style="cursor: pointer;" (click)="openImgModal(activity.shareData.avatar,1)"
+                            [src]="mediaUrl+activity.shareData.avatar[0].attachment.srcPath">
+                        </div>
+                        <div class="user-post-two-img-section"
+                          *ngIf="activity.shareData.avatar && activity.shareData.avatar.length==2">
+                          <img style="cursor: pointer;" (click)="openImgModal(activity.shareData.avatar,2)"
+                            *ngFor="let image of activity.shareData.avatar" [src]="mediaUrl+image.attachment.srcPath">
+                        </div>
+                        <div class="user-post-three-img-section"
+                          *ngIf="activity.shareData.avatar && activity.shareData.avatar.length==3">
+                          <img style="cursor: pointer;" (click)="openImgModal(activity.shareData.avatar,3)"
+                            *ngFor="let image of activity.shareData.avatar" [src]="mediaUrl+image.attachment.srcPath">
+                        </div>
+                        <div class="user-post-four-img-section"
+                          *ngIf="activity.shareData.avatar && activity.shareData.avatar.length==4">
+                          <img style="cursor: pointer;" (click)="openImgModal(activity.shareData.avatar,4)"
+                            *ngFor="let image of activity.shareData.avatar" [src]="mediaUrl+image.attachment.srcPath">
+                        </div>
+                        <div class="user-post-five-img-section"
+                          *ngIf="activity.shareData.avatar && activity.shareData.avatar.length>4">
+                          <div *ngFor="let image of activity.shareData.avatar|slice:0:5; let i=index"
+                            [class]="'img-title-'+ i">
+                            <img style="cursor: pointer;" (click)="openImgModal(activity.shareData.avatar,'all')"
+                              [src]="mediaUrl+image.attachment.srcPath">
+                            <div class="img-count" *ngIf="activity.shareData.avatar.length-5>0">
+                              <label (click)="openImgModal(activity.shareData.avatar,'all')">
+                                +{{activity.shareData.avatar.length-5}}
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="user-action-section mt-2">
+                          <ul>
+                            <li [ngClass]='activity.actClass' (click)="addLikes(activity)">
+                              <img src="../../../../../../assets/images/like.svg">
+                              Like {{activity.likesCount && activity.likesCount >0 ?activity.likesCount:''}}
+                            </li>
+                            <li (click)="focusComment(activity._id)"
+                              *ngIf="activity.user_id == userData.owner || userData.role=='admin' || userPermissionsOnRole(helperService.orgRole,homeService.wsRole,homeOrgId,homeWsId)">
+                              <img class="comment-icon" src="../../../../../../assets/images/ico-comment.svg">
+                              Comment
+                              {{activity.ActivityCommentsTotal && activity.ActivityCommentsTotal >0
+                              ?activity.ActivityCommentsTotal:''}}
+                            </li>
+                            <li *ngIf="activity.activity_sub_type=='CREATED_POST'"
+                              (click)="sharePost(SocialSharepost,activity)">
+                              <img src="../../../../../../assets/images/chat-icon.svg">
+                              Share {{activity.shareCount && activity.shareCount>0?activity.shareCount:''}}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="post-middle-section CREATED_WORKSPACE"
+                      *ngIf="activity.activity_sub_type=='CREATED_WORKSPACE'">
+                      <div class="user-txt">
+                        <label>
+                          <div class="user-txt-inner">
+                            <img src="../../../../../../assets/images/ico-tick-box.svg">
+                            <span (click)="goToPublicProfile(activity.user._id)">
+                              {{ activity.user.name }}
+                            </span>
+                            created <span>{{activity.workspaceName}}</span> Group
+                          </div>
+                          <div class="date-section">
+                            {{activity.createdAt | dateFormatActivity}}
+                          </div>
+                        </label>
+                        <label>
+                          <!-- <div class="user-txt-inner">
+                            <img src="../../../../../../assets/images/arrow.svg">
+                            Action by
+                            <span (click)="goToPublicProfile(activity.user._id)">
+                              {{activity.user.name}}
+                            </span>
+                          </div> -->
+                          <!-- <div class="date-section">
+                            {{activity.createdAt | dateFormatActivity}}
+                          </div> -->
+                        </label>
+                        <div *ngFor="let activityChild of activity.subActivity" class="sub-activity">
+                          <span *ngIf="activityChild.activity_sub_type=='UPDATED_WORKSPACE'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-edit1.svg">
+                                <span (click)="goToPublicProfile(activityChild.user._id)">
+                                  {{activityChild.user.firstName+' '+ activityChild.user.lastName}}
+                                </span>
+                                updated - <span>{{activityChild.workspaceName}}</span>Group
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='UPDATED_APP'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-edit1.svg">
+                                <span (click)="goToPublicProfile(activityChild.user._id)">
+                                  {{activityChild.user.firstName+' '+ activityChild.user.lastName}}
+                                </span>
+                                updated -<a routerLink="/application/home/app-view/applicationView"
+                                  [queryParams]="{appId: activityChild.application_id, workspaceId: activityChild.workspace_id}">{{activityChild.applicationName}}</a>
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='CREATED_APP'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-tick-box.svg">
+                                <span (click)="goToPublicProfile(activityChild.user._id)">
+                                  {{activityChild.user.firstName+' '+ activityChild.user.lastName}}
+                                </span>
+                                created - <a routerLink="/application/home/app-view/applicationView"
+                                  [queryParams]="{appId: activityChild.application_id, workspaceId:activityChild.workspace_id}">{{activityChild.applicationName}}</a>
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='INVITED_USER'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-invitation.svg">
+                                <span (click)="goToPublicProfile(activityChild.user._id)">
+                                  {{activityChild.user.firstName+' '+ activityChild.user.lastName}}
+                                </span>
+                                invited to - <span
+                                  (click)="goToPublicProfile(activityChild.invited_user._id)">{{activityChild.invited_user.firstName
+                                  + ' '+activityChild.invited_user.lastName}}</span>
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='CREATED_RECORD'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-tick-box.svg">
+                                <span (click)="goToPublicProfile(activityChild.user._id)">
+                                  {{activityChild.user.firstName+' '+ activityChild.user.lastName}}
+                                </span>
+                                added record in - <a routerLink="/application/home/app-view/applicationView"
+                                  [queryParams]="{appId: activityChild.application_id, workspaceId: activityChild.workspace_id}">{{activityChild.applicationName}}</a>
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='UPDATED_RECORD'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-edit1.svg">
+                                <span (click)="goToPublicProfile(activityChild.user._id)">
+                                  {{activityChild.user.firstName+' '+ activityChild.user.lastName}}
+                                </span>
+                                updated record in - <a routerLink="/application/home/app-view/applicationView"
+                                  [queryParams]="{appId: activityChild.application_id, workspaceId:activityChild.workspace_id}">{{activityChild.applicationName}}</a>
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='LIKED_POST'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-like.svg">
+                                <span style="cursor: pointer;"
+                                  (click)="goToPublicProfile(activityChild.user._id)">{{activityChild.user.firstName+'
+                                  '+ activityChild.user.lastName}}</span>
+                                liked this
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='COMMENTED_ON'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img class="comment-icon" src="../../../../../../assets/images/ico-comment.svg">
+                                <span style="cursor: pointer;"
+                                  (click)="goToPublicProfile(activityChild.user._id)">{{activityChild.user.firstName+'
+                                  '+activityChild.user.lastName}}</span>
+                                commented on this post
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='COMMENTED_ON_APPLICATION'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img class="comment-icon" src="../../../../../../assets/images/ico-comment.svg">
+                                <span style="cursor: pointer;">{{activityChild.user.firstName+' '+
+                                  activityChild.user.lastName}}</span>
+                                commented on this record
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='TASK_CREATED'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-tick-box.svg">
+                                Task created by
+                                <span
+                                  (click)="goToPublicProfile(activityChild.user._id)">{{activityChild.user.firstName+'
+                                  '+ activityChild.user.lastName}}</span>
+                                in
+                                <a>{{activityChild.workspaceName}}</a>
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='TASK_UPDATED'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-tick-box.svg">
+                                Task updated by
+                                <span
+                                  (click)="goToPublicProfile(activityChild.user._id)">{{activityChild.user.firstName+'
+                                  '+ activityChild.user.lastName}}</span>
+                                in
+                                <a>{{activityChild.workspaceName}}</a>
+                              </div>
+                              <div class="time-section">
+                                {{ activityChild.createdAt | dateFormatActivity }}
+                              </div>
+                            </label>
+                          </span>
+                        </div>
+                        <div class="more-activity-section"
+                          *ngIf="activity.subActivityTotal &&  (activity.subActivityTotal - activity.subActivity.length) > 0">
+                          <div class="ttl">
+                            <img src="../../../../../../assets/images/ico-activity.svg">
+                            {{activity.subActivityTotal - activity.subActivity.length}} earlier activities <a
+                              (click)="getSubActivity(activity)">(show)</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="user-action-section mt-2">
+                        <ul>
+                          <li [ngClass]='activity.actClass' (click)="addLikes(activity)">
+                            <img src="../../../../../../assets/images/like.svg">
+                            Like {{activity.likesCount && activity.likesCount >0 ?activity.likesCount:''}}
+                          </li>
+                          <li (click)="focusComment(activity._id)"
+                            *ngIf="activity.user_id == userData.owner || userData.role=='admin' || userPermissionsOnRole(helperService.orgRole,homeService.wsRole,homeOrgId,homeWsId)">
+                            <img class="comment-icon" src="../../../../../../assets/images/ico-comment.svg">
+                            Comment
+                            {{activity.ActivityCommentsTotal && activity.ActivityCommentsTotal >0
+                            ?activity.ActivityCommentsTotal:''}}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="post-middle-section CREATED_ORGANIZATION"
+                      *ngIf="activity.activity_sub_type=='CREATED_ORGANIZATION'">
+                      <div class="user-txt">
+                        <label>
+                          <div class="user-txt-inner">
+                            <span (click)="goToPublicProfile(activity.user._id)">
+                              {{activity.user.name}}
+                            </span>
+                            created
+                            <span>
+                              <a routerLink="/application/home/org-profile"
+                                [queryParams]="{ organizationId: activity.organization_id,type:'profile'}">{{activity.organizationName}}</a>
+                            </span>
+                            organisation
+                          </div>
+                          <div class="date-section">
+                            {{activity.createdAt | dateFormatActivity}}
+                          </div>
+                        </label>
+                        <div *ngFor="let activityChild of activity.subActivity" class="sub-activity">
+                          <span *ngIf="activityChild.activity_sub_type=='LIKED_POST'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-like.svg">
+                                <span style="cursor: pointer;" (click)="goToPublicProfile(activityChild.user._id)">{{
+                                  activityChild.user.firstName+' '+ activityChild.user.lastName }}</span>
+                                liked this post
+                              </div>
+                              <div class="time-section">
+                                {{ activityChild.createdAt | dateFormatActivity }}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='COMMENTED_ON'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img class="comment-icon" src="../../../../../../assets/images/ico-comment.svg">
+                                <span style="cursor: pointer;"
+                                  (click)="goToPublicProfile(activityChild.user._id)">{{activityChild.user.firstName+'
+                                  '+ activityChild.user.lastName}}</span>
+                                commented on this post
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='INVITED_USER'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-invitation.svg">
+                                <span (click)="goToPublicProfile(activityChild.user._id)">
+                                  {{activityChild.user.firstName+' '+ activityChild.user.lastName}}
+                                </span>
+                                invited to - <span
+                                  (click)="goToPublicProfile(activityChild.invited_user._id)">{{activityChild.invited_user.firstName
+                                  + ' '+activityChild.invited_user.lastName}}</span>
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                        </div>
+                        <div class="more-activity-section"
+                          *ngIf="activity.subActivityTotal &&  (activity.subActivityTotal - activity.subActivity.length) > 0">
+                          <div class="ttl">
+                            <img src="../../../../../../assets/images/ico-activity.svg">
+                            {{activity.subActivityTotal - activity.subActivity.length}} earlier activities <a
+                              (click)="getSubActivity(activity)">(show)</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="user-action-section mt-2">
+                        <ul>
+                          <li [ngClass]='activity.actClass' (click)="addLikes(activity)">
+                            <img src="../../../../../../assets/images/like.svg">
+                            Like {{activity.likesCount && activity.likesCount >0 ?activity.likesCount:''}}
+                          </li>
+                          <li (click)="focusComment(activity._id)"
+                            *ngIf="activity.user_id == userData.owner || userData.role=='admin' || userPermissionsOnRole(helperService.orgRole,homeService.wsRole,homeOrgId,homeWsId)">
+                            <img class="comment-icon" src="../../../../../../assets/images/ico-comment.svg">
+                            Comment
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="post-middle-section CREATED_RECORD"
+                      *ngIf="activity.activity_sub_type=='CREATED_RECORD'">
+                      <div class="user-txt">
+                        <span *ngIf='activity.recordTitle' class="record-ttl">
+                          <p class="color-2976DE" style="cursor: pointer;" (click)="redirectRecord(activity.record_id)">
+                            {{activity.recordTitle}}</p>
+                        </span>
+                        <label>
+                          <div class="user-txt-inner">
+                            <img src="../../../../../../assets/images/ico-tick-box.svg">
+                            <a routerLink="/application/home/app-view/applicationView"
+                              [queryParams]="{appId: activity.application_id, workspaceId: activity.workspace_id}">{{activity.applicationName}}</a>
+                            by
+                            <span (click)="goToPublicProfile(activity.user._id)">
+                              {{activity.user.name}}
+                            </span>
+                          </div>
+                          <div class="date-section">
+                            {{activity.createdAt | dateFormatActivity}}
+                          </div>
+                        </label>
+                        <div *ngIf="activity.businessPhotos" class="business-picture-section">
+                          <div *ngFor="let item of activity.businessPhotos.image;index as i" class="img-box">
+
+                            <!-- IMAGE VIEWER  -->
+                            <span *ngIf="!checkTypeAndGetImageDoc(mediaUrl + item.attachment.srcPath)">
+                              <img (click)="openImgModal(activity.businessPhotos.image,'all',i)"
+                                class="user-upload-pic cursor-pointer" [src]="mediaUrl + item.attachment.srcPath">
+                            </span>
+
+                            <!-- DOCX VIEWER COMPONENT  -->
+                            <span *ngIf="checkTypeAndGetImageDoc(mediaUrl + item.attachment.srcPath)"
+                              class="w-100 align-items-center d-flex ngx-doc-thumb cursor-pointer">
+                              <div style="padding-right: 5px;"
+                                (click)="openImgModal(activity.businessPhotos.image,'all',i)">
+                                <img class="user-upload-pic cursor-pointer"
+                                  [src]="getFileIconUsingExtension(item.attachment.ext)">
+                              </div>
+                            </span>
+
+                          </div>
+                        </div>
+
+                        <div *ngFor="let activityChild of activity.subActivity" class="sub-activity">
+                          <span *ngIf="activityChild.activity_sub_type=='LIKED_POST'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-like.svg">
+                                <span style="cursor: pointer;"
+                                  (click)="goToPublicProfile(activityChild.user._id)">{{activityChild.user.firstName+'
+                                  '+ activityChild.user.lastName}}</span>
+                                liked this
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='UPDATED_RECORD'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/ico-edit1.svg">
+                                <span (click)="goToPublicProfile(activityChild.user._id)">
+                                  {{activityChild.user.firstName+' '+ activityChild.user.lastName}}
+                                </span>
+                                updated record in - <a routerLink="/application/home/app-view/applicationView"
+                                  [queryParams]="{appId: activityChild.application_id, workspaceId: activityChild.workspace_id}">{{activityChild.applicationName}}</a>
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='COMMENTED_ON_APPLICATION'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img class="comment-icon" src="../../../../../../assets/images/ico-comment.svg">
+                                <span style="cursor: pointer;"
+                                  (click)="goToPublicProfile(activityChild.user._id)">{{activityChild.user.firstName+'
+                                  '+ activityChild.user.lastName}}</span>
+                                commented on this record
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                          <span *ngIf="activityChild.activity_sub_type=='COMMENTED_ON'">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img class="comment-icon" src="../../../../../../assets/images/ico-comment.svg">
+                                <span style="cursor: pointer;"
+                                  (click)="goToPublicProfile(activityChild.user._id)">{{activityChild.user.firstName+'
+                                  '+ activityChild.user.lastName}}</span>
+                                commented on this post
+                              </div>
+                              <div class="time-section">
+                                {{activityChild.createdAt | dateFormatActivity}}
+                              </div>
+                            </label>
+                          </span>
+                        </div>
+                        <div class="more-activity-section"
+                          *ngIf="activity.subActivityTotal &&  (activity.subActivityTotal - activity.subActivity.length) > 0">
+                          <div class="ttl">
+                            <img src="../../../../../../assets/images/ico-activity.svg">
+                            {{activity.subActivityTotal - activity.subActivity.length}} earlier activities <a
+                              (click)="getSubActivity(activity)">(show)</a>
+                          </div>
+                          <!-- <div class="more-activity-section-inner">
+                            <label>
+                              <div class="user-txt-inner">
+                                <img src="../../../../../../assets/images/arrow.svg">
+                                <span>
+                                  activity-text
+                                </span>
+                                <a>
+                                  application-name
+                                </a>
+                              </div>
+                              <div class="time-section">
+                                22h
+                              </div>
+                            </label>
+                          </div> -->
+                        </div>
+                      </div>
+                      <div class="user-action-section mt-2">
+                        <ul>
+                          <li [ngClass]='activity.actClass' (click)="addLikes(activity)">
+                            <img src="../../../../../../assets/images/like.svg">
+                            Like {{activity.likesCount && activity.likesCount >0 ?activity.likesCount:''}}
+                          </li>
+                          <li (click)="focusComment(activity._id)"
+                            *ngIf="activity.user_id == userData.owner || userData.role=='admin' || userPermissionsOnRole(helperService.orgRole,homeService.wsRole,homeOrgId,homeWsId)">
+                            <img class="comment-icon" src="../../../../../../assets/images/ico-comment.svg">
+                            Comment
+                          </li>
+
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="bottom-user-comment-section"
+                      *ngIf="activity.user_id == userData.owner || userData.role=='admin' || userPermissionsOnRole(helperService.orgRole,homeService.wsRole,homeOrgId,homeWsId)">
+                      <div class="user-img-box">
+                        <img id="avatar" *ngIf="helperService.loggedUser && !helperService.loggedUser.avatar"
+                          src="../../../../assets/images/user.png">
+                        <img id="default-image" *ngIf="helperService.loggedUser && helperService.loggedUser.avatar"
+                          [src]="mediaUrl+helperService.loggedUser.avatar">
+                        <div class="user-status"
+                          [ngClass]="{online: helperService.userActiveStatuses.data && helperService.userActiveStatuses.data[activity.user._id] || userData.owner == activity.user._id}">
+                        </div>
+                      </div>
+                      <div class="comment-box">
+                        <div class="mention-comment-section">
+                          <div ngDefaultControl name="comment" class="form-control heightUnset" id="{{activity._id}}"
+                            type="text" placeholder="Write a comment" [mentionListTemplate]="mentionList"
+                            (opened)="tempFunc()" (closed)="tempFuncComment(activity)" [mention]="mentionUserList"
+                            [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentionedComment, dropUp: true,activityLi:activity}"
+                            (focus)="updateMentionsList(activity.organization_id)"
+                            (keyup)="addCommentRecord($event,'comment',activity ,  false)"
+                            (keyup)="findOncommentUrl($event , i)" contenteditable="true">&nbsp;
+                          </div>
+                          <div *ngIf="activity.urlData">
+                            <div class="post-link-section">
+                              <div class="post-link-inner">
+                                <!-- <a href="{{url.url}}" target="_blank">{{url.url}}</a> -->
+                                <a href="{{activity.urlData.url}}" target="_blank">
+                                  <img class="urlCls" [src]='activity.urlData.image'></a>
+                                <a href="{{activity.urlData.url}}" target="_blank">
+                                  <div class="link-box-section">
+                                    <label>{{activity.urlData.title}}</label>
+                                    <div class="post-link-detail">{{activity.urlData.description}}</div>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="comment-image-box">
+                          <!-- <img (click)="openUploadCommentModal(activity)"
+                            src="../../../../../../assets/images/camera.svg"> -->
+                          <img src="../../../../../../assets/images/right-arrow.png" alt="add-cmt"
+                            (click)="addCommentRecord($event,'comment',activity,true)">
+                        </div>
+
+
+
+                      </div>
+                    </div>
+                    <div class="view-more-comment-section d-flex align-items-center justify-content-between"
+                      *ngIf="activity.ActivityComments && activity.ActivityComments.length>0">
+                      <div class="view-comment"
+                        *ngIf="activity.ActivityCommentsTotal>3 && (activity.ActivityCommentsTotal - activity.ActivityComments.length > 0)"
+                        (click)="getComments(activity)">
+                        View {{activity.ActivityCommentsTotal - activity.ActivityComments.length}} more comments
+                      </div>
+                      <div class="view-comment-count" *ngIf="activity.ActivityCommentsTotal>3">
+                        {{activity.ActivityComments.length}} of {{activity.ActivityCommentsTotal}}
+                      </div>
+                    </div>
+                    <div class="user-post-comment-inner">
+                      <div *ngFor="let comments of activity.ActivityComments index as j;">
+                        <div class="top-section main-user-first-comments" id="comments._id">
+                          <div class="user-img">
+                            <img
+                              [src]="comments.user_avatar && comments.user_avatar !== undefined ? mediaUrl + comments.user_avatar : '../../../../../../assets/images/user.png'">
+                            <div class="user-status"
+                              [ngClass]="{online: helperService.userActiveStatuses.data && helperService.userActiveStatuses.data[activity.user._id] || userData.owner == activity.user._id}">
+                            </div>
+                          </div>
+                          <!-- add input while edit comment -->
+                          <div class="bottom-user-comment-section main-user-first-comment-edit-section"
+                            *ngIf="comments.isShow=='true'">
+                            <div style="white-space: pre-wrap;" class="comment-box">
+                              <div class="form-control heightUnset" id="{{comments._id}}" type="text"
+                                placeholder="Write a comment" [mentionListTemplate]="mentionList" (opened)="tempFunc()"
+                                (closed)="tempFuncComment(activity)" [mention]="mentionUserList"
+                                [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentionedComment, dropUp: true,activityLi:comments}"
+                                [innerHTML]='comments.comment'
+                                (keyup)="editCommentRecord($event,activity,comments,'comment')"
+                                 contenteditable="true">
+                                &nbsp;
+                              </div>
+                              <div class="comment-image-box">
+                                <!-- <img (click)="openUploadEditCommentModal(activity,comments)"
+                                  src="../../../../../../assets/images/camera.svg"> -->
+                                <img src="../../../../../../assets/images/right-arrow.png" alt="add-cmt"
+                                  (click)="editCommentRecord($event,activity,comments,'comment' ,true)">
+                              </div>
+
+                              <div class="img-preview-section"
+                                *ngIf="comments.updatedImageData && comments.updatedImageData.length>0">
+                                <div class="upload-img-wraper"
+                                  *ngFor="let file of comments.updatedImageData; index as index">
+                                  <img class="preview-img" [src]="file.source" *ngIf="!imagePrevOfRes">
+                                  <img class="preview-img" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                                  <div class="cancel-img" *ngIf="index>0"
+                                    (click)="commentremoveUpdatedImg(index,comments,activity)">
+                                    <img src="../../../../../../assets/images/dark-cancel.svg">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- add input while edit comment -->
+                          <div class="user-detail-wraper" id="comments._id"
+                            *ngIf="comments.isShow==comments._id.toString()">
+                            <div class="user-detail ">
+                              <div class="user-name" (click)="goToPublicProfile(comments.user_id)">
+                                {{comments.username}}
+                              </div>
+                              <div class="user-post">
+                                <label style="white-space: pre-wrap;" [innerHTML]="comments.comment"></label>
+                                <div class="user-action-post-section" *ngIf="comments.image && comments.image.length>0">
+                                  <div class="img-section">
+                                    <img *ngFor="let avatar of comments.image"
+                                      [src]="mediaUrl+avatar.attachment.srcPath">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="time-section">
+                                {{comments.createdAt | dateFormatActivity}}
+                              </div>
+                              <div class="post-link-section" *ngIf="comments?.comment_rich_link?.url">
+                                <div class="post-link-inner">
+                                  <!-- <a href="{{url.url}}" target="_blank">{{url.url}}</a> -->
+                                  <a  href="{{comments.comment_rich_link?.url}}" target="_blank">
+                                    <img class="urlCls" src={{comments.comment_rich_link.image}}></a>
+                                  <a href="{{comments.comment_rich_link?.url}}" target="_blank">
+                                    <div class="link-box-section"  >
+                                      <label>{{comments.comment_rich_link?.title}}</label>
+                                      <div class="post-link-detail">{{comments.comment_rich_link?.description}}</div>
+                                    </div>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="user-comment-action-section pt-2">
+                              <ul>
+                                <div *ngFor='let like of comments.likeUsers'>
+                                  <li class="active" *ngIf="like==userData?.owner"
+                                    (click)="addCommentLikes(activity,comments)">
+                                    Like {{comments.likeUsers && comments.likeUsers.length>0?
+                                    comments.likeUsers.length:""}}
+                                  </li>
+                                </div>
+                                <li class="inactive" *ngIf="comments.likeUsers && comments.likeUsers.length<1"
+                                  (click)="addCommentLikes(activity,comments)">
+                                  Like {{comments.likeUsers && comments.likeUsers.length>0?
+                                  comments.likeUsers.length:""}}
+                                </li>
+
+                                <li class="replay-txt" (click)="addReply(comments,activity,'parent')">
+                                  Reply
+                                </li>
+                                <li>
+                                  {{comments.createdAt | dateFormatActivity}}
+                                </li>
+                                <li class="replay-txt" (click)="getsubComments(comments,activity)"
+                                  *ngIf='comments.totalComments && comments.totalComments > 0'>
+                                  {{comments.totalComments}} Reply
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="bottom-user-comment-section" id="comments._id"
+                              *ngIf="isDisplay==comments._id.toString()">
+                              <div class="user-img-box">
+                                <img id="avatar" *ngIf="helperService.loggedUser && !helperService.loggedUser.avatar"
+                                  src="../../../../assets/images/user.png">
+                                <img id="default-image"
+                                  *ngIf="helperService.loggedUser && helperService.loggedUser.avatar"
+                                  [src]="mediaUrl+helperService.loggedUser.avatar">
+                                <div class="user-status"
+                                  [ngClass]="{online: helperService.userActiveStatuses.data && helperService.userActiveStatuses.data[activity.user._id] || userData.owner == activity.user._id}">
+                                </div>
+                              </div>
+                              <div class="comment-box">
+                                <div class="mention-comment-sectionn">
+                                  <div #reply ngDefaultControl name="comment" class="form-control heightUnset"
+                                    id="{{comments._id}}" type="text" placeholder="Write a comment"
+                                    [mentionListTemplate]="mentionList" (opened)="tempFunc()"
+                                    (closed)="tempFuncComment(activity)" [mention]="mentionUserList"
+                                    [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentionedComment, dropUp: true,activityLi:comments}"
+                                    (keyup)="addSubComment(comments, activity ,'comment', $event , false , i ,j )"
+                                    (keyup)="findOnReplyUrl($event , i , j)" contenteditable="true">
+                                    &nbsp;
+                                  </div>
+                                  <div>
+                                    <div *ngIf="activityList[i]?.ActivityComments[j]?.postReplyData">
+                                      <div class="post-link-section">
+                                        <div class="post-link-inner">
+                                          <a href="{{activityList[i]?.ActivityComments[j]?.postReplyData.url}}"
+                                            target="_blank">
+                                            <img class="urlCls"
+                                              [src]='activityList[i]?.ActivityComments[j]?.postReplyData.image'></a>
+                                          <a href="{{activityList[i]?.ActivityComments[j]?.postReplyData.url}}"
+                                            target="_blank">
+                                            <div class="link-box-section">
+                                              <label>
+                                                {{activityList[i]?.ActivityComments[j]?.postReplyData.title}}
+                                              </label>
+                                              <div class="post-link-detail">
+                                                {{activityList[i]?.ActivityComments[j]?.postReplyData.description}}
+                                              </div>
+                                            </div>
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <!-- <div class="post-link-section" *ngFor="let url of postReplyData">
+                                  <div class="post-link-inner">
+                                    
+                                    <a href="{{url.url}}" target="_blank">
+                                      <img class="urlCls" [src]='url.image'></a>
+                                    <a href="{{url.url}}" target="_blank">
+                                      <div class="link-box-section">
+                                        <label>{{url.title}}</label>
+                                        <div class="post-link-detail">{{url.description}}</div>
+                                      </div>
+                                    </a>
+                                  </div>
+                                </div> -->
+                                  </div>
+                                </div>
+
+                                <div class="comment-image-box">
+                                  <!-- <img (click)="openUploadEditCommentModal(activity,comments)"
+                                    src="../../../../../../assets/images/camera.svg"> -->
+
+                                  <img src="../../../../../../assets/images/right-arrow.png" alt="add-cmt"
+                                    (click)="addSubComment(comments, activity, 'comment', $event , true , i ,j)">
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                          <div class="comment-more-option" (click)="toggleMenu(comments._id)" id="post-edit"
+                            *ngIf="comments.isShow==comments._id.toString() && ((activity.organization | keyvalue)?.length && activity.organizationRole=='admin'|| comments.user_id==userData.owner)">
+                            <img src="../../../../../../assets/images/more.svg" id="post-edit">
+                            <div (clickOutside)="clickedOutside($event)" class="more-option-list"
+                              *ngIf="openMenu === comments._id " id="post-edit">
+                              <ul>
+                                <li id="post-edit" (click)="editReply(comments,activity,'parent')">
+                                  Edit
+                                </li>
+                                <li id="post-edit" (click)="deleteComment(comments,activity,'parent')">
+                                  Delete
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="user-action-post-section" *ngIf="comments.avatar && comments.avatar.length>0">
+                          <div class="img-section">
+                            <img *ngFor="let avatar of comments.avatar" [src]="mediaUrl+avatar.attachment.srcPath">
+                          </div>
+                        </div>
+                        <div *ngIf="comments.subComments">
+                          <div class="top-section comment-inner-top-section first-layer-comment-section"
+                            *ngFor="let detail of comments.subComments">
+                            <div class="first-layer">
+                              <div class="user-img">
+                                <img
+                                  [src]="detail.user_avatar && detail.user_avatar !== undefined ? mediaUrl + detail.user_avatar : '../../../../../../assets/images/user.png'">
+                                <div class="user-status"
+                                  [ngClass]="{online: helperService.userActiveStatuses.data && helperService.userActiveStatuses.data[activity.user._id] || userData.owner == activity.user._id}">
+                                </div>
+                              </div>
+                              <!-- <div class="sec-layer-div" > -->
+                              <div class="user-detail-section" *ngIf="detail.isShow==detail._id.toString()">
+                                <div class="user-detail">
+                                  <div class="user-name">
+                                    {{detail.username}}
+                                  </div>
+                                  <div class="user-post">
+                                    <label style="white-space: pre-wrap;" [innerHTML]="detail.comment"></label>
+                                    <div class="user-action-post-section" *ngIf="detail.image && detail.image.length>0">
+                                      <div class="img-section">
+                                        <img *ngFor="let img of detail.image" [src]="mediaUrl+img.attachment.srcPath">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="time-section">
+                                    {{detail.createdAt | dateFormatActivity}}
+                                  </div>
+                                  <!-- {{comments | json}} -->
+
+                                  <!-- <div class="replydata" *ngFor="let data of comments?.subComments">
+                                    <div class="post-link-section"
+                                      *ngIf="data?.comment_rich_link != ''">
+                                      <div class="post-link-inner">
+                                        <a href="{{(JSON.parse(data.comment_rich_link)).url}}" target="_blank">
+                                          <img class="urlCls" [src]='data.comment_rich_link.image'></a>
+                                        <a href="{{(JSON.parse(data.comment_rich_link)).url}}" target="_blank">
+                                          <div class="link-box-section">
+                                            <label>{{data.comment_rich_link.title}}</label>
+                                            <div class="post-link-detail">{{data.comment_rich_link.description}}
+                                            </div>
+                                          </div>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div> -->
+
+
+                                </div>
+                                <div class="user-action-section mt-2">
+                                  <ul>
+                                    <div *ngFor='let like of detail.likeUsers'>
+                                      <li class="active" *ngIf="like==userData?.owner"
+                                        (click)="addCommentLikes(activity,detail)">
+                                        Like {{detail.likeUsers && detail.likeUsers.length>0?
+                                        detail.likeUsers.length:""}}
+                                      </li>
+                                    </div>
+                                    <li class="inactive" *ngIf="detail.likeUsers && detail.likeUsers.length<1"
+                                      (click)="addCommentLikes(activity,detail)">
+                                      Like {{detail.detail && detail.likeUsers.length>0? detail.likeUsers.length:""}}
+                                    </li>
+                                    <!-- <li (click)="addCommentLikes(activity,detail)">
+                                      Like {{detail.likeUsers && detail.likeUsers.length>0? detail.likeUsers.length:""}}
+                                    </li> -->
+                                    <li class="active" (click)="addReply(detail,activity,'child')">
+                                      Reply
+                                    </li>
+                                    <li>
+                                      {{detail.createdAt | dateFormatActivity}}
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="bottom-user-comment-section first-layer-comment-edit-section"
+                                  id="detail._id" *ngIf="(detail.isShow=='true' || isDisplay==detail._id.toString())">
+                                  <div class="user-img-box">
+                                    <img id="avatar"
+                                      *ngIf="helperService.loggedUser && !helperService.loggedUser.avatar"
+                                      src="../../../../assets/images/user.png">
+                                    <img id="default-image"
+                                      *ngIf="helperService.loggedUser && helperService.loggedUser.avatar"
+                                      [src]="mediaUrl+helperService.loggedUser.avatar">
+                                    <div class="user-status"
+                                      [ngClass]="{online: helperService.userActiveStatuses.data && helperService.userActiveStatuses.data[activity.user._id] || userData.owner == activity.user._id}">
+                                    </div>
+                                  </div>
+                                  <div class="comment-box">
+                                    <div ngDefaultControl name="comment" class="form-control heightUnset"
+                                      id="{{detail._id}}" type="text" placeholder="Write a comment"
+                                      [mentionListTemplate]="mentionList" (opened)="tempFunc()"
+                                      (closed)="tempFuncComment(activity)" [mention]="mentionUserList"
+                                      [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentionedComment, dropUp: true,activityLi:detail}"
+                                      (keyup)="findOnReplyUrl($event ,i , j)"
+                                      (keyup)="addSubComment(detail,activity,'comment',$event , false ,comments)"
+                                      contenteditable="true">
+                                      &nbsp;
+                                    </div>
+                                    <div>
+                                      <div *ngIf="postReplyData">
+                                        <div class="post-link-section">
+                                          <div class="post-link-inner">
+                                            <a href="{{postReplyData.url}}" target="_blank">
+                                              <img class="urlCls" [src]='postReplyData.image'></a>
+                                            <a href="{{postReplyData.url}}" target="_blank">
+                                              <div class="link-box-section">
+                                                <label>{{postReplyData.title}}</label>
+                                                <div class="post-link-detail">{{postReplyData.description}}</div>
+                                              </div>
+                                            </a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <!-- placeholder="Write a comment"></textarea> -->
+                                    <div class="comment-image-box">
+                                      <!-- <img (click)="openUploadEditCommentModal(activity,comments)"
+                                        src="../../../../../../assets/images/camera.svg"> -->
+                                      <img src="../../../../../../assets/images/right-arrow.png" alt="add-cmt"
+                                        (click)="addSubComment(detail,activity,'comment',$event , true,comments)">
+                                    </div>
+                                    <div class="img-preview-section"
+                                      *ngIf="updatedImageData && updatedImageData.length>0">
+                                      <div class="upload-img-wraper"
+                                        *ngFor="let file of updatedImageData; index as index">
+                                        <img class="preview-img" [src]="file.source" *ngIf="!imagePrevOfRes">
+                                        <img class="preview-img" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                                        <div class="cancel-img" *ngIf="index>0"
+                                          (click)="commentremoveUpdatedImg(index,detail,activity)">
+                                          <img src="../../../../../../assets/images/dark-cancel.svg">
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- add second layer edit comment box -->
+                              <div class="bottom-user-comment-section " id="detail._id" *ngIf="detail.isShow=='true'">
+                                <div class="comment-box">
+                                  <div style="white-space: pre-wrap;" class="form-control heightUnset"
+                                    id="{{detail._id}}" type="text" placeholder="Write a comment"
+                                    [mentionListTemplate]="mentionList" (opened)="tempFunc()"
+                                    (closed)="tempFuncComment(activity)" [mention]="mentionUserList"
+                                    [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentionedComment, dropUp: true,activityLi:detail}"
+                                    [innerHTML]='detail.comment'
+                                    (keyup)="editCommentRecord($event,activity,detail,'comment')"
+                                    contenteditable="true">&nbsp;
+                                  </div>
+
+                                  <!-- placeholder="Write a comment"></textarea> -->
+                                  <div class="comment-image-box">
+                                    <!-- <img (click)="openUploadEditCommentModal(activity,comments)"
+                                      src="../../../../../../assets/images/camera.svg"> -->
+                                    <img src="../../../../../../assets/images/right-arrow.png" alt="add-cmt"
+                                      (click)="editCommentRecord($event,activity,detail,'comment' ,true)">
+                                  </div>
+                                  <div class="img-preview-section"
+                                    *ngIf="detail.updatedImageData && detail.updatedImageData.length>0">
+                                    <div class="upload-img-wraper"
+                                      *ngFor="let file of detail.updatedImageData; index as index">
+                                      <img class="preview-img" [src]="file.source" *ngIf="!imagePrevOfRes">
+                                      <img class="preview-img" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                                      <div class="cancel-img">
+                                        <img *ngIf="index>0" (click)="commentremoveUpdatedImg(index,detail,activity)"
+                                          src="../../../../../../assets/images/dark-cancel.svg">
+                                      </div>
+                                    </div>
+                                    <!-- <div class="upload-img-wraper" *ngFor="let file of updateNewImage; index as index">
+                                        <img class="preview-img" [src]="file.source" *ngIf="!imagePrevOfRes">
+                                        <img class="preview-img" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                                        <img class="cancel-img" (click)="commentremoveUpdatedNewImg(index,detail,activity)"
+                                          src="../../../../../../assets/images/dark-cancel.svg">
+                                      </div> -->
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- add second layer edit comment box -->
+                              <div class="comment-more-option" id="post-edit" (click)="toggleMenu(detail._id)"
+                                *ngIf="detail.isShow==detail._id.toString() && ((activity.organization | keyvalue)?.length && activity.organizationRole=='admin'|| detail.user_id==userData.owner)">
+                                <img src="../../../../../../assets/images/more.svg" id="post-edit">
+                                <div class="more-option-list" *ngIf="openMenu === detail._id" id="post-edit"
+                                  (clickOutside)="clickedOutside($event)">
+                                  <ul>
+                                    <li id="post-edit" (click)="editReply(detail,activity,'child')">
+                                      Edit
+                                    </li>
+                                    <li id="post-edit" (click)="deleteComment(detail,activity,'child',comments)">
+                                      Delete
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <!-- </div> -->
+                            </div>
+                            <!-- second layer comment -->
+                            <div *ngIf="detail.comments" class="second-layer">
+                              <div class="top-section comment-inner-top-section" *ngFor="let comm of detail.comments">
+                                <div class="user-img">
+                                  <img
+                                    [src]="comm.user_avatar && comm.user_avatar !== undefined ? mediaUrl + comm.user_avatar : '../../../../../../assets/images/user.png'">
+                                  <div class="user-status"
+                                    [ngClass]="{online: helperService.userActiveStatuses.data && helperService.userActiveStatuses.data[activity.user._id] || userData.owner == activity.user._id}">
+                                  </div>
+                                </div>
+                                <div class="user-detail-section" *ngIf="comm.isShow==comm._id.toString()">
+                                  <div class="user-detail">
+                                    <div class="user-name">
+                                      {{comm.username}}
+                                    </div>
+                                    <div class="user-post">
+                                      <label style="white-space: pre-wrap;" [innerHTML]="comm.comment"></label>
+                                      <div class="user-action-post-section" *ngIf="comm.image && comm.image.length>0">
+                                        <div class="img-section">
+                                          <img *ngFor="let img of comm.image" [src]="mediaUrl+img.attachment.srcPath">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="time-section">
+                                      {{comm.createdAt | dateFormatActivity}}
+                                    </div>
+                                    <div class="post-link-section" *ngIf='activity.comment_rich_link'>
+                                      <div class="post-link-inner" *ngFor="let url of activity.comment_rich_link">
+                                        <!-- <a href="{{url.url}}" target="_blank">{{url.url}}</a> -->
+                                        <a href="{{url.url}}" rel="nofollow noopener" target="_blank">
+                                          <img class="urlCls" [src]='url.image'></a>
+                                        <a href="{{url.url}}" rel="nofollow noopener" target="_blank">
+                                          <div class="link-box-section">
+                                            <label>{{url.title}}</label>
+                                            <div class="post-link-detail">{{url.description}}</div>
+                                          </div>
+                                        </a>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                                <div
+                                  *ngIf="comm.isShow==comm._id.toString()  && ((activity.organization | keyvalue)?.length && activity.organizationRole=='admin'|| comm.user_id==userData.owner)"
+                                  class="comment-more-option" id="post-edit" (click)="toggleMenu(comm._id)">
+                                  <img src="../../../../../../assets/images/more.svg" id="post-edit">
+                                  <div class="more-option-list" *ngIf="openMenu === comm._id" id="post-edit"
+                                    (clickOutside)="clickedOutside($event)">
+                                    <ul>
+                                      <li id="post-edit" (click)="editReply(comm,activity,'child')">
+                                        Edit
+                                      </li>
+                                      <li id="post-edit" (click)="deleteComment(comm,activity,'subChild',detail)">
+                                        Delete
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <!-- add third layer edit comment box -->
+                                <div class="bottom-user-comment-section" id="comm._id" *ngIf="comm.isShow=='true'">
+                                  <div class="comment-box">
+
+                                    <div style="white-space: pre-wrap;" class="form-control heightUnset"
+                                      id="{{comm._id}}" type="text" placeholder="Write a comment"
+                                      [mentionListTemplate]="mentionList" (opened)="tempFunc()"
+                                      (closed)="tempFuncComment(activity)" [mention]="mentionUserList"
+                                      [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentionedComment, dropUp: true,activityLi:comm}"
+                                      [innerHTML]='comm.comment'
+                                      (keyup)="editCommentRecord($event,activity,comm,'comment')"
+                                      contenteditable="true">&nbsp;
+                                    </div>
+                                    <div class="comment-image-box">
+                                      <!-- <img (click)="openUploadEditCommentModal(activity,comments)"
+                                        src="../../../../../../assets/images/camera.svg"> -->
+                                      <img src="../../../../../../assets/images/right-arrow.png" alt="add-cmt"
+                                        (click)="editCommentRecord($event,activity,comm,'comment',true)">
+                                    </div>
+                                    <div class="img-preview-section"
+                                      *ngIf="comm.updatedImageData && comm.updatedImageData.length>0">
+                                      <div class="upload-img-wraper"
+                                        *ngFor="let file of comm.updatedImageData; index as index">
+                                        <img class="preview-img" [src]="file.source" *ngIf="!imagePrevOfRes">
+                                        <img class="preview-img" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                                        <img class="cancel-img" *ngIf="index>0"
+                                          (click)="commentremoveUpdatedImg(index,comm,activity)"
+                                          src="../../../../../../assets/images/dark-cancel.svg">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- add third layer edit comment box -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <div class="top-section">
+                      <div class="user-img">
+                        <img src=''>
+                        <div class="user-status"></div>
+                      </div>
+                      <div class="user-detail-section">
+                        <div class="user-detail">
+                          <div class="user-name">
+                            Name
+                          </div>
+                          <div class="user-post">
+                            <div class="user-wraper">
+                              <img src="../../../../../../assets/images/user-profile.jpeg">
+                              Lyn Reid
+                            </div>
+                            here are the photos of our new marketing team
+                            <span>
+                              Sitemaster
+                            </span>
+                          </div>
+                          <div class="time-section">
+                            22 h
+                          </div>
+                        </div>
+                        <div class="user-action-section mt-2">
+                          <ul>
+                            <li>
+                              Like
+                            </li>
+                            <li class="active">
+                              Reply
+                            </li>
+                            <li>
+                              6h
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div> -->
+                      <!-- <div class="top-section comment-inner-top-section">
+                      <div class="user-img">
+                        <img src=''>
+                        <div class="user-status"></div>
+                      </div>
+                      <div class="user-detail-section">
+                        <div class="user-detail">
+                          <div class="user-name">
+                            Name
+                          </div>
+                          <div class="user-post">
+                            <div class="user-wraper">
+                              <img src="../../../../../../assets/images/user-profile.jpeg">
+                              Lyn Reid
+                            </div>
+                            here are the photos of our new marketing team
+                            <span>
+                              Sitemaster
+                            </span>
+                          </div>
+                          <div class="time-section">
+                            22 h
+                          </div>
+                        </div>
+                        <div class="user-action-section mt-2">
+                          <ul>
+                            <li>
+                              Like
+                            </li>
+                            <li class="active">
+                              Reply
+                            </li>
+                            <li>
+                              6h
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div> -->
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-right-sidebar [userIdFromPostList]="userId"></app-right-sidebar>
+
+  <!-- Grid record – 10 start -->
+  <button type="button" class="btn btn-primary" (click)="openModal(gridrecord10)" hidden>Create template modal
+    gridrecord10</button>
+  <ng-template #gridrecord10>
+    <div class="grid-record-modal">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">
+          Setup your organisation
+        </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Organizations name
+        </p>
+        <div class="user-type-drop-down">
+          <input type="text" class="form-control" placeholder="{domain-name without the .com}">
+          <img src="../../../../../../../assets/images/light-drop-icon.svg">
+        </div>
+        <div class="add-avtar-section">
+          <div class="ttl">
+            Add your Logo/Avatar
+          </div>
+          <div class="add-avtar-section-inner">
+            <img src="../../../../../../assets/images/nav-logo.svg">
+            <div class="upload-section">
+              <div class="upload-inner-section">
+                <button>
+                  Add Your Logo
+                </button>
+                <input type="file" id="myFile" name="filename2">
+              </div>
+              <p>
+                Best Logo size is 80px x 80px
+              </p>
+            </div>
+          </div>
+        </div>
+        <p>
+          How many people in your organisation?
+        </p>
+        <div class="form-group">
+          <select class="form-control" id="sel1">
+            <option>Select your organisation size</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+          </select>
+          <img src="../../../../../../assets/images/drop-down-icon.svg">
+        </div>
+      </div>
+      <div class="modal-footer text-right">
+        <button>
+          Save Organisation
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <!-- The Modal -->
+  <button id="imgModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#imgmodal"
+    hidden></button>
+  <div class="modal" id="imgmodal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal body -->
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" (click)="closeModalBox()">
+            <img src="../../../../../../assets/images/close-cal.svg">
+          </button>
+          <div id="demo" class="carousel slide d-flex align-items-center" data-ride="carousel">
+            <!-- The slideshow -->
+            <div class="carousel-inner d-flex align-items-center">
+              <div *ngFor="let img of imgModal; index as i"
+                [ngClass]="i == activeImageModalIndex?'carousel-item active':'carousel-item'">
+                <div class="img-box-wraper d-flex flex-column">
+
+                  <!-- <img [src]="mediaUrl+img.attachment.srcPath"> -->
+
+                  <!-- IMAGE VIEWER  -->
+                  <span *ngIf="!checkTypeAndGetImageDoc(mediaUrl+img.attachment.srcPath)">
+
+                    <span *ngIf="img.attachment.type === 'vid'">
+
+                      <span *ngIf="mediaUrl+img.attachment.ext === '.mp4'">
+                        <video width="100%" height="400" controls muted>
+                          <source [src]="mediaUrl+img.attachment.path" type="video/mp4">
+                          <source [src]="mediaUrl+img.attachment.path" type="video/ogg">
+                          Your browser does not support the video tag.
+                        </video>
+                      </span>
+
+                      <span *ngIf="mediaUrl+img.attachment.ext !== '.mp4'">
+                        <p class="text-white text-center">Your browser does not support the video format!</p>
+                        <p class="text-center">
+                          <a target="_blank" [href]="mediaUrl+img.attachment.path"
+                            class="btn btn-success bg-success text-white my-2">Download</a>
+                        </p>
+                      </span>
+
+                    </span>
+
+                    <span *ngIf="img.attachment.type !== 'vid' && img.attachment.type !== 'audio'">
+                      <img class="user-upload-pic cursor-pointer" [src]="mediaUrl+img.attachment.srcPath">
+                    </span>
+                  </span>
+
+                  <!-- DOCX VIEWER COMPONENT  -->
+                  <span *ngIf="checkTypeAndGetImageDoc(mediaUrl+img.attachment.srcPath)"
+                    class="w-100 d-flex ngx-doc-thumb cursor-pointer justify-content-center">
+
+                    <span class="w-100 w-full" *ngIf="img.attachment.type === 'audio'">
+                      <audio controls muted>
+                        <source [src]="mediaUrl+img.attachment.path" type="audio/ogg">
+                        <source [src]="mediaUrl+img.attachment.path" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                      </audio>
+                    </span>
+
+                    <div
+                      class="position-relative w-100 w-full d-flex justify-content-center align-items-center min-h-100px"
+                      *ngIf="img.attachment.type !== 'audio'">
+
+                      <!-- LOADER  -->
+                      <div *ngIf="!getSupportedFormat(img.attachment.ext)"
+                        class="loader-row position-absolute inset-0 my-5 z-index-999">
+                        <div class="loader loader-col"></div>
+                      </div>
+
+                      <!-- IF FILE NOT SUPPORTED  -->
+                      <div *ngIf="getSupportedFormat(img.attachment.ext)" class="w-100">
+                        <span *ngIf="img.attachment.ext !== '.mp4'">
+                          <p class="text-white text-center">Your browser does not support the file format!</p>
+                          <p class="text-center">
+                            <a target="_blank" [href]="getAttachmentcUrl(mediaUrl+img.attachment.srcPath,'view')"
+                              class="btn btn-success bg-success text-white my-2">Download</a>
+                          </p>
+                        </span>
+                      </div>
+
+                      <!-- IF FILE SUPPORTED  -->
+                      <ngx-doc-viewer *ngIf="!getSupportedFormat(img.attachment.ext)"
+                        class="position-relative overflow-hidden z-index-9999"
+                        [url]="getAttachmentcUrl(mediaUrl+img.attachment.srcPath,'view')" viewer="google"
+                        disableContent='none' style="width:100%;height:400px;">
+                      </ngx-doc-viewer>
+
+                    </div>
+
+                  </span>
+
+                  <p class="text-white d-flex text-center justify-content-center align-items-center my-4">
+
+                    <!-- IMAGE OPENER  -->
+                    <a *ngIf="!checkTypeAndGetImageDoc(mediaUrl+img.attachment.srcPath)"
+                      class="mx-2 cursor-pointer text-decoration-none text-white" [href]="mediaUrl+img.attachment.path"
+                      target="_blank">Open</a>
+
+                    <!-- DOCX OPENER COMPONENT -->
+                    <a *ngIf="checkTypeAndGetImageDoc(mediaUrl+img.attachment.srcPath)"
+                      class="mx-2 cursor-pointer text-decoration-none text-white"
+                      [href]="getAttachmentcUrl(mediaUrl+img.attachment.srcPath,'view')" target="_blank">Open</a>
+
+                </div>
+              </div>
+            </div>
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

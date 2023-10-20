@@ -1,0 +1,253 @@
+<app-header></app-header>
+<div class="contnet-section d-flex">
+  <app-left-sidebar-menu></app-left-sidebar-menu>
+  <app-chat></app-chat>
+  <mobile-menu></mobile-menu>
+  <div class="middle-section">
+    <div class="tab-section">
+      <div class="middle-tab-section">
+        <ul class="nav nav-tabs">
+          <li [ngClass]="{active: selectedTab === 'people','a':!selectedTab}" (click)="changeTab('people')" routerLink="/application/home/search/people">
+            <a data-toggle="tab" (click)="changeTab('people')" routerLink="/application/home/search/people">
+              People
+            </a>
+          </li>
+          <li [ngClass]="{active: selectedTab === 'organizations','a':!selectedTab}" (click)="changeTab('organizations')"
+          routerLink="/application/home/search/organizations">
+            <a data-toggle="tab" (click)="changeTab('organizations')"
+              routerLink="/application/home/search/organizations">
+              Organizations
+            </a>
+          </li>
+          <li [ngClass]="{active: selectedTab === 'industries','a':!selectedTab}" (click)="changeTab('industries')" routerLink="/application/home/search/industries">
+            <a data-toggle="tab" (click)="changeTab('industries')" routerLink="/application/home/search/industries">
+              Industries
+            </a>
+          </li>
+          <li [ngClass]="{active: selectedTab === 'posts','a':!selectedTab}" (click)="changeTab('posts')" routerLink="/application/home/search/posts">
+            <a data-toggle="tab" (click)="changeTab('posts')" routerLink="/application/home/search/posts">
+              Posts
+            </a>
+          </li>
+          <!-- <li [ngClass]="{active: selectedTab === 'task'}">
+            <a data-toggle="tab" (click)="changeTab('task')" routerLink="/application/home/search/tasks">
+              Tasks
+            </a>
+          </li>
+          <li [ngClass]="{active: selectedTab === 'notification'}">
+            <a data-toggle="tab" (click)="changeTab('notification')" routerLink="/application/home/search/notifications">
+              Notifications
+            </a>
+          </li> -->
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade in active show">
+            <div class="tab-inner-section" (scroll)="scroll($event)">
+              <div class="all-search-section" *ngIf="!selectedTab">
+                <div class="showing-section">
+                  <p>
+                    Showing {{totalResult}} results for {{helperService.searchKeyword}}
+                  </p>
+                  <p>
+                    Further filter these results with the tabs above
+                  </p>
+                </div>
+                <div class="user-list">
+                  <div class="user-box" *ngFor="let item of generalData">
+                    <div *ngIf="item.type=='user'|| item.type=='organization'" class="user-box-wraper d-flex align-items-center">
+                      <div class="user-info d-flex align-items-center">
+                        <div class="user-img" *ngIf="item.type=='organization'">
+                          <img
+                            [src]="item.avatar && item.avatar !== undefined ? mediaUrl + item.avatar : '../../../../../../assets/images/nav-logo.svg'">
+                        </div>
+                        <div class="user-img" *ngIf="item.type=='user'">
+                          <img
+                            [src]="item.avatar && item.avatar !== undefined ? mediaUrl + item.avatar : '../../../../../../assets/images/user.png'">
+                        </div>
+                        <div class="user-detail">
+                          <div class="user-name" *ngIf="item.type=='organization'">
+                            <a style="cursor: pointer;" routerLink="/application/home/org-profile"
+                              [queryParams]="{ organizationId: item._id,type:'profile'}">{{item.name}}</a>
+                          </div>
+                          <div class="user-name" *ngIf="item.type=='user'">
+                            <a style="cursor: pointer;" routerLink="/application/home/parent/public-profile"
+                              [queryParams]="{ userId: item._id , workspace_id : workspace_Id }"> {{item.name}}</a>
+                          </div>
+                          <div class="user-followers" *ngIf="item.type=='organization'">
+                            {{item.size}} <span *ngIf="item.totalFollow"> - {{item.totalFollow}} followers</span>
+                          </div>
+                          <div class="user-followers" *ngIf="item.type=='user'">
+                            {{item.position}} at
+                            <span>
+                              <a *ngIf="item.organization?.name" style="cursor: pointer;"
+                                routerLink="/application/home/org-profile"
+                                [queryParams]="{ organizationId: item.organization._id,type:'profile'}">{{item.organization && item.organization?.name? item.organization.name:""}}</a>
+                            </span> {{item.address && item.address!=''? item.address + ' -':""}}  {{item.totalFollow}} followers
+                          </div>
+                          <div class="user-about" *ngIf="item.type=='user'">
+                            {{item.about}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="user-action d-flex flex-column">
+
+                        <button [ngClass]="{'active':item.follow && item.follow=='true'}"
+                          (click)='following(item)'>{{item.follow && item.follow=='true' ? "Following":"Follow"}}</button>
+                        <button *ngIf="item.type=='user'">
+                          <a style="cursor: pointer;" routerLink="/application/home/parent/public-profile"
+                            [queryParams]="{ userId: item._id}">Contact</a>
+                        </button>
+                        <button *ngIf="item.type=='organization'">
+
+                          <a style="cursor: pointer;" routerLink="/application/home/org-profile"
+                            [queryParams]="{ organizationId: item._id,type:'profile'}">Contact</a>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="extra-search-post" *ngIf="item.type=='post'">
+                      <div class="user-post-box-section posts-wrapper-2">
+                        <div class="box-wraper">
+                          <div class="user-post-box">
+                            <div class="top-section">
+                              <div class="user-img">
+                                <img
+                                  [src]="item.user.avatar && item.user.avatar !== undefined ? mediaUrl + item.user.avatar : '../../../../../../assets/images/user.png'">
+                                <div class="user-status"></div>
+                              </div>
+                              <div class="user-detail">
+                              
+                                <div class="user-name">
+                                  <span (click)="goToPublicProfile(item.user._id  )">{{item.user.name}}</span>
+                                </div>
+                                <div class="user-post">
+                                  {{item.user.position}}
+                                  <span *ngIf="item.user.businessName">
+                                    at {{item.user.businessName}}
+                                  </span> </div>
+                                <span class="record-ttl">
+                                  {{item.createdAt | dateFormatActivity}}
+                                </span>
+                              </div>
+
+                            </div>
+                            <div class="post-middle-section" *ngIf="item.activity_sub_type=='CREATED_POST'">
+                              <div class="user-txt post-user-txt">
+                                <label style="white-space: pre-wrap;" [innerHTML]="item.comment">
+                                </label>
+                              </div>
+                              <!-- add div for rich link -->
+                              <div class="post-link-section" *ngIf='item.comment_rich_link'>
+                                <div class="post-link-inner" *ngFor="let url of item.comment_rich_link">
+                                  <a href="url.url" rel="nofollow noopener" target="_blank">{{url.url}}</a>
+                                  <img class="urlCls" [src]='url.image'>
+                                  <div class="link-box-section">
+                                    <label>{{url.title}}</label>
+                                    <div class="post-link-detail">{{url.description}}</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="user-post-single-img-section" *ngIf="item.avatar && item.avatar.length==1">
+
+                                <img style="cursor: pointer;" (click)="openImgModal(item.avatar,1)"
+                                  [src]="mediaUrl+item.avatar[0].attachment.path">
+                              </div>
+                              <div class="user-post-two-img-section" *ngIf="item.avatar && item.avatar.length==2">
+                                <img style="cursor: pointer;" (click)="openImgModal(item.avatar,2)"
+                                  *ngFor="let image of item.avatar" [src]="mediaUrl+image.attachment.path">
+                              </div>
+                              <div class="user-post-three-img-section" *ngIf="item.avatar && item.avatar.length==3">
+                                <img style="cursor: pointer;" (click)="openImgModal(item.avatar,3)"
+                                  *ngFor="let image of item.avatar" [src]="mediaUrl+image.attachment.path">
+                              </div>
+                              <div class="user-post-four-img-section" *ngIf="item.avatar && item.avatar.length==4">
+                                <img style="cursor: pointer;" (click)="openImgModal(item.avatar,4)"
+                                  *ngFor="let image of item.avatar" [src]="mediaUrl+image.attachment.path">
+                              </div>
+                              <div class="user-post-five-img-section" *ngIf="item.avatar && item.avatar.length>4">
+                                <div *ngFor="let image of item.avatar|slice:0:5; let i=index" [class]="'img-title-'+ i">
+                                  <img style="cursor: pointer;" (click)="openImgModal(item.avatar,'all')"
+                                    [src]="mediaUrl+image.attachment.path">
+                                  <div class="img-count" *ngIf="item.avatar.length-5>0">
+                                    <label (click)="openImgModal(item.avatar,'all')">
+                                      <!-- data-toggle="modal" data-target="#imgmodal" -->
+                                      +{{item.avatar.length-5}}
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- The Modal -->
+                      <button id="imgModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal"
+                        data-target="#imgmodal" hidden></button>
+                      <div class="modal" id="imgmodal">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                              <button type="button" class="close" data-dismiss="modal">
+                                <img src="../../../../../../assets/images/close-cal.svg">
+                              </button>
+                              <div id="demo" class="carousel slide" data-ride="carousel">
+                                <!-- The slideshow -->
+                                <div class="carousel-inner">
+                                  <div *ngFor="let img of imgModal; index as i"
+                                    [ngClass]="i == 0?'carousel-item active':'carousel-item'">
+                                    <div class="img-box-wraper">
+                                      <img [src]="mediaUrl+img.attachment.path">
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- Left and right controls -->
+                                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                                  <span class="carousel-control-prev-icon"></span>
+                                </a>
+                                <a class="carousel-control-next" href="#demo" data-slide="next">
+                                  <span class="carousel-control-next-icon"></span>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+          <!--
+          <div id="organization" class="tab-pane fade">
+            <div class="tab-inner-section">
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+          <div id="industries" class="tab-pane fade">
+            <div class="tab-inner-section">
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+          <div id="post" class="tab-pane fade">
+            <div class="tab-inner-section">
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+          <div id="task" class="tab-pane fade">
+            <div class="tab-inner-section">
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+          <div id="notification" class="tab-pane fade">
+            <div class="tab-inner-section">
+              <router-outlet></router-outlet>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-right-sidebar></app-right-sidebar>
+</div>

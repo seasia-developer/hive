@@ -1,0 +1,192 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.left-icon-section {
+  padding-right: 10px;
+  display: inline-block;
+  position: relative;
+
+
+  .left-icon-section-wraper {
+    position: relative;
+
+    &::before {
+      content: "";
+      width: 1px;
+      height: 100%;
+      background-color: $text-secondary;
+      position: absolute;
+      top: 0;
+      right: -11px;
+    }
+  }
+
+
+  .icon-wraper {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid $text-secondary;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+
+    img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      object-position: center;
+      transition: 1s;
+    }
+
+    &.add-icon {
+      &.active {
+        img {
+          transform: rotate(45deg);
+        }
+      }
+
+    }
+
+    &:hover {
+      background-color: $white;
+    }
+
+    &.active {
+      background-color: $white;
+    }
+
+    .icon-wraper-option-section {
+      position: absolute;
+      top: -44px;
+      left: 49px;
+      background-color: $white;
+      border: 1px solid $text-secondary;
+      border-radius: 8px;
+      width: 160px;
+      z-index: 1030;
+
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: -14%;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        top: 49px;
+        border-color: transparent #d6d6d6 transparent #a000;
+        border-width: 11px;
+      }
+
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: -12%;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        top: 50px;
+        border-color: transparent white transparent #fdd0;
+        border-width: 10px;
+      }
+
+      ul {
+        margin: 0;
+        padding: 8px 0px;
+
+        li {
+          list-style: none;
+          color: $box_txt_color;
+          font-size: $box_small_text;
+          font-family: $RobotoRegular;
+          padding: 9px 8px;
+          margin: 0px 10px;
+          cursor: pointer;
+          position: relative;
+
+          &:hover {
+            background-color: $bg_color;
+            box-shadow: 0px 0px 0px 1px $text-secondary inset;
+            border-radius: 8px;
+          }
+        }
+
+        .icon-wraper-option-section-inner {
+          background-color: $white;
+          border: 1px solid $text-secondary;
+          border-radius: 8px;
+          width: 141px;
+          margin: 0 auto;
+
+          ul {
+            padding: 0;
+
+            li {
+              margin: 0;
+              position: relative;
+              padding: 5px 15px;
+
+              img {
+                position: absolute;
+                right: 5px;
+                top: 10px;
+                width: 10px;
+                height: 10px;
+                object-fit: contain;
+                object-position: center;
+              }
+
+              .organization-inner {
+                margin: 5px 0px;
+
+                ul {
+                  li {
+                    padding: 8px 10px;
+                    word-break: break-all;
+
+                    &:hover {
+                      background-color: $white;
+                      border-radius: 8px;
+                    }
+
+                    .organization-box-inner {
+                      margin: 5px 0px;
+
+                      ul {
+                        li {
+                          &:hover {
+                            background-color: $bg_color;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.custom-workspace-section-desktop {
+  display: none;
+}
+
+.active>.custom-workspace-section-desktop {
+  &.addCls {
+    display: none !important;
+  }
+
+  display: block !important;
+  position: absolute;
+  top: 2px;
+  left: 100%;
+  z-index: 999999;
+}

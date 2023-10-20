@@ -1,0 +1,409 @@
+@import "../../../../../SCSS/custom-variable";
+
+.right-full-section {
+  // width: calc(100% - 110px);
+  background-color: #fff;
+  box-shadow: 0px 1px 0px 0px #d6d6d6;
+  border: 1px solid #d6d6d6;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  padding: 20px;
+  position: relative;
+  height: calc(100vh - 100px) !important;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .contnet-section {
+    display: block !important;
+  }
+
+  .right-full-section {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+  .contnet-section {
+    padding: 0px 15px;
+  }
+}
+
+.upgrade-yearly-section {
+  height: 100%;
+  overflow-y: auto;
+
+  .upgrade-txt {
+    padding: 45px 0px 0px 0px;
+
+    .main-ttl {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      text-transform: uppercase;
+      padding-bottom: 15px;
+      padding-left: 15px;
+    }
+
+    p {
+      color: $box_txt_color;
+      font-size: $box_small_text;
+      font-family: $RobotoRegular;
+      line-height: 29px;
+      margin-bottom: 0;
+      padding-left: 10px;
+    }
+
+    .use-list {
+      padding-top: 144px;
+      padding-bottom: 0px;
+
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoMedium;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+      }
+
+      ul {
+        li {
+          font-family: $RobotoRegular;
+          color: $box_txt_color;
+          font-size: $title;
+          margin-bottom: 14px;
+          line-height: normal;
+        }
+      }
+    }
+
+    .essential-list {
+      padding-bottom: 12px;
+      margin-top: 34px;
+
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoMedium;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      ul {
+        li {
+          font-family: $RobotoRegular;
+          color: $box_txt_color;
+          font-size: $title;
+          margin-bottom: 9px;
+        }
+      }
+    }
+
+    .advance-list {
+      padding-bottom: 10px;
+
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoMedium;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      ul {
+        li {
+          font-family: $RobotoRegular;
+          color: $box_txt_color;
+          font-size: $title;
+          margin-bottom: 14px;
+        }
+      }
+    }
+
+    .support-list {
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoMedium;
+        margin-bottom: 9px;
+        text-transform: uppercase;
+      }
+
+      ul {
+        li {
+          font-family: $RobotoRegular;
+          color: $box_txt_color;
+          font-size: $title;
+          margin-bottom: 9px;
+        }
+      }
+    }
+  }
+
+  .upgrade-chart {
+    width: calc(100% - 280px);
+
+    .graph-section {
+      .graph-box {
+        // width: 170px;
+        width: 33.33%;
+        border: 1px solid $text-secondary;
+        border-radius: 8px;
+        padding: 5px 20px;
+        text-align: center;
+        box-shadow: 0px 1px 0px $shadow-color;
+        margin-right: 20px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        .title {
+          color: $box_txt_color;
+          font-size: $box_btn;
+          font-family: $RobotoRegular;
+          margin-bottom: 0px;
+        }
+
+        .price-section {
+          color: $box_txt_color;
+          font-size: $price-ttl-40;
+          font-family: $RobotoRegular;
+          position: relative;
+          margin-bottom: -12px;
+          display: flex;
+          justify-content: center;
+
+          span {
+            font-family: $RobotoRegular;
+            font-size: $wlc_title;
+            // position: absolute;
+            // top: 10px;
+            // left: 23px;
+
+            position: unset;
+            top: 0;
+            left: 0;
+            margin-top: 10px;
+          }
+        }
+
+        .time-section {
+          margin-bottom: 5px;
+          height: 48px;
+
+          label {
+            color: $box_txt_color;
+            font-size: $title;
+            font-family: $RobotoRegular;
+            margin-bottom: 0;
+            line-height: 11px;
+          }
+        }
+
+        button {
+          font-size: $title;
+          color: $white;
+          font-family: $RobotoMedium;
+          border-radius: 8px;
+          background-color: $btn_bg_success;
+          border: 1px solid $textarea_color;
+          width: 100%;
+          height: 30px;
+          margin-bottom: 65px;
+        }
+
+        .use-list {
+          padding-bottom: 50px;
+
+          ul {
+            li {
+              color: $box_txt_color;
+              font-size: $title;
+              font-family: $RobotoRegular;
+              //   padding-bottom: 15px;
+              height: 30px;
+              padding-left: 19px;
+            }
+          }
+        }
+
+        .essential-list {
+          padding-bottom: 35px;
+
+          ul {
+            li {
+              //   padding-bottom: 15px;
+              height: 36px;
+            }
+          }
+        }
+
+        .advance-list {
+          padding-bottom: 35px;
+
+          ul {
+            li {
+              //   padding-bottom: 15px;
+              height: 36px;
+            }
+          }
+        }
+
+        .support-list {
+          ul {
+            li {
+              //   padding-bottom: 15px;
+              height: 30px;
+
+              &:last-child {
+                //   padding-bottom: 0;
+                //   height: 25px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .switch-section {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 20px 45px 25px 0px;
+
+      label {
+        color: $cancel-btn-border-color;
+        font-size: $box_txt;
+        font-family: $RobotoRegular;
+        margin: 0px 40px;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 70px;
+        height: 20px;
+        margin: 0;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #3abc00;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 36px;
+        width: 36px;
+        left: 0;
+        bottom: -8px;
+        background-color: white;
+        transition: 0.4s;
+        border: 6px solid #3abc00;
+      }
+
+      input:checked+.slider {
+        background-color: #ef9300;
+      }
+
+      input:focus+.slider {
+        box-shadow: 0 0 1px #ef9300;
+      }
+
+      input:checked+.slider:before {
+        -webkit-transform: translateX(34px);
+        -ms-transform: translateX(34px);
+        transform: translateX(34px);
+        border-color: #ef9300;
+      }
+
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .upgrade-yearly-section {
+    .upgrade-chart {
+      .graph-section {
+        .graph-box {
+          margin-right: 10px;
+          width: 130px;
+
+          .price-section {
+            span {
+              left: 0px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .upgrade-yearly-section {
+    display: block !important;
+
+    .upgrade-chart {
+      width: 100%;
+
+      .switch-section {
+        justify-content: flex-start !important;
+        padding: 10px !important;
+      }
+
+      .graph-section {
+        width: 100%;
+        display: block !important;
+
+        .graph-box {
+          margin: 20px 0 0 0;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .upgrade-yearly-section {
+    display: block !important;
+
+    .upgrade-chart {
+      .switch-section {
+        justify-content: flex-start;
+        margin-top: 20px;
+
+        label {
+          margin: 0;
+        }
+
+        .switch {
+          margin: 0px 20px;
+        }
+      }
+    }
+  }
+}

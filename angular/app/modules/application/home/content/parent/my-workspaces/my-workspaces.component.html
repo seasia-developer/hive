@@ -1,0 +1,292 @@
+<div class="tab-inner-section workplace-inner-section">
+  <div class="marketplace-section-wraper">
+    <div class="main-ttl">
+      my Group
+    </div>
+    <div class="workspace-banner-section">
+      <div class="img-box cursorPointer" *ngFor="let item of homeService.myWorkspaces"
+        (click)="goToSaveWorkspace(item._id)">
+        <div class="img-wraper">
+          <img [src]="env.MEDIA_URL+item.image">
+        </div>
+        <div class="img-detail">
+          <div class="img-ttl">
+            {{item.title}}
+          </div>
+          <div class="img-description">
+            {{item.description | limitTo :'20'}}
+          </div>
+          <div class="bottom-section d-flex align-items-center justify-content-between">
+            <div class="img-sub-ttl">
+              {{item.profile?.businessName? item.profile.businessName: item.user.firstName+' '+item.user.lastName}} <div
+                class="rate-section">
+                <img src="../../../../../../../assets/images/fill-star.svg">
+                <img src="../../../../../../../assets/images/fill-star.svg">
+                <img src="../../../../../../../assets/images/fill-star.svg">
+                <img src="../../../../../../../assets/images/fill-star.svg">
+                <img src="../../../../../../../assets/images/star.svg">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Grid record – 2 start -->
+
+  <!-- <button type="button" class="btn btn-primary" (click)="openModal(gridrecord2)">Create template modal
+  gridrecord2</button>
+
+<ng-template #gridrecord2>
+  <div class="grid-record-modal">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Share application-name</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Give access to application-name only
+      </p>
+      <p>
+        Anyone you add will be able to interact with this item and follow future progress.
+      </p>
+
+      <div class="user-type-drop-down">
+        <input type="text" class="form-control" id="" placeholder="Type an email address or username">
+        <img src="../../../../../../../assets/images/light-drop-icon.svg">
+      </div>
+
+      <div class="user-msg-section">
+        <textarea class="form-control" rows="5" id="comment" placeholder="Write a personal message"></textarea>
+      </div>
+
+      <div class="user-info-section">
+        <label class="check-container">Share application-name with read-only access
+          <input type="checkbox">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="user-info-popup">
+          <p>
+            Sharing an item with read-only access is a feature that is available on the Pro plan. Free and Plus plans
+            have access to the standard item share tool, which gives guests full read and write access on a shared item.
+          </p>
+          <button>
+            Upgrade
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="modal-footer text-right">
+      <button>
+        Add to application-name
+      </button>
+    </div>
+  </div>
+</ng-template> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Grid record – 1 start -->
+
+  <!-- <button type="button" class="btn btn-primary" (click)="openModal(gridrecord1)">Create template modal
+  gridrecord1</button>
+
+<ng-template #gridrecord1>
+  <div class="grid-record-img-modal">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Share application-name</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <div class="ttl">
+        Choose to give access to either
+      </div>
+
+      <div class="access-section">
+        <div class="access-section-inner">
+          <img src="../../../../../../../assets/images/a.svg">
+          <label>
+            Only this Record
+          </label>
+          <p>
+            Share this specific record with one or more people. Good when you want to get a quick feedback.
+          </p>
+
+          <button>
+            share this record
+          </button>
+        </div>
+        <div class="invite-people-section">
+          <img src="../../../../../../../assets/images/invite-people.svg">
+          <label>
+            Invite to workspace-name
+          </label>
+          <p>
+            People one or more people to access the entire workspace-name workspace.
+          </p>
+
+          <button>
+            Invite to workspace-name
+          </button>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</ng-template> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Grid record –  start -->
+
+  <!-- <button type="button" class="btn btn-primary" (click)="openModal(gridrecord4)">Create template modal
+  gridrecord4</button>
+
+<ng-template #gridrecord4>
+  <div class="grid-record-modal">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">
+        Add users to workspace-name
+      </h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Invite co-workers or others to workspace-name
+      </p>
+      <p>
+        Anyone you add will be able to interact with this item and follow future progress.
+      </p>
+
+      <div class="user-type-drop-down">
+        <input type="text" class="form-control" id="" placeholder="Type an email address or username">
+        <img src="../../../../../../../assets/images/light-drop-icon.svg">
+      </div>
+
+      <div class="user-msg-section">
+        <textarea class="form-control" rows="5" id="comment" placeholder="Write a personal message"></textarea>
+      </div>
+
+      <div class="user-role-section">
+        <label>
+          Role:
+        </label>
+        <div class="custom-drop">
+          <label>
+            Member
+          </label>
+          <img src="../../../../../../../assets/images/dark-drop-down-icon.svg">
+
+          <div class="role-option">
+            <ul>
+              <li>
+                Workspace Admin
+              </li>
+              <li>
+                Member
+              </li>
+              <li>
+                Light member
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer text-right">
+      <button>
+        Add to application-name
+      </button>
+    </div>
+  </div>
+</ng-template> -->

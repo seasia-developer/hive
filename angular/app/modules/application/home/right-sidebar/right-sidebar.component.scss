@@ -1,0 +1,447 @@
+@import "../../../../../SCSS/custom-variable";
+
+.right-side-section {
+  width: 260px;
+  padding-left: 20px;
+  position: sticky;
+  top: 70px;
+  height: calc(100vh - 70px);
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  .box-wraper {
+    width: 240px;
+    background-color: $white;
+    box-shadow: 0px 1px 0px 0px $text-secondary;
+    border: 1px solid $text-secondary;
+    border-radius: 8px;
+    margin-bottom: 9px;
+    padding: 20px 20px 9px 20px;
+  }
+
+  .user-complate-profile {
+    padding: 2px 20px 22px 45px;
+
+    .user-img {
+      box-shadow: 0px 0px 0px 1px $text-secondary-dark inset;
+      min-width: 50px;
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      margin-right: 0px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        padding: 1px;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+
+    .user-complate-profile-inner {
+      margin-left: 15px;
+      margin-top: 2px;
+
+      label {
+        color: $box_txt_color;
+        font-size: $user-name;
+        font-family: $RobotoRegular;
+        line-height: normal;
+        margin-bottom: 0;
+      }
+
+      span {
+        color: $box_txt_color;
+        font-size: $box_small_text;
+        font-family: $RobotoRegular;
+      }
+    }
+  }
+
+  .user-profile-section {
+    ul {
+      margin: 0;
+      padding: 0;
+
+      li {
+        list-style: none;
+        border-bottom: 1px solid $text-secondary;
+        padding: 9px 0px;
+        display: flex;
+        align-items: center;
+
+        &:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        .user-profile-txt{
+          margin: 0;
+          color: $box_txt_color;
+          font-size: $title;
+          font-family: $RobotoRegular;
+          padding-left: 14px;
+          width: calc(100% - 20px);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+        }
+
+        .checkbox-container {
+          display: inline-block;
+          position: relative;
+          padding-left: 0;
+          cursor: pointer;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          color: #525252;
+          font-size: 14px;
+          font-family: "RobotoRegular";
+          margin-bottom: 0;
+          height: 20px;
+          width: 20px;
+        }
+
+        .checkbox-container input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+        }
+
+        .checkmark {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 20px;
+          width: 20px;
+          background-color: transparent;
+          border: 1px solid $box_txt_color;
+          border-radius: 100%;
+        }
+
+        .checkbox-container input:checked~.checkmark {
+          background-color: $add-btn-bg;
+          border: 1px solid $add-btn-bg;
+        }
+
+        .checkmark:after {
+          content: "";
+          position: absolute;
+          display: none;
+        }
+
+        .checkbox-container input:checked~.checkmark:after {
+          display: block;
+        }
+
+        .checkbox-container .checkmark:after {
+          left: 4px;
+          top: 4px;
+          width: 10px;
+          height: 9px;
+          background-image: url("../../../../../assets/images/white-checked.svg");
+        }
+      }
+    }
+  }
+
+  .online-section {
+    .title {
+      text-align: center;
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      margin-top: -2px;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+
+      li {
+        list-style: none;
+        border-bottom: 1px solid $text-secondary;
+        padding: 10px 0px;
+
+        &:last-child {
+          border-bottom: none;
+          padding-bottom: 1px;
+        }
+
+        .user-detail {
+          width: calc(100% - 15px);
+
+          img {
+            width: 30px;
+            height: 30px;
+            border-radius: 100%;
+            margin-right: 10px;
+          }
+
+          .user-name {
+            color: $user-name-color;
+            font-size: $title;
+            font-family: $RobotoRegular;
+            width: calc(100% - 50px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            span {
+              font-size: $sub-ttl;
+            }
+          }
+        }
+
+        .user-status {
+          img {
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+.box-wraper {
+  background-color: $white;
+  border: 1px solid $text-secondary;
+  box-shadow: 0px 1px 0px 0px $text-secondary;
+  border-radius: 8px;
+}
+
+// global css
+
+@media(max-width:767px) {
+
+  .right-side-section {
+    width: 100%;
+    padding-left: 0;
+    margin-top: 30px;
+    display: none;
+
+    .box-wraper {
+      width: 100%;
+    }
+  }
+
+}
+
+
+.user-info-section {
+  width: 100%;
+  position: relative;
+
+  .user-profile-pic {
+    margin-bottom: 20px;
+    text-align: center;
+    position: relative;
+
+    img {
+      max-width: 100%;
+      width: 240px;
+      height: 240px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      object-position: center;
+      object-fit: contain;
+    }
+
+    .user-status {
+      width: 20px;
+      height: 20px;
+      background-color: $text-light;
+      border: 3px solid $text-secondary-dark;
+      border-radius: 100%;     
+      position: absolute;
+      bottom: -8px;
+      right: 10px;
+      &.online {
+        background-color: $btn-bg;
+        border: 1px solid $text-secondary-dark;
+      }
+    }
+  }
+
+  .border-btn {
+    color: $box_txt_color;
+    font-size: $title;
+    font-family: $RobotoRegular;
+    border: 1px solid $text-secondary;
+    width: 110px;
+    height: 32px;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: $white;
+    text-align: center;
+    padding: 5px 0;
+  }
+
+  .green-btn{
+    color: $white;
+    font-size: $title;
+    font-family: $RobotoRegular;
+    border: 1px solid $btn-bg;
+    width: 110px;
+    height: 32px;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: $btn-bg;
+    text-align: center;
+    padding: 5px 0;
+  }
+
+  .edit-img-section {
+    position: relative;
+    width: 110px;
+
+
+    input {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+      opacity: 0;
+    }
+  }
+
+
+  .user-detail-section {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+
+    .user-name {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding-left: 12px;
+
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        margin-bottom: 3px;
+        width: 100%;
+        line-height: normal;
+      }
+
+      span {
+        color: $box_txt_color;
+        font-size: $box_small_text;
+        font-family: $RobotoRegular;
+        line-height: normal;
+      }
+    }
+  }
+
+  p {
+    color: $box_txt_color;
+    font-size: $title;
+    font-family: $RobotoRegular;
+    margin-bottom: 0;
+    padding: 15px 15px 10px 13px;
+    margin-bottom: 10px;
+    line-height: 20px;
+  }
+
+  .user-inner-wraper {
+    border-top: 1px solid $text-secondary;
+    padding: 18px 12px;
+    white-space: normal;
+    word-break: break-word;
+
+    .title {
+      color: $box_txt_color;
+      font-size: $sub-ttl;
+      font-family: $RobotoRegular;
+      text-transform: uppercase;
+      margin-bottom: -2px;
+    }
+
+    .sub-ttl {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+
+      &.link-txt {
+        text-decoration: underline;
+        word-break: break-all;
+      }
+    }
+
+    p {
+      margin-bottom: 0;
+      padding: 0 20px 0 0;
+    }
+  }
+
+  .plane-section {
+    border-top: 1px solid $text-secondary;
+    padding-bottom: 50px;
+
+    .ttl {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      padding: 21px 0px 12px 2px;
+      text-transform: uppercase;
+    }
+
+    .sub-ttl {
+      color: $black;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      padding: 0px 10px 10px 2px;
+
+      span {
+        font-family: $RobotoBold;
+      }
+    }
+
+    p {
+      padding: 0;
+      margin-bottom: 35px;
+      margin-left: 2px;
+
+      &.upgrade-txt {
+        padding: 5px 0px 0px 0px;
+        margin-bottom: 32px;
+      }
+    }
+
+    button {
+      color: $white;
+      font-size: $box_txt;
+      font-family: $RobotoMedium;
+      height: 32px;
+      width: 100%;
+      border-radius: 15px;
+      background-color: $add-btn-bg;
+      border: 1px solid $add-btn-bg;
+      padding: 0px 5px 0px 7px;
+    }
+  }
+
+  .headline-title{
+    color: $box_txt_color !important;
+     font-family: $ProximaNovaBold !important;
+     padding-left: 12px;
+     margin: 0;
+  }
+
+  .headline-title-bottom{
+    border-top: none;
+    padding-top: 5px;
+  }
+}

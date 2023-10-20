@@ -1,0 +1,63 @@
+<!-- <app-header></app-header> -->
+
+<div class="contnet-section d-flex">
+  <!-- <app-left-sidebar-menu></app-left-sidebar-menu> -->
+  <!-- <div class="bottom-chat-section">
+    <label>
+      Chat (23)
+    </label>
+    <div class="icon-section">
+      <img src="../../../../../../assets/images/setting.svg">
+      <img src="../../../../../../assets/images/setting.svg">
+    </div>
+  </div> -->
+  <div class="middle-section">
+    <div class="organization-content">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="organization-body">
+            <form [formGroup]="addOrganizationForm">
+              <h2> {{ isEdit ? 'Edit' : 'Add' }} Organization</h2>
+              <img src="../../../../../../assets/images/Close-icon.svg" class="close-icon" (click)="bsModalRef.hide()">
+              <!-- (click)="modalRef.hide()" -->
+              <div class="form-group">
+                <label>Organization Name<sup>*</sup></label>
+                <input type="text" id="name" placeholder="Organization name" formControlName="name" name="name"
+                  class="form-control">
+                <div *ngIf="submitted && form.name.errors">
+                  <div class="error-message" *ngIf="form.name.errors.required">Name is required </div>
+                </div>
+              </div>
+              <div class="form-group avtar-section">
+                <label>Organization Avatar</label>
+                <div class="avatar">
+                  <img
+                    [src]="helperService.orgImagePreview ? helperService.orgImagePreview : '../../../../../../assets/images/nav-logo.svg'">
+                  <button class="btn btn-success" type="button" (click)="upload()">Upload</button>
+                </div>
+              </div>
+              <div class="form-group bg-section choose-bg">
+                <label>Choose a background Color<a style="cursor: pointer;"
+                    (click)="setDefaultBgColor('transparent')">Reset to
+                    default</a></label>
+                <ul>
+                  <div>
+                    <li *ngFor="let item of firstRowColor; let i = index;" class="{{ 'bg'+(i+1) }}"
+                      (click)="setBackgroundColor('bg'+(i+1), item)"> </li>
+                    <li *ngFor="let item of secondRowColor; let i = index;" class="{{ 'bg'+(i+11) }}"
+                      (click)="setBackgroundColor('bg'+(i+11), item)"> </li>
+                    <li *ngFor="let item of thirdRowColor; let i = index;" class="{{ 'bg'+(i+21) }}"
+                      (click)="setBackgroundColor('bg'+(i+21), item)"> </li>
+                  </div>
+                </ul>
+                <button class="btn btn-success" appPreventDoubleClick (throttledClick)="add()" [throttleTime]="3000"
+                  [disabled]="isAddedOrg">{{ isEdit ? 'Update' : 'Add' }}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <app-right-sidebar></app-right-sidebar> -->
+</div>

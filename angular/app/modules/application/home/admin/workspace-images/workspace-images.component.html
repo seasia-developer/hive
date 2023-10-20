@@ -1,0 +1,117 @@
+<div class="workspace-banner-section">
+  <div class="main-ttl">
+    Workspace Banners
+  </div>
+
+  <div class="add-img-section">
+    <span>
+      Add images for the headers of the workspaces in the marketplace
+    </span>
+    <input id="addOrgAvatar" type='file' accept="image/png , image/jpeg" (change)='fileupload($event)' hidden>
+    <button (click)="openUploadModal()">
+      Add image
+    </button>
+  </div>
+
+  <div class="banner-section">
+    <div class="img-box" *ngFor="let item of workspaceBanner">
+      <img [src]="mediaURL + item.image">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg" (click)="removeImage(item._id)">
+      <div>
+      </div>
+    </div>
+
+    <!-- <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div>
+
+    <div class="img-box">
+      <img src="../../../../../../assets/images/banner-img.png">
+      <img class="delete-icon" src="../../../../../../assets/images/close.svg">
+      <div>
+      </div>
+    </div> -->
+
+  </div>
+
+</div>

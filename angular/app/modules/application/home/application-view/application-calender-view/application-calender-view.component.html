@@ -1,0 +1,32 @@
+<!-- <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate"></mwl-demo-utils-calendar-header> -->
+
+<!-- <div class="mt-20">
+  <mwl-calendar-month-view [viewDate]="viewDate" [activeDayIsOpen]="false" [events]="events" [refresh]="refresh"
+    (eventTimesChanged)="eventTimesChanged($event)" [weekStartsOn]="1" [cellTemplate]="customCellTemplate">
+  </mwl-calendar-month-view>
+</div>
+
+<ng-template #customCellTemplate let-day="day" let-openDay="openDay" let-locale="locale"
+  let-tooltipPlacement="tooltipPlacement" let-highlightDay="highlightDay" let-unhighlightDay="unhighlightDay"
+  let-eventClicked="eventClicked" let-tooltipTemplate="tooltipTemplate" let-tooltipAppendToBody="tooltipAppendToBody"
+  let-tooltipDelay="tooltipDelay" let-trackByEventId="trackByEventId" let-validateDrag="validateDrag">
+  <div class="cal-cell-top">
+    <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+    <div class="plusSign">+</div>
+  </div>
+  <div class="event-title" *ngFor="let event of day.events" (click)="calendarEvent(event)" mwlDraggable
+    [class.cal-draggable]="event.draggable" dragActiveClass="cal-drag-active" [dropData]="{event: event}"
+    [dragAxis]="{x: event.draggable, y: event.draggable}">
+    <span class="cal-event">
+      <div *ngIf="((event.start | date : 'dd/MM/y') === (day.date | date : 'dd/MM/y')) && day.day !== 1"><img
+          *ngIf="event.meta" src="../../../../../../assets/images/close-cal.svg"
+          (click)="deleteEvent(event)">{{ event.title }}</div>
+      <div *ngIf="day.day === 1"><img *ngIf="event.meta" src="../../../../../../assets/images/close-cal.svg"
+          (click)="deleteEvent(event)">{{ event.title }}</div>
+    </span>
+  </div>
+</ng-template> -->
+
+<div class='calender-main-section'>
+  <full-calendar id="calNew" #calendarNew deepChangeDetection="true" [options]='calendarOptions'></full-calendar>
+</div>

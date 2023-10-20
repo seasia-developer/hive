@@ -1,0 +1,109 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.box-layout {
+  background-color: $white;
+  border: 1px solid $textarea_color;
+  border-radius: 8px;
+  max-width: 541px;
+  margin: 0 auto;
+
+  .inner-body-section {
+    padding: 36px;
+
+    .img-box {
+      margin-bottom: 22px;
+    }
+
+    p {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      margin-bottom: 12px;
+      padding: 0px 5px 0px 10px;
+
+      &.user-txt{
+        font-size: $box_small_text;
+        color: $box_txt_color;
+        font-family: $RobotoRegular;
+        padding: 0 !important;
+        margin-left: -5px !important;
+      }
+    }
+
+    .custom-drop-down {
+      border: 1px solid $text-secondary;
+      border-radius: 4px;
+      width: 200px;
+      height: 30px;
+      margin: 0 auto;
+      position: relative;
+      text-align: left;
+      padding-right: 50px;
+      margin-top: 23px;
+      margin-bottom: 45px;
+
+      label {
+        margin-bottom: 0;
+        color: $box_txt_color;
+        font-size: $box_small_text;
+        font-family: $RobotoRegular;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 5px 0px 5px 20px;
+      }
+
+      img {
+        position: absolute;
+        right: 10px;
+        top: 8px;
+      }
+
+      .custom-drop-down-inner {
+        width: 200px;
+        position: absolute;
+        top: 28px;
+        left: -1;
+        border: 1px solid $text-secondary;
+        border-radius: 4px;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        background-color: $white;
+
+        ul {
+          margin: 0;
+          padding: 0;
+
+          li {
+            list-style: none;
+            color: $box_txt_color;
+            font-size: $box_small_text;
+            font-family: $RobotoRegular;
+            border-bottom: 1px solid $text-secondary;
+            padding: 6px 20px;
+            cursor: pointer;
+
+            &:last-child{
+                border: none;
+            }
+
+          }
+        }
+      }
+    }
+
+    button {
+      background-color: $add-btn-bg;
+      border-radius: 15px;
+      height: 30px;
+      width: 200px;
+      color: $white;
+      font-size: $title;
+      font-family: $RobotoMedium;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 50px;
+    }
+  }
+}

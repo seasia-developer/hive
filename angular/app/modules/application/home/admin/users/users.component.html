@@ -1,0 +1,516 @@
+<div class="w-100">
+
+  <!-- USERS LIST CONTAINER  -->
+  <div class="coupon-section px-4 py-3" id="userslist" *ngIf="!editUser">
+
+    <!-- HEADING  -->
+    <div class="top-section">
+      <div class="ttl text-bold">
+        ACCOUNTS
+      </div>
+    </div>
+
+    <!-- FILTER  -->
+    <div class="top-section">
+      <div class="text-bold d-flex">
+        Filter -
+        <span class="d-flex flex-column flex-md-row">
+          <span class="mx-2 cursor-pointer">
+            <input type="radio" id="paidUser" value="paidUsers" (click)="filterUsers($event)" name="filterusers"
+              [checked]="paidUsers" class="cursor-pointer" /> <label for="paidUser" class="ml-1 cursor-pointer">Paid
+              Accounts</label>
+          </span>
+          <span class="mx-2 cursor-pointer">
+            <input type="radio" id="freeUser" value="freeUsers" (click)="filterUsers($event)" name="filterusers"
+              [checked]="freeUsers" class="cursor-pointer" /> <label for="freeUser" class="ml-1 cursor-pointer">Free
+              Accounts</label>
+          </span>
+          <span class="mx-2 cursor-pointer">
+            <input type="radio" id="domainAdmins" value="domainAdmins" (click)="filterUsers($event)" name="filterusers"
+              [checked]="domainAdmins" class="cursor-pointer" /> <label for="domainAdmins"
+              class="ml-1 cursor-pointer">Domain Admins</label>
+          </span>
+          <span class="mx-2 cursor-pointer">
+            <input type="radio" id="allUser" value="allUsers" (click)="filterUsers($event)" name="filterusers"
+              [checked]="!paidUsers && !freeUsers && !domainAdmins" class="cursor-pointer" /> <label for="allUser"
+              class="ml-1 cursor-pointer">All Users</label>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="body-section">
+      <div class="table-responsive">
+
+        <!-- SEARCH USERS  -->
+        <div class="add-section mb-2 w-100">
+          <form class="form-inline w-100">
+            <input class="form-control w-100 border-0" name="searchInUsers" placeholder="Search"
+              [(ngModel)]="searchInUsers" (ngModelChange)="changeSearchInUsers()" type="text" aria-label="Search">
+          </form>
+        </div>
+
+        <!-- USERS LIST  -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th *ngFor="let head of headElements">{{ head }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cursor-pointer" *ngFor="let user of (filteredUsers ? filteredUsers : users)">
+              <!-- CREATED AT  -->
+              <td style="min-width:120px">{{ dateFormat(user.createdAt) }}</td>
+              <!-- EMAIL DOMAIN  -->
+              <td>{{ user.email.split('@')[1] }}</td>
+              <!-- EMAIL  -->
+              <td>{{ user.email }}</td>
+              <!-- ORGANIZATIONS LIST  -->
+              <td>
+                <span *ngIf="user.organizations && user.organizations.length">
+                  <span *ngFor="let organization of user.organizations; let i = index" class="mr-2">
+                    {{organization.name}}
+                    <span *ngIf="(user.organizations.length - 1) !== i">,</span>
+                  </span>
+                </span>
+                <span *ngIf="!user.organizations.length">
+                  N/A
+                </span>
+              </td>
+              <!-- COUPONS CODE  -->
+              <td style="min-width:150px">
+                <span *ngIf="user.subscriptions && user.subscriptions.length">
+                  {{(user.subscriptions[user.subscriptions.length - 1]).couponCode}}
+                  <!-- <span *ngFor="let subscription of user.subscriptions; let i = index" class="mr-2">
+                    <span *ngIf="subscription.couponCode">{{subscription.couponCode}} {{subscription._id}}</span>
+                    <span *ngIf="!(subscription.couponCode.length)">N/A</span>
+                    <span *ngIf="(user.subscriptions.length - 1) !== i">,</span>
+                  </span> -->
+                </span>
+                <span *ngIf="!user.subscriptions.length">
+                  N/A
+                </span>
+              </td>
+              <!-- PLAN  -->
+              <td>
+                <!-- <span *ngIf="user.subscriptions">
+                  <span *ngFor="let subscription of user.subscriptions; let i = index" class="mr-2 text-capitalize">
+                    <b>{{subscription.planName}}</b>
+                    <span *ngIf="(user.subscriptions.length - 1) !== i">,</span>
+                  </span>
+                </span> -->
+                <span *ngIf="user.plan" class="text-capitalize">
+                  {{user.plan}}
+                </span>
+                <span *ngIf="!user.plan">
+                  Free
+                </span>
+              </td>
+              <!-- PLAN DURATION  -->
+              <td>
+                <span *ngIf="user.subscriptions && user.subscriptions.length">
+                  {{(user.subscriptions[user.subscriptions.length - 1])?.interval.toLowerCase() === 'yearly' ||
+                  (user.subscriptions[user.subscriptions.length - 1])?.interval === 'year' ? 'LifeTime' :
+                  (user.subscriptions[user.subscriptions.length - 1]).interval}}
+                </span>
+                <span *ngIf="!user.subscriptions.length">
+                  N/A
+                </span>
+              </td>
+
+              <!-- PLATFORM PLAN -->
+              <td>
+                <span *ngIf="user.platformsubscriptions && user.platformsubscriptions.length">
+                  <span
+                    *ngIf="user.platformsubscriptions[0] && user.platformsubscriptions[0].source && user.platformsubscriptions[0].source === 'stripe'">
+                    {{ user.platformsubscriptions[0].plan }}
+                  </span>
+                  <span
+                    *ngIf="user.platformsubscriptions[0] && user.platformsubscriptions[0].source && user.platformsubscriptions[0].source === 'coupon'">
+                    Lifetime Deal
+                  </span>
+                </span>
+                <span *ngIf="user.platformsubscriptions && !user.platformsubscriptions.length">
+                  N/A
+                </span>
+              </td>
+
+
+              <!-- EDIT BTN  -->
+              <td>
+                <button class="edit-btn" (click)="getUserList(user._id)">Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- USER UPDATE CONTAINER  -->
+  <div class="coupon-section px-4 py-3" id="userlist" *ngIf="editUser">
+    <!-- HEADING -->
+    <div class="top-section d-flex">
+      <div class="ttl text-bold">
+        ACCOUNT INFORMATION
+      </div>
+      <div class="d-flex justify-content-between align-items-xl-center justify-content-xl-end order-1 order-xl-2">
+        <div class="d-flex w-100 justify-content-between justify-content-lg-end">
+          <button class="btn-success mx-0 ml-xl-2" (click)="editUser = false">Back</button>
+        </div>
+      </div>
+    </div>
+    <!-- DATA CONTAINER  -->
+    <div class="body-section" *ngIf="user">
+      <div class="border-box">
+        <div class="w-100">
+          <div class="col-12 py-3">
+
+            <!-- <div class="position-avatar top-200 right-50 user-avatar" *ngIf="user.avatar">
+              <img [src]="mediaUrl + user.avatar" alt="">
+            </div> -->
+
+            <!-- JOINED  -->
+            <div class="row mb-4">
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                <p class="text-xl-right">
+                  Joined:
+                </p>
+              </div>
+              <div class="col-12 col-xl-4">
+                <p class="text-left">
+                  {{ dateFormat(user.createdAt) }}
+                </p>
+              </div>
+            </div>
+
+            <!-- DOMAIN  -->
+            <!-- <div class="row mb-4">
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                <p class="text-xl-right">
+                  Domain:
+                </p>
+              </div>
+              <div class="col-12 col-xl-4">
+                <p class="text-left">
+                  {{ user.email.split('@')[1] }}
+                </p>
+              </div>
+            </div> -->
+
+            <!-- EMAIL  -->
+            <div class="row mb-4">
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                <p class="text-xl-right">
+                  Email:
+                </p>
+              </div>
+              <div class="col-12 col-xl-4">
+                <p class="text-left">
+                  <input class="form-control" type="text" [value]="user.email" [(ngModel)]="userEmail" />
+                </p>
+              </div>
+            </div>
+
+            <!-- ORGANIZATIONS -->
+            <!-- <div class="row mb-4">
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                <p class="text-xl-right">
+                  Organization:
+                </p>
+              </div>
+              <div class="col-12 col-xl-4">
+                <p class="text-left">
+                  <span *ngIf="user && user.organizations && user.organizations.length">
+                    <span *ngFor="let organization of user.organizations; let i = index" class="mr-2">
+                      {{organization.name}}
+                      <span *ngIf="(user.organizations.length - 1) !== i">,</span>
+                    </span>
+                  </span>
+                  <span *ngIf="!user.organizations.length">
+                    N/A
+                  </span>
+                </p>
+              </div>
+            </div> -->
+
+            <!---------------- UPGRADE USERS START --------------->
+
+            <div class="w-100" *ngIf="user">
+
+              <!-- UPGRADE TEXT  -->
+              <!-- <div class="row mb-4">
+                <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                  <p class="text-xl-right font-weight-bold">
+                    Upgrade
+                  </p>
+                </div>
+                <div class="col-12 col-xl-8">
+                  <p class="text-left">
+                    <span class="d-flex">
+                      <span class="mx-0 cursor-pointer">
+                        <input type="checkbox" id="upgradeAllUsersWithDomain" value="true" (click)="upgradeAllUsersWithDomainInit($event)" name="upgradeAllUsersWithDomain"
+                          [checked]="upgradeAllUsersWithDomain" class="cursor-pointer" />
+                          <label for="upgradeAllUsersWithDomain" class="ml-2 mb-0 cursor-pointer">
+                            Upgrade all users with domain: <span class="font-weight-bold">{{ user.email.split('@')[1] }}</span>
+                          </label>
+                      </span>
+                    </span>
+                  </p>
+                </div>
+              </div> -->
+
+              <!-- SELECT ORGANIZATIONS -->
+              <div class="row mb-4">
+                <div class="col-12 col-xl-2 d-flex align-items-start justify-content-xl-end">
+                  <p class="text-xl-right">
+                    Select Organization:
+                  </p>
+                </div>
+                <div class="col-12 col-xl-8">
+                  <p class="text-left">
+                    <span class="d-flex flex-column" *ngIf="user && user.organizations && user.organizations.length">
+                      <span *ngFor="let organization of user.organizations; let i = index" class="mr-2">
+                        <label [for]="organization._id">
+                          <input type="radio" [id]="organization._id" [value]="organization._id"
+                            name="organizationIdForUpgrade" [(ngModel)]="organizationIdForUpgrade">
+                          {{organization.name}}
+
+                          <span class="mx-2">
+                            {{ (user._id === organization.owner) ? '(Admin)' : '' }}
+                          </span>
+
+                        </label>
+                      </span>
+                    </span>
+                    <span *ngIf="!user.organizations.length">
+                      N/A
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- SELECT COUPON -->
+              <!-- <div class="row mb-4">
+                <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                  <p class="text-xl-right">
+                    Select Coupon:
+                  </p>
+                </div>
+                <div class="col-12 col-xl-4">
+                  <p class="text-left">
+                    <select class="form-control font-xs-16px" [(ngModel)]="userCouponforUpgrade">
+                      <option *ngFor="let userCoupon of userCoupons" [(value)]="userCoupon.coupon.coupon" class="mb-0">
+                        {{ userCoupon.coupon.coupon }} - {{ userCoupon.period }} - {{ userCoupon.planType }} - {{ userCoupon.seatsPerCoupon }} Seats
+                      </option>
+                    </select>
+                  </p>
+                </div>
+                <div class="col-12 col-xl-2 d-flex align-items-center justify-content-start">
+                  <p class="text-left">
+                    <span *ngIf="user.coupons && user.coupons.length" class="text-capitalize">
+                      {{(user.coupons[user.coupons.length - 1]).planType}}
+                    </span>
+                  </p>
+                </div>
+              </div> -->
+            </div>
+
+            <!---------------- UPGRADE USERS END --------------->
+
+            <!-- LICENSES  -->
+            <div class="row mb-4">
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                <p class="text-xl-right">
+                  Members:
+                </p>
+              </div>
+              <div class="col-12 col-xl-4">
+                <p class="text-left">
+                  <input class="form-control" type="text"
+                    [value]="(user.coupons[user.coupons.length - 1])?.seats_per_coupon" [(ngModel)]="couponLicenses" />
+                </p>
+              </div>
+            </div>
+
+            <!-- COUPON  -->
+            <div class="row mb-4">
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                <p class="text-xl-right">
+                  Coupon:
+                </p>
+              </div>
+              <div class="col-12 col-xl-4">
+                <p class="text-left">
+                  <input class="form-control" type="text" *ngIf="user.subscriptions && user.subscriptions.length"
+                    [value]="(user.subscriptions[user.subscriptions.length - 1]).couponCode"
+                    [(ngModel)]="userCouponforUpgrade">
+                  <span *ngIf="!user.subscriptions.length">
+                    N/A
+                  </span>
+                </p>
+              </div>
+            </div>
+
+
+
+            <!-- PLAN  -->
+            <div class="row mb-4">
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                <p class="text-xl-right">
+                  Plan:
+                </p>
+              </div>
+              <div class="col-12 col-xl-2">
+                <p class="text-left">
+                  <select class="form-control font-xs-16px" [(ngModel)]="planName">
+                    <option>Select</option>
+                    <option value="Free">Free</option>
+                    <option value="Starter">Starter</option>
+                    <option value="Growth">Growth</option>
+                    <option value="Enterprise">Enterprise</option>
+
+                  </select>
+                </p>
+              </div>
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-start">
+                <p class="text-left">
+                  <span *ngIf="user.coupons && user.coupons.length" class="text-capitalize">
+                    {{(user.coupons[user.coupons.length - 1]).planType}}
+                  </span>
+                  <span *ngIf="user.coupons.length===0" class="text-capitalize">
+                    {{user.plan}}
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <!-- PERIOD  -->
+            <div class="row mb-4">
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                <p class="text-xl-right">
+                  Period:
+                </p>
+              </div>
+              <div class="col-12 col-xl-2">
+                <p class="text-left">
+                  <select class="form-control font-xs-16px" [(ngModel)]="planInterval">
+                    <option value="lifetime">Lifetime</option>
+                    <option value="yearly">Yearly</option>
+                    <option value="month">Month</option>
+                  </select>
+                </p>
+              </div>
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-start">
+                <p class="text-left">
+                  <span *ngIf="user.coupons && user.coupons.length" class="text-capitalize">
+                    {{ (user.coupons[user.coupons.length - 1]).period }}
+                  </span>
+                  <span *ngIf="user.coupons.length === 0" class="text-capitalize">
+                    Lifetime
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <!-- RECORDS  -->
+            <!-- <div class="row mb-4" *ngIf="user && user.coupons.length">
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                <p class="text-xl-right">
+                  Records:
+                </p>
+              </div>
+              <div class="col-12 col-xl-4">
+                <p class="text-left">
+                  <input class="form-control" type="text" [value]="planRecords" [(ngModel)]="planRecords" />
+                </p>
+              </div>
+              <div class="col-12 col-xl-3 d-flex align-items-center">
+                {{planRecords}} Records
+              </div>
+            </div> -->
+
+            <!-- STORAGE  -->
+            <!-- <div class="row mb-4" *ngIf="user && user.coupons.length">
+              <div class="col-12 col-xl-2 d-flex align-items-center justify-content-xl-end">
+                <p class="text-xl-right">
+                  Storage (GB):
+                </p>
+              </div>
+              <div class="col-12 col-xl-4">
+                <p class="text-left">
+                  <input class="form-control" type="text" [value]="planStorage" [(ngModel)]="planStorage" />
+                </p>
+              </div>
+              <div class="col-12 col-xl-3 d-flex align-items-center">
+                {{planStorage}} GB
+              </div>
+            </div> -->
+
+            <!-- NOTES  -->
+            <div class="row mb-4">
+              <div class="col-12 col-xl-2 d-flex align-items-start justify-content-xl-end">
+                <p class="text-xl-right">
+                  Notes:
+                </p>
+              </div>
+              <div class="col-12 col-xl-10">
+                <p class="text-left">
+                  <textarea name="" id="" cols="30" rows="5" class="w-100 form-control min-h-100 max-h-300"
+                    [(ngModel)]="planNotes">{{planNotes}}</textarea>
+                </p>
+              </div>
+            </div>
+
+            <!-- ACTIONS BTNS  -->
+            <div class="row my-5">
+              <div
+                class="col-xl-6 d-flex flex-column flex-xl-row align-items-xl-center justify-content-xl-start order-2 order-xl-1 mt-xl-4 mt-xl-0">
+
+                <div class="mr-2 mb-3 mb-xl-0">
+                  <button class="btn-danger mx-0" style="min-width:200px" mwlConfirmationPopover
+                    [popoverTitle]="popoverTitle" [popoverMessage]="popoverMessage" [confirmText]="confirmText"
+                    [cancelText]="cancelText" [placement]="placement" (confirm)="deleteUser(user._id)"
+                    (cancel)="cancelClicked = true" confirmButtonType="danger" cancelButtonType="warning"
+                    [appendToBody]="true">
+                    Delete
+                  </button>
+                </div>
+
+                <div class="mr-2 mb-3 mb-xl-0" *ngIf="user && user.subscriptions.length">
+                  <button class="btn-danger mx-0" style="min-width:200px" mwlConfirmationPopover
+                    popoverTitle="Are you sure to remove subscription ?" [popoverMessage]="popoverMessage"
+                    confirmText="Remove" [cancelText]="cancelText" [placement]="placement"
+                    (confirm)="deleteSubscription(user._id)" (cancel)="cancelClicked = true" confirmButtonType="danger"
+                    cancelButtonType="warning" [appendToBody]="true">
+                    Remove Subscription
+                  </button>
+                </div>
+
+              </div>
+              <div
+                class="col-xl-6 d-flex justify-content-start align-items-xl-center justify-content-xl-end order-1 order-xl-2">
+                <div class="d-flex w-100 flex-column flex-xl-row justify-content-between justify-content-lg-end">
+                  <button style="min-width:200px" class="btn-warning mx-0 ml-xl-2 mb-3 mb-xl-0 order-1 order-xl-2"
+                    (click)="setEditUserStatus(false)">Cancel</button>
+                  <button style="min-width:200px"
+                    class="btn-success btn-update mx-0 ml-xl-2 mb-3 mb-xl-0 order-2 order-xl-1"
+                    (click)="updateUserSubscription()">Update</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADER -->
+  <div class="subs-loader position-fixed inset-0 m-auto d-flex align-itens-center justify-content-center h-100"
+    *ngIf="loader">
+    <div class="loading"></div>
+  </div>
+
+</div>

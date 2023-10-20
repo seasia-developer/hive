@@ -1,0 +1,129 @@
+<div class="showing-section" *ngIf="helperService.searchKeyword">
+  <p>
+    Showing {{totalPost}} results for {{helperService.searchKeyword}}
+  </p>
+</div>
+
+<div class="extra" *ngIf="helperService.orgRole && helperService.orgRole !== 'light_member' || helperService.orgRole === ''">
+  <div class="user-post-box-section posts-wrapper-3" *ngIf="posts && posts.length>0">
+    <div class="box-wraper" *ngFor="let activity of posts">
+      <div class="user-post-box">
+        <div class="top-section">
+          <div class="user-img">
+            <img
+              [src]="activity.user.avatar && activity.user.avatar !== undefined ? mediaUrl + activity.user.avatar : '../../../../../../assets/images/user.png'">
+            <div class="user-status"></div>
+          </div>
+          <div class="user-detail">
+            <div class="user-name">
+              <span (click)="goToPublicProfile(activity.user._id)">{{activity.user.name}}</span>
+            </div>
+            <div class="user-post">
+              {{activity.user.position}}
+              <span *ngIf="activity.user.businessName">
+                at {{activity.user.businessName}}
+              </span> </div>
+            <span class="record-ttl 111">
+              {{activity.createdAt | dateFormatActivity}}
+            </span>
+          </div>
+
+          <!-- <div class="more-option" id="post-edit" *ngIf="activity.activity_sub_type=='CREATED_POST'"
+            (click)="toggleMenu(activity._id)">
+            <img src="../../../../../../assets/images/more.svg" id="post-edit">
+            <div class="more-option-dropdown" id="post-edit"
+              *ngIf="openMenu === activity._id && ((activity.organization | keyvalue)?.length && activity.organizationRole!='light_member'|| (activity.workspace | keyvalue)?.length && activity.workspaceRole !='light_member' || activity.user._id==userData.owner || userData.role=='admin')">
+              <ul
+                *ngIf="((activity.organization | keyvalue)?.length && activity.organizationRole!='light_member'|| (activity.workspace | keyvalue)?.length && activity.workspaceRole !='light_member' || activity.user._id==userData.owner || userData.role=='admin')">
+                <li (click)="editPost(activity)" id="post-edit" (clickOutside)="clickedOutside($event)">
+                  Edit
+                </li>
+                <li (click)="deletePost(activity._id)" id="post-edit">
+                  Delete
+                </li>
+              </ul>
+            </div>
+          </div> -->
+        </div>
+        <div class="post-middle-section" *ngIf="activity.activity_sub_type=='CREATED_POST'">
+          <div class="user-txt post-user-txt">
+            <label style="white-space: pre-wrap;" [innerHTML]="activity.comment">
+            </label>
+          </div>
+          <!-- add div for rich link -->
+          <div class="post-link-section" *ngIf='activity.comment_rich_link'>
+            <div class="post-link-inner" *ngFor="let url of activity.comment_rich_link">
+              <a href="url.url"  rel="nofollow noopener" target="_blank">{{url.url}}</a>
+              <img class="urlCls" [src]='url.image'>
+              <div class="link-box-section">
+                <label>{{url.title}}</label>
+                <div class="post-link-detail">{{url.description}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="user-post-single-img-section" *ngIf="activity.avatar && activity.avatar.length==1">
+
+            <img style="cursor: pointer;" (click)="openImgModal(activity.avatar,1)"
+              [src]="mediaUrl+activity.avatar[0].attachment.path">
+          </div>
+          <div class="user-post-two-img-section" *ngIf="activity.avatar && activity.avatar.length==2">
+            <img style="cursor: pointer;" (click)="openImgModal(activity.avatar,2)"
+              *ngFor="let image of activity.avatar" [src]="mediaUrl+image.attachment.path">
+          </div>
+          <div class="user-post-three-img-section" *ngIf="activity.avatar && activity.avatar.length==3">
+            <img style="cursor: pointer;" (click)="openImgModal(activity.avatar,3)"
+              *ngFor="let image of activity.avatar" [src]="mediaUrl+image.attachment.path">
+          </div>
+          <div class="user-post-four-img-section" *ngIf="activity.avatar && activity.avatar.length==4">
+            <img style="cursor: pointer;" (click)="openImgModal(activity.avatar,4)"
+              *ngFor="let image of activity.avatar" [src]="mediaUrl+image.attachment.path">
+          </div>
+          <div class="user-post-five-img-section" *ngIf="activity.avatar && activity.avatar.length>4">
+            <div *ngFor="let image of activity.avatar|slice:0:5; let i=index" [class]="'img-title-'+ i">
+              <img style="cursor: pointer;" (click)="openImgModal(activity.avatar,'all')"
+                [src]="mediaUrl+image.attachment.path">
+              <div class="img-count" *ngIf="activity.avatar.length-5>0">
+                <label (click)="openImgModal(activity.avatar,'all')">
+                  <!-- data-toggle="modal" data-target="#imgmodal" -->
+                  +{{activity.avatar.length-5}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- The Modal -->
+   <button id="imgModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#imgmodal"
+   hidden></button>
+ <div class="modal" id="imgmodal">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <!-- Modal body -->
+       <div class="modal-body">
+         <button type="button" class="close" data-dismiss="modal">
+           <img src="../../../../../../assets/images/close-cal.svg">
+         </button>
+         <div id="demo" class="carousel slide" data-ride="carousel">
+           <!-- The slideshow -->
+           <div class="carousel-inner">
+             <div *ngFor="let img of imgModal; index as i" [ngClass]="i == 0?'carousel-item active':'carousel-item'">
+               <div class="img-box-wraper">
+                 <img [src]="mediaUrl+img.attachment.path">
+               </div>
+             </div>
+           </div>
+           <!-- Left and right controls -->
+           <a class="carousel-control-prev" href="#demo" data-slide="prev">
+             <span class="carousel-control-prev-icon"></span>
+           </a>
+           <a class="carousel-control-next" href="#demo" data-slide="next">
+             <span class="carousel-control-next-icon"></span>
+           </a>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+ </div>

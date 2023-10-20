@@ -1,0 +1,55 @@
+@import "../../../../../../../../SCSS/custom-variable";
+
+.edit-restore-workspace-modal {
+
+  .modal-body {
+    position: relative;
+    padding: 0;
+
+    .close-icon {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      cursor: pointer;
+    }
+  }
+
+  .edit-profile-section {
+    .main-ttl {
+      color: $black;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      text-transform: uppercase;
+      padding: 19px 25px 0px 25px;
+    }
+  }
+}
+
+.banner-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-height: 500px;
+  overflow-y: auto;
+
+  .img-box {
+    margin: 5px;
+
+    img {
+      width: 85px;
+      height: 85px;
+      -o-object-fit: cover;
+      object-fit: cover;
+      -o-object-position: center;
+      object-position: center;
+      cursor: pointer;
+    }
+  }
+}
+
+@media(max-width:575px){
+    .banner-section{
+        justify-content: center;
+        max-height: 450px;
+    }
+}

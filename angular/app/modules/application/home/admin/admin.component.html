@@ -1,0 +1,125 @@
+<app-header></app-header>
+<div class="contnet-section d-flex">
+  <app-sidebar-menu></app-sidebar-menu>
+  <app-chat></app-chat>
+  <div class="right-side-section">
+    <div class="box-layout-wraper" *ngIf="showOverview">
+      <div class="box-layout">
+        <div class="box-ttl">
+          Users
+        </div>
+        <div class="sub-ttl d-flex align-items-center justify-content-between">
+          <div class="user-txt">
+            Free Users
+          </div>
+          <div class="user-txt">
+            {{ countData?.freeUserCount }}
+          </div>
+        </div>
+        <div class="sub-ttl d-flex align-items-center justify-content-between">
+          <div class="user-txt">
+            Paid Users
+          </div>
+          <div class="user-txt">
+            {{ countData?.paidUserCount }}
+          </div>
+        </div>
+        <div class="total-ttl d-flex align-items-center justify-content-between">
+          <div class="user-txt">
+            Total Users
+          </div>
+          <div class="user-txt">
+            {{ countData?.freeUserCount + countData?.paidUserCount }}
+          </div>
+        </div>
+      </div>
+
+      <div class="box-layout link-box" routerLink="/application/home/admin/industries">
+        <div class="box-ttl">
+          Industries
+        </div>
+        <div class="sub-ttl d-flex align-items-center justify-content-between">
+          <div class="user-txt">
+            Industries
+          </div>
+          <div class="user-txt">
+            {{ countData?.industryCount }}
+          </div>
+        </div>
+        <div class="total-ttl d-flex align-items-center justify-content-between">
+          <div class="user-txt">
+            Connections
+          </div>
+          <div class="user-txt">
+            {{ countData?.connectionCount }}
+          </div>
+        </div>
+      </div>
+
+      <div class="box-layout link-box" routerLink="/application/home/admin/restricted-domains">
+        <div class="box-ttl">
+          Restricted Domains
+        </div>
+        <div class="sub-ttl d-flex align-items-center justify-content-between">
+          <div class="user-txt">
+            Domains
+          </div>
+          <div class="user-txt">
+            {{ countData?.domainCount }}
+          </div>
+        </div>
+      </div>
+
+      <div class="box-layout link-box" routerLink="/application/home/admin/predefined-workspaces">
+        <div class="box-ttl">
+          Predefined Workspaces
+        </div>
+        <div class="sub-ttl d-flex align-items-center justify-content-between">
+          <div class="user-txt">
+            Workspaces
+          </div>
+          <div class="user-txt">
+            {{ countData?.predefinedWorkspaceCount }}
+          </div>
+        </div>
+      </div>
+
+      <div class="box-layout link-box" routerLink="/application/home/admin/workspace-images">
+        <div class="box-ttl">
+          Workplace Banners
+        </div>
+        <div class="sub-ttl d-flex align-items-center justify-content-between">
+          <div class="user-txt">
+            Banners
+          </div>
+          <div class="user-txt">
+            {{ countData?.workspaceCount }}
+          </div>
+        </div>
+      </div>
+
+      <div class="box-layout link-box" routerLink="/application/home/admin/contributed-workspaces">
+        <div class="box-ttl">
+          Contributors Workspaces
+        </div>
+        <div class="sub-ttl d-flex align-items-center justify-content-between">
+          <div class="user-txt indicater-txt">
+            Require approval
+          </div>
+          <div class="user-txt indicater-txt">
+            {{ countData?.pendingWorkspaceCount }}
+          </div>
+        </div>
+        <div class="total-ttl d-flex align-items-center justify-content-between">
+          <div class="user-txt">
+            Approved
+          </div>
+          <div class="user-txt">
+            {{ countData?.approvedWorkspaceCount }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

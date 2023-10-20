@@ -1,0 +1,54 @@
+<app-header></app-header>
+<div class="contnet-section d-flex">
+  <app-chat></app-chat>
+  <div class="market-left-side-section">
+    <div class="main-ttl">
+      CATEGORIES
+    </div>
+    <ul>
+      <li *ngFor="let category of categorys">
+        <a (click)="getMarketWorkspace(category._id)">{{category.Title}}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="market-right-side-section">
+    <div class="marketplace-section">
+      <div class="marketplace-section-wraper">
+        <div class="marketplace-section-inner" *ngFor="let category of categoryArray">
+          <div class="main-ttl d-flex">
+            {{category.Title}}
+            <img *ngIf="arrow" class="ml-3" src="../../../../../assets/images/right-arrow.svg"
+              (click)="getMarketWorkspace(category._id)">
+          </div>
+          <div class="workspace-banner-section">
+            <div class="img-box cursor" (click)="marketDetailsRoute(market._id)"
+              *ngFor="let market of category.markets">
+              <div class="img-wraper">
+                <img [src]="market.image ? mediaUrl + market.image : '../../../../../assets/images/banner-img.png'">
+              </div>
+              <div class="img-detail">
+                <div class="img-ttl">
+                  {{market.title}}
+                </div>
+                <div class="img-description">
+                  {{market.description}}
+                </div>
+                <div class="bottom-section d-flex align-items-center justify-content-between">
+                  <div class="img-sub-ttl">
+                    {{market.profile?.businessName? market.profile.businessName: market.user.firstName+' '+ market.user.lastName}}
+                  </div>
+                  <div class="rate-section">
+                    <b *ngFor="let item of [1,2,3,4,5]">
+                      <img *ngIf="market.ratingAverage >= item" src="../../../../../assets/images/fill-star.svg">
+                      <img *ngIf="market.ratingAverage < item" src="../../../../../assets/images/star.svg">
+                    </b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

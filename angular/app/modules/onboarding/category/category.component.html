@@ -1,0 +1,61 @@
+<div class="contant_sec category-contant_sec">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="logo_img">
+        <a href="#"><img src="../../assets/images/voxxi-logo.svg"></a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="process">
+        <ul>
+          <li>
+            <span class="active">1</span>
+          </li>
+          <li>
+            <span class="prosess-bg active"></span>
+          </li>
+          <li>
+            <span class="active">2</span>
+          </li>
+          <li>
+            <span class="prosess-bg active"></span>
+          </li>
+          <li>
+            <span class="inactive">3</span>
+          </li>
+        </ul>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="onbording_contant onboard-category-content">
+    <div class="business_left_col">
+      <h2>Choose Your Category</h2>
+      <p>Scroll through the categories and choose one that best matches</p>
+      <img src="../assets/images/b.svg">
+    </div>
+    <div class="organisation_sec">
+      <div class="choose-cat-title">
+        Choose a category
+      </div>
+      <div class="list-of-category">
+        <ul>
+          <li *ngFor='let industry of industryData' (click)='onCategory(industry._id)'
+            [ngClass]="category === industry._id ? 'active-category' : ''">{{industry.Title}}</li>
+        </ul>
+      </div>
+      <div class="error-message category" *ngIf='isCategory'>Please select category*</div>
+      <!-- <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                      </ng-multiselect-dropdown> -->
+
+      <div class="form-group">
+        <button class="btn btn-success " (click)='postOnboardingData()'>ALL DONE</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>

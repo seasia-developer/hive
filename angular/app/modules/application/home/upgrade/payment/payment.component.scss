@@ -1,0 +1,613 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.right-full-section {
+  // width: calc(100% - 110px);
+  background-color: #fff;
+  box-shadow: 0px 1px 0px 0px #d6d6d6;
+  border: 1px solid #d6d6d6;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  padding: 20px;
+  position: relative;
+  height: calc(100vh - 100px) !important;
+  overflow-y: auto;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .right-full-section {
+    width: 100%;
+    // margin-top: 50px;
+  }
+}
+
+@media (max-width: 575px) {
+  .contnet-section {
+    padding: 0 15px;
+  }
+}
+
+.upgrad-payment-section {
+  display: flex;
+  padding-bottom: 70px;
+
+  .main-ttl {
+    color: $black;
+    font-size: $title;
+    font-family: $RobotoRegular;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+
+  .checkout-section {
+    // width: 315px;
+    width: 33.33%;
+    padding: 16px 20px 0px 0px;
+
+    .main-ttl {
+      padding-left: 5px;
+      letter-spacing: 1px;
+    }
+
+    .plan-btn-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      img {
+        width: 130px;
+        height: 32px;
+        cursor: pointer;
+        object-fit: contain;
+        object-position: center;
+      }
+    }
+
+    p {
+      color: $box_txt_color;
+      font-size: $box_small_text;
+      font-family: $RobotoRegular;
+      margin-top: 2px;
+      line-height: 25px;
+
+      &.user-txt {
+        border-bottom: 1px solid $text-secondary;
+        margin-top: 12px;
+        padding-bottom: 10px;
+
+        span {
+          color: $btn-bg;
+        }
+      }
+    }
+
+    .user-list {
+      max-height: 425px;
+      overflow-y: auto;
+
+      .user-box {
+        display: flex;
+        align-items: center;
+        margin-bottom: 18px;
+        margin-top: 12px;
+
+        img {
+          width: 32px;
+          height: 32px;
+          object-position: center;
+          object-fit: cover;
+          border-radius: 100%;
+          margin-right: 12px;
+        }
+
+        .user-info {
+          display: flex;
+          flex-direction: column;
+          width: calc(100% - 40px);
+
+          label {
+            margin-bottom: 0;
+            color: $box_txt_color;
+            font-size: $box_small_text;
+            font-family: $RobotoRegular;
+            line-height: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+
+  .billing-info-section {
+    // width: 284px;
+    width: 33.33%;
+    padding: 16px 20px 0px 30px;
+    position: relative;
+
+    .main-ttl {
+      margin-bottom: 33px;
+    }
+
+    &::before {
+      content: "";
+      width: 1px;
+      height: 100%;
+      position: absolute;
+      top: 35px;
+      left: 0;
+      background-color: $text-secondary;
+    }
+
+    &::after {
+      content: "";
+      width: 1px;
+      height: 100%;
+      position: absolute;
+      top: 35px;
+      right: 0;
+      background-color: $text-secondary;
+    }
+
+    .name-section {
+      display: flex;
+      margin-bottom: -2px;
+
+      .left-section {
+        margin-right: 16px;
+      }
+
+      .form-group {
+        max-width: 120px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        .form-control {
+          margin-top: -4px;
+        }
+      }
+    }
+
+    .org-section {
+      margin-bottom: -2px;
+
+      .form-group {
+        margin-bottom: 0px;
+
+        .form-control {
+          margin-top: -4px;
+        }
+      }
+    }
+
+    .address-section {
+      .form-group {
+        .form-control {
+          margin-top: -4px;
+        }
+      }
+    }
+
+    .zip-city-section {
+      display: flex;
+      margin-bottom: -2px;
+      margin-top: -4px;
+
+      .left-section {
+        margin-right: 16px;
+      }
+
+      .form-group {
+        max-width: 120px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        .form-control {
+          margin-top: -4px;
+        }
+      }
+    }
+
+    .state-section {
+      margin-bottom: -2px;
+
+      .form-group {
+        .form-control {
+          margin-top: -4px;
+        }
+      }
+    }
+
+    .country-section {
+      .form-group {
+        .form-control {
+          margin-top: -4px;
+        }
+      }
+    }
+
+    .phone-section {
+      .form-group {
+        .form-control {
+          margin-top: -6px;
+        }
+      }
+    }
+
+    .form-section {
+      .form-group {
+        margin-bottom: 0;
+
+        label {
+          font-size: $sub-ttl;
+          font-family: $RobotoRegular;
+          color: $box_txt_color;
+          margin-bottom: 0;
+
+          span {
+            color: $mendet-txt;
+          }
+        }
+
+        .form-control {
+          border: 1px solid $text-secondary;
+          border-radius: 4px;
+          height: 32px;
+        }
+      }
+    }
+  }
+
+  .credit-card-detail-section {
+    // width: 284px;
+    width: 33.33%;
+    padding: 15px 22px 0px 28px;
+
+    .main-ttl {
+      letter-spacing: 1px;
+    }
+
+    .card-section {
+      padding-top: 17px;
+
+      .card-top-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        label {
+          color: $text-secondary-dark;
+          font-size: $small-txt;
+          font-family: $RobotoRegular;
+          margin-bottom: 0;
+
+          img {
+            margin-bottom: 3px;
+            margin-left: 4px;
+            margin-right: 4px;
+          }
+        }
+      }
+
+      .card-section-inner {
+        position: relative;
+
+        img {
+          position: absolute;
+          left: 10px;
+          top: 8px;
+        }
+
+        input {
+          border: 1px solid $cancel-btn-border-color;
+          border-radius: 2px;
+          color: $text-secondary-dark;
+          font-size: $small-txt;
+          font-family: $RobotoRegular;
+          height: 30px;
+          padding: 8px 70px 8px 37px;
+          width: 100%;
+
+          &::placeholder {
+            font-size: $small-txt !important;
+            color: $text-secondary-dark !important;
+            font-family: $RobotoRegular !important;
+          }
+        }
+
+        span {
+          color: $text-secondary-dark;
+          font-size: $small-txt;
+          font-family: $RobotoRegular;
+          position: absolute;
+          right: 15px;
+          top: 9px;
+        }
+
+        .card-from-section {
+          display: flex;
+
+          .card-number-section {
+            width: calc(100% - 72px);
+
+            input {
+              padding: 8px 0px 8px 37px;
+              border-right: none;
+              border-top-right-radius: 0;
+              border-bottom-right-radius: 0;
+            }
+          }
+
+          .time-section {
+            width: 42px;
+            display: flex;
+
+            .month-section {
+              width: 20px;
+            }
+
+            .year-section {
+              width: 20px;
+            }
+
+            span {
+              position: unset;
+              border-top: 1px solid $border-color;
+              border-bottom: 1px solid $border-color;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100%;
+              padding-right: 2px;
+            }
+
+            input {
+              padding: 8px 0px;
+              border-right: 0;
+              border-left: 0;
+              border-radius: 0;
+            }
+          }
+
+          .cvc-section {
+            width: 30px;
+
+            input {
+              padding: 0;
+              border-left: none;
+              border-radius: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .card-user-txt {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      line-height: 25px;
+      margin-top: 34px;
+      margin-bottom: 15px;
+      margin-left: 2px;
+
+      span {
+        color: $add-btn-bg;
+      }
+    }
+
+    p {
+      color: $box_txt_color;
+      font-size: $title;
+      font-family: $RobotoRegular;
+      padding: 0px 5px 4px 5px;
+      line-height: 25px;
+    }
+
+    .btn-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 60px;
+
+      button {
+        width: 100%;
+        font-size: $title;
+        font-family: $RobotoRegular;
+        color: $white;
+        background-color: $add-btn-bg;
+        border: 1px solid $add-btn-bg;
+        border-radius: 20px;
+        height: 30px;
+        cursor: pointer;
+        padding: 2px 0 0 15px;
+        text-transform: uppercase;
+      }
+
+      a {
+        text-decoration: underline;
+        color: $black;
+        font-size: $small-txt;
+        font-family: $RobotoRegular;
+        margin-top: 8px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .upgrad-payment-section {
+    .checkout-section {
+      width: 33.33%;
+
+      .plan-btn-section {
+        img {
+          width: 45%;
+        }
+      }
+    }
+
+    .billing-info-section {
+      width: 33.33%;
+    }
+
+    .credit-card-detail-section {
+      width: 33.33%;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .upgrad-payment-section {
+    .checkout-section {
+      padding: 30px 15px 0px;
+    }
+
+    .billing-info-section {
+      padding: 30px 15px 0px;
+    }
+
+    .credit-card-detail-section {
+      padding: 30px 15px 0px;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .upgrad-payment-section {
+    display: block !important;
+    padding-bottom: 0px;
+
+    .checkout-section {
+      width: 100%;
+
+      .plan-btn-section {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+
+        img {
+          width: 100px;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .billing-info-section {
+      width: 100%;
+
+      &::before {
+        display: none;
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .credit-card-detail-section {
+      width: 100%;
+    }
+  }
+}
+
+.plan-select-btn {
+  background-color: $orange-btn-bg-color !important;
+  color: $white !important;
+  font-size: $title !important;
+  border: none !important;
+  border-radius: 25px !important;
+  height: 32px;
+  padding: 5px 10px !important;
+  max-width: 130px;
+  margin-right: 10px;
+}
+
+.month-select-btn {
+  background-color: $btn_bg_success !important;
+  color: $white !important;
+  font-size: $title !important;
+  border: none !important;
+  border-radius: 25px !important;
+  height: 32px;
+  padding: 5px 10px !important;
+  max-width: 130px;
+  margin-left: 10px;
+}
+
+.org-name {
+  text-transform: uppercase;
+  font-family: $RobotoMedium !important;
+  margin-top: 10px !important;
+}
+
+.bil-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid $text-secondary;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+
+  .bil-amount {
+    font-family: $RobotoMedium !important;
+  }
+}
+
+.remove-section-wraper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid $text-secondary;
+  padding-bottom: 15px;
+  margin-bottom: 10px;
+
+  .remove-section {
+    width: 100%;
+
+    .top-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      label {
+        color: $box_txt_color;
+        font-size: $title;
+        font-family: "RobotoRegular";
+        line-height: 25px;
+        margin: 0;
+      }
+
+      a {
+        text-decoration: underline;
+        cursor: pointer;
+        color: $text-secondary-dark;
+        font-size: 12px;
+      }
+    }
+
+    .bottom-section {
+      input {
+        height: 32px;
+        border: 1px solid $text-secondary;
+        border-radius: 4px;
+        font-size: 14px;
+        color: $box_txt_color;
+      }
+    }
+  }
+
+  label {
+    font-family: $RobotoMedium !important;
+    font-size: $title;
+    color: $box_txt_color;
+    margin-left: 15px;
+  }
+}

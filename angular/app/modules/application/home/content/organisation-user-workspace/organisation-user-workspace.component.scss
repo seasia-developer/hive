@@ -1,0 +1,174 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.right-full-section {
+  width: calc(100% - 110px);
+  background-color: transparent;
+  box-shadow: 0px 0px 0px 1px #D6D6D6 inset;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+@media(max-width:767px) {
+  .right-full-section {
+    width: 100%;
+    margin-top: 50px;
+  }
+}
+
+.contnet-section {
+  .bottom-chat-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 2px;
+    right: 0;
+    width: 200px;
+    height: 23px;
+    background-color: $white;
+    box-shadow: 0px 0px 4px 1px $text-secondary;
+    padding: 0px 8px 0px 18px;
+    z-index: 1;
+
+
+    label {
+      color: $box_txt_color;
+      font-size: $box_small_text;
+      font-family: $RobotoRegular;
+      margin-bottom: 0;
+    }
+
+    img {
+      margin-left: 8px;
+
+      &:first-child {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.user-workspace-content {
+  max-width: 100%;
+  width: 100%;
+  border: solid 1px $textarea_color;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background: $white;
+  box-shadow: 0px 1px 0px $shadow-color;
+  padding: 18px 0px;
+
+  .user-workspace-body {
+
+    h2 {
+      font-size: $title;
+      font-family: $RobotoRegular;
+      color: $box_txt_color;
+      text-transform: uppercase;
+      padding-left: 22px;
+    }
+
+    .close-icon {
+      max-width: 100%;
+      max-width: 100%;
+      cursor: pointer;
+      position: absolute;
+      right: -10px;
+      top: -25px;
+    }
+
+    .user-detail-section {
+      padding: 0px 22px;
+
+      img {
+        width: 60px;
+        height: 60px;
+        margin-right: 20px;
+        border-radius: 100%;
+        margin-top: -8px;
+      }
+
+      label {
+        color: $box_txt_color;
+        font-size: $box_txt;
+        font-family: $RobotoRegular;
+        text-decoration: underline;
+        text-transform: uppercase;
+        padding-top: 22px;
+      }
+    }
+
+    .folder-box-wraper {
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+
+        li {
+          display: flex;
+          padding: 36px 0px 16px 40px;
+          width: 33.33%;
+
+          .folder-icon {
+            img {
+              width: 45px;
+              height: 40px;
+              object-fit: contain;
+              object-position: center;
+              margin-right: 13px;
+            }
+          }
+
+          .folder-detail {
+            display: flex;
+            flex-direction: column;
+            padding-top: 6px;
+
+            label {
+              color: $box_txt_color;
+              font-size: $title;
+              font-family: $RobotoRegular;
+              margin-bottom: 3px !important;
+            }
+
+            span {
+              color: $box_txt_color;
+              font-size: $sub-ttl;
+              font-family: $RobotoRegular;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
+@media(max-width:991px) {
+  .user-workspace-content {
+    .user-workspace-body {
+      .folder-box-wraper {
+        ul {
+          li {
+            width: 50%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:767px) {
+  .user-workspace-content {
+    .user-workspace-body {
+      .folder-box-wraper {
+        ul {
+          li {
+            width: 50%;
+            padding-right: 20px;
+          }
+        }
+      }
+    }
+  }
+}

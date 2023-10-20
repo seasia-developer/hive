@@ -1,0 +1,220 @@
+<div class="tab-inner-section">
+
+  <div class="main-ttl">
+    Connected Services
+  </div>
+
+  <div class="service-inner">
+    <ul>
+
+      <li *ngIf="credentials.google.length">
+        <div class="links-wraper" >
+          <img src="../../../../../../../assets/images/google-favicon.png">
+          Google Drive
+          <div class="user-link-wraper" *ngFor="let cred of credentials.google">
+            <label class="mb-0">
+              {{cred.email}}
+            </label>
+            <div class="user-link-wraper-option">
+              <span (click)="showMenu = showMenu === cred._id ? '' : cred._id" style="cursor: pointer;">
+                Manage
+                <img src="../../../../../../../assets/images/ico-back.svg">
+              </span>
+              <div class="user-wraper-option-drop-down" *ngIf="showMenu === cred._id">
+                <ul>
+                  <li (click)="removeCredential(cred)">
+                    Disconnect
+                  </li>
+                  <li>
+                    Re-Connect
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-right green-btn-section">
+          <button class="green-btn" (click)="googleSignIn('https://www.googleapis.com/auth/drive.readonly','drive')">
+            Connect Another
+          </button>
+        </div>
+      </li>
+      <li *ngIf="credentials.calendar && credentials.calendar.length">
+        <div class="links-wraper" >
+          <img src="../../../../../../../assets/images/google-favicon.png">
+          Google Calendar
+          <div class="user-link-wraper" *ngFor="let cred of credentials.calendar">
+            <label class="mb-0">
+              {{cred.email}}
+            </label>
+            <div class="user-link-wraper-option">
+              <span (click)="showMenu = showMenu === cred._id ? '' : cred._id" style="cursor: pointer;">
+                Manage
+                <img src="../../../../../../../assets/images/ico-back.svg">
+              </span>
+              <div class="user-wraper-option-drop-down" *ngIf="showMenu === cred._id">
+                <ul>
+                  <li (click)="removeCredential(cred)">
+                    Disconnect
+                  </li>
+                  <li>
+                    Re-Connect
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </li>
+      <li *ngIf="credentials.oneDrive.length">
+        <div class="links-wraper" *ngFor="let cred of credentials.oneDrive">
+          <img src="../../../../../../../assets/images/office.png">
+          Office 365 Personal
+          <div class="user-link-wraper">
+            <label class="mb-0">
+              {{cred.email}}
+            </label>
+            <div class="user-link-wraper-option">
+              <span (click)="showMenu = showMenu === cred._id ? '' : cred._id" style="cursor: pointer;">
+                Manage
+                <img src="../../../../../../../assets/images/ico-back.svg">
+              </span>
+              <div class="user-wraper-option-drop-down" *ngIf="showMenu === cred._id">
+                <ul>
+                  <li (click)="removeCredential(cred)">
+                    Disconnect
+                  </li>
+                  <li>
+                    Re-Connect
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="text-right green-btn-section">
+          <button class="green-btn" (click)="odLogin()">
+            Connect Another
+          </button>
+        </div>
+      </li>
+
+      <li *ngIf="credentials.dropbox.length">
+        <div class="links-wraper">
+          <img src="../../../../../../../assets/images/App-dropbox-icon.png">
+          Dropbox
+          <div class="user-link-wraper" *ngFor="let cred of credentials.dropbox">
+            <label class="mb-0">
+              {{cred.email}}
+            </label>
+            <div class="user-link-wraper-option">
+              <span (click)="showMenu = showMenu === cred._id ? '' : cred._id" style="cursor: pointer;">
+                Manage
+                <img src="../../../../../../../assets/images/ico-back.svg">
+              </span>
+
+              <div class="user-wraper-option-drop-down" *ngIf="showMenu === cred._id">
+                <ul>
+                  <li (click)="removeCredential(cred)">
+                    Disconnect
+                  </li>
+                  <li>
+                    Re-Connect
+                  </li>
+                </ul>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <div class="text-right green-btn-section">
+          <a [href]="dropboxLoginUrl">
+            <button id="dropbox-button" class="green-btn">
+              Connect Another
+            </button>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="connect-service-section">
+    <div class="main-ttl">
+      Connect to Services
+    </div>
+
+    <div class="connect-service-section-inner">
+      <ul>
+        <li>
+          <div class="service-txt" >
+            <img src="../../../../../../../assets/images/google-favicon.png" (click)="authorize()">
+            Google Drive
+
+            <div class="user-txt">
+              Use your files from Google
+            </div>
+          </div>
+          <div class="connect-btn">
+            <button (click)="googleSignIn('https://www.googleapis.com/auth/drive.readonly','drive')">
+              Connect
+            </button>
+          </div>
+        </li>
+        <li  *ngIf="credentials.calendar && credentials.calendar.length <1">
+          <div class="service-txt" >
+            <img src="../../../../../../../assets/images/google-favicon.png" (click)="authorize()">
+            Google calendar
+
+            <div class="user-txt">
+              Calendar access from Google
+            </div>
+          </div>
+          <div class="connect-btn">
+            <button (click)="googleSignIn('https://www.googleapis.com/auth/calendar' ,'calendar')">
+              Connect
+            </button>
+          </div>
+        </li>
+        <li>
+          <div class="service-txt">
+            <img src="../../../../../../../assets/images/office.png">
+            Office 365 Business
+
+            <div class="user-txt">
+              Use your contacts, calendar and files from Office 365 Business
+            </div>
+          </div>
+          <div class="connect-btn">
+            <a (click)="odLogin()">
+            <button>
+                Connect
+              </button>
+            </a>
+          </div>
+        </li>
+
+        <li>
+          <div class="service-txt">
+            <img src="../../../../../../../assets/images/App-dropbox-icon.png" (click)="getParticularFile()">
+            DropBox
+            <div class="user-txt">
+              Use your files from Dropbox
+            </div>
+          </div>
+          <div class="connect-btn">
+            <a [href]="dropboxLoginUrl">
+            <button>
+                Connect
+              </button>
+            </a>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,832 @@
+<app-header></app-header>
+
+<div class="contnet-section d-flex">
+
+  <app-left-sidebar-menu></app-left-sidebar-menu>
+  <app-chat></app-chat>
+  <!-- <div class="bottom-chat-section">
+    <label>
+      Chat (23)
+    </label>
+    <div class="icon-section">
+      <img src="../../../../../../assets/images/setting.svg">
+      <img src="../../../../../../assets/images/setting.svg">
+    </div>
+  </div> -->
+
+  <div class="middle-section">
+
+    <div class="tab-section">
+      <div class="middle-tab-section">
+        <ul class="nav nav-tabs">
+
+          <li style="cursor: pointer;" [ngClass]="{active: type === 'unread'}">
+            <a (click)="changeTab('unread')">
+              Unread
+            </a>
+          </li>
+          <li style="cursor: pointer;" [ngClass]="{active: type === 'starred'}">
+            <a (click)="changeTab('starred')">
+              Starred
+            </a>
+          </li>
+          <li style="cursor: pointer;" [ngClass]="{active: type === 'viewed'}">
+            <a (click)="changeTab('viewed')">
+              Viewed
+            </a>
+          </li>
+          <li style="cursor: pointer;" [ngClass]="{active: type === 'all'}">
+            <a (click)="changeTab('all')">
+              All
+            </a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="Clients" class="tab-pane fade in active show">
+            <div *ngIf="type === 'unread'" class="tab-inner-section" (scroll)="scroll($event)">
+
+              <div class="action-section">
+                <div class="all-section">
+                  <label class="container">All
+                    <input type="checkbox" (change)="selectAll($event, 'unread')">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="star-section" style="cursor:pointer" (click)="updateNotifications('star', checkedNotifications)">
+                  <img src="../../../../../assets/images/star-1.svg">
+                  Starred
+                </div>
+
+                <div class="like-section" style="cursor:pointer" (click)="updateNotifications('read', checkedNotifications)">
+                  <img src="../../../../../assets/images/like.svg">
+                  Read
+                </div>
+              </div>
+              <div class="notification-box" *ngFor="let item of notifications.unread">
+                <div class="user-field-section unread-bg">
+                  <label class="check-container">
+                    <input type="checkbox" [checked]="checkedNotifications.includes(item._id)" (change)="checkNotification($event, item._id)">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img *ngIf="!item.star" class="star-icon" style="cursor: pointer;" (click)="updateNotifications('star', [item._id])" src="../../../../../assets/images/white-star.svg">
+                  <img *ngIf="item.star" class="star-icon" style="cursor: pointer;" (click)="updateNotifications('unstar', [item._id])" src="../../../../../assets/images/select-star.svg">
+                  <img style="cursor: pointer;" src="../../../../../assets/images/white-like.svg" (click)="updateNotifications('read', [item._id])">
+                </div>
+
+                <div class="img-section">
+                  <img [src]="item.user.avatar ? mediaUrl + item.user.avatar : '../../../../../assets/images/user.png'">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name" (click)="goToPublicProfile(item.user._id)">
+                    {{item.user.name}}
+                  </div>
+                  <div class="user-post">
+                    {{item.user.position}} at <span style="cursor: pointer;" *ngIf="item.user.Organization" routerLink="/application/home/org-profile"
+                    [queryParams]="{ organizationId: item.user.Organization._id,type:'profile'}"> {{item.user.Organization.name}} </span> {{item.user.city}}{{item.user.city ? "," : ""}} {{item.user.country}} - {{item.totalFollow}} Followers
+                  </div>
+                  <p>
+                    {{item.activity_text}} {{item.comment ? ": " : ""}}
+                  </p>
+                  <p *ngIf="item.comment && item.record_id" [innerHTML]="item.comment" style="cursor: pointer;" 
+                  routerLink="/application/home/app-view/applicationView"
+                  [queryParams]="{ appId: item.application._id, workspaceId: item.workspace._id, recordId: item.record_id}"></p>
+                  <p *ngIf="item.comment && !item.record_id" [innerHTML]="item.comment" ></p>
+
+                </div>
+
+              </div>
+
+              <!-- <div class="notification-box">
+                <div class="user-field-section unread-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="notification-box">
+                <div class="user-field-section unread-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div class="notification-box">
+                <div class="user-field-section unread-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div> -->
+
+
+            </div>
+
+            <div *ngIf="type === 'starred'" class="tab-inner-section" (scroll)="scroll($event)">
+
+              <div class="action-section">
+                <div class="all-section">
+                  <label class="container">All
+                    <input type="checkbox" (change)="selectAll($event, 'starred')">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="star-section" (click)="updateNotifications('unstar', checkedNotifications)">
+                  <img src="../../../../../assets/images/star-1.svg">
+                  Unstar
+                </div>
+
+                <div class="like-section" (click)="updateNotifications('read', checkedNotifications)">
+                  <img src="../../../../../assets/images/like.svg">
+                  Read
+                </div>
+
+              </div>
+
+              <div class="notification-box" *ngFor="let item of notifications.starred">
+                <div class="user-field-section star-bg">
+                  <label class="check-container">
+                    <input type="checkbox" [checked]="checkedNotifications.includes(item._id)" (change)="checkNotification($event, item._id)">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" style="cursor: pointer;" (click)="updateNotifications('unstar', [item._id])" src="../../../../../assets/images/white-star.svg">
+                  <img *ngIf="!item.is_read" (click)="updateNotifications('read', [item._id])" style="cursor: pointer;" src="../../../../../assets/images/white-like.svg">
+                  <img *ngIf="item.is_read" style="cursor: pointer; transform: scaleY(-1);" src="../../../../../assets/images/white-dislike.svg" (click)="updateNotifications('unread', [item._id])">
+                  <!-- <img style="cursor: pointer;" src="../../../../../assets/images/white-like.svg" (click)="updateNotifications('read', [item._id])"> -->
+                </div>
+
+                <div class="img-section">
+                  <img [src]="item.user.avatar ? mediaUrl + item.user.avatar : '../../../../../assets/images/user.png'">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name" (click)="goToPublicProfile(item.user._id)">
+                    {{item.user.name}}
+                  </div>
+                  <div class="user-post">
+                    {{item.user.position}} at <span style="cursor: pointer;" *ngIf="item.user.Organization" routerLink="/application/home/org-profile"
+                    [queryParams]="{ organizationId: item.user.Organization._id,type:'profile'}"> {{item.user.Organization.name}} </span> {{item.user.city}}{{item.user.city ? "," : ""}} {{item.user.country}} - {{item.totalFollow}} Followers
+                  </div>
+                  <p>
+                    {{item.activity_text}} {{item.comment ? ": " : ""}}
+                  </p>
+                  <p *ngIf="item.comment && item.record_id" [innerHTML]="item.comment" style="cursor: pointer;" 
+                  routerLink="/application/home/app-view/applicationView"
+                  [queryParams]="{ appId: item.application._id, workspaceId: item.workspace._id, recordId: item.record_id}"></p>
+                  <p *ngIf="item.comment && !item.record_id" [innerHTML]="item.comment" ></p>
+                </div>
+
+              </div>
+
+              <!-- <div class="notification-box">
+                <div class="user-field-section star-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="notification-box">
+                <div class="user-field-section star-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div class="notification-box">
+                <div class="user-field-section star-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div> -->
+
+
+            </div>
+
+            <div *ngIf="type === 'viewed'" class="tab-inner-section" (scroll)="scroll($event)">
+
+              <div class="action-section">
+                <div class="all-section">
+                  <label class="container">All
+                    <input type="checkbox" (change)="selectAll($event, 'viewed')">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="star-section" (click)="updateNotifications('star', checkedNotifications)">
+                  <img src="../../../../../assets/images/star-1.svg">
+                  Star
+                </div>
+
+                <div class="like-section" (click)="updateNotifications('unread', checkedNotifications)">
+                  <img src="../../../../../assets/images/unlike.svg">
+                  unRead
+                </div>
+
+              </div>
+
+              <div class="notification-box" *ngFor="let item of notifications.viewed">
+                <div class="user-field-section view-bg">
+                  <label class="check-container">
+                    <input type="checkbox" [checked]="checkedNotifications.includes(item._id)" (change)="checkNotification($event, item._id)">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img *ngIf="!item.star" class="star-icon" style="cursor: pointer;" (click)="updateNotifications('star', [item._id])" src="../../../../../assets/images/white-star.svg">
+                  <img *ngIf="item.star" class="star-icon" style="cursor: pointer;" (click)="updateNotifications('unstar', [item._id])" src="../../../../../assets/images/select-star.svg">
+                  <img style="cursor: pointer; transform: scaleY(-1);" src="../../../../../assets/images/white-dislike.svg" (click)="updateNotifications('unread', [item._id])">
+                </div>
+
+                <div class="img-section">
+                  <img [src]="item.user.avatar ? mediaUrl + item.user.avatar : '../../../../../assets/images/user.png'">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name" (click)="goToPublicProfile(item.user._id)">
+                    {{item.user.name}}
+                  </div>
+                  <div class="user-post">
+                    {{item.user.position}} at <span style="cursor: pointer;" *ngIf="item.user.Organization" routerLink="/application/home/org-profile"
+                    [queryParams]="{ organizationId: item.user.Organization._id,type:'profile'}"> {{item.user.Organization.name}} </span> {{item.user.city}}{{item.user.city ? "," : ""}} {{item.user.country}} - {{item.totalFollow}} Followers
+                  </div>
+                  <p>
+                    {{item.activity_text}} {{item.comment ? ": " : ""}}
+                  </p>
+                  <p *ngIf="item.comment && item.record_id" [innerHTML]="item.comment" style="cursor: pointer;" 
+                  routerLink="/application/home/app-view/applicationView"
+                  [queryParams]="{ appId: item.application._id, workspaceId: item.workspace._id, recordId: item.record_id}"></p>
+                  <p *ngIf="item.comment && !item.record_id" [innerHTML]="item.comment" ></p>
+                </div>
+
+              </div>
+
+              <!-- <div class="notification-box">
+                <div class="user-field-section view-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="notification-box">
+                <div class="user-field-section view-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div class="notification-box">
+                <div class="user-field-section view-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div> -->
+
+
+            </div>
+
+            <div *ngIf="type === 'all'" class="tab-inner-section all-main-section" (scroll)="scroll($event)">
+              <div class="notification-box" *ngFor="let item of notifications.all">
+                <div [ngClass]="{'user-field-section': true, 'unread-bg': (!item.is_read && !item.star), 'star-bg': item.star, 'view-bg': (item.is_read && !item.star)}">
+                  <label class="check-container">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" style="cursor: pointer;" (click)="updateNotifications( item.star ? 'unstar' : 'star', [item._id])" src="../../../../../assets/images/white-star.svg">
+                  <!-- <img *ngIf="item.star" class="star-icon" style="cursor: pointer;" (click)="updateNotifications('unstar', [item._id])" src="../../../../../assets/images/select-star.svg"> -->
+                  <img *ngIf="!item.is_read" (click)="updateNotifications('read', [item._id])" style="cursor: pointer;" src="../../../../../assets/images/white-like.svg">
+                  <img *ngIf="item.is_read" style="cursor: pointer; transform: scaleY(-1);" src="../../../../../assets/images/white-dislike.svg" (click)="updateNotifications('unread', [item._id])">
+
+                </div>
+
+                <div class="img-section">
+                  <img [src]="item.user.avatar ? mediaUrl + item.user.avatar : '../../../../../assets/images/user.png'">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name" (click)="goToPublicProfile(item.user._id)">
+                    {{item.user.name}}
+                  </div>
+                  <div class="user-post">
+                    {{item.user.position}} at <span style="cursor: pointer;" *ngIf="item.user.Organization" routerLink="/application/home/org-profile"
+                    [queryParams]="{ organizationId: item.user.Organization._id,type:'profile'}"> {{item.user.Organization.name}} </span> {{item.user.city}}{{item.user.city ? "," : ""}} {{item.user.country}} - {{item.totalFollow}} Followers
+                  </div>
+                  <p>
+                    {{item.activity_text}} {{item.comment ? ": " : ""}}
+                  </p>
+                  <p *ngIf="item.comment && item.record_id" [innerHTML]="item.comment" style="cursor: pointer;" 
+                  routerLink="/application/home/app-view/applicationView"
+                  [queryParams]="{ appId: item.application._id, workspaceId: item.workspace._id, recordId: item.record_id}"></p>
+                  <p *ngIf="item.comment && !item.record_id" [innerHTML]="item.comment" ></p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- <div id="Projects" class="tab-pane fade">
+            <div class="tab-inner-section">
+
+              <div class="action-section">
+                <div class="all-section">
+                  <label class="container">One
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="star-section">
+                  <img src="../../../../../assets/images/star-1.svg">
+                  unStar
+                </div>
+
+                <div class="like-section">
+                  <img src="../../../../../assets/images/like.svg">
+                  Read
+                </div>
+
+              </div>
+
+              <div class="notification-box">
+                <div class="user-field-section star-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="notification-box">
+                <div class="user-field-section star-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="notification-box">
+                <div class="user-field-section star-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div class="notification-box">
+                <div class="user-field-section star-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+
+          <div id="Tasks" class="tab-pane fade">
+
+            <div class="tab-inner-section">
+
+              <div class="action-section">
+                <div class="all-section">
+                  <label class="container">One
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+
+                <div class="star-section">
+                  <img src="../../../../../assets/images/star-1.svg">
+                  unStar
+                </div>
+
+                <div class="like-section">
+                  <img src="../../../../../assets/images/unlike.svg">
+                  unRead
+                </div>
+
+              </div>
+
+              <div class="notification-box">
+                <div class="user-field-section view-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="notification-box">
+                <div class="user-field-section view-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="notification-box">
+                <div class="user-field-section view-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div class="notification-box">
+                <div class="user-field-section view-bg">
+                  <label class="check-container">
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                  </label>
+                  <img class="star-icon" src="../../../../../assets/images/white-star.svg">
+                  <img src="../../../../../assets/images/white-like.svg">
+                </div>
+
+                <div class="img-section">
+                  <img src="../../../../../assets/images/user-profile.jpeg">
+                </div>
+
+                <div class="user-detail-section">
+                  <div class="user-name">
+                    Aaron Smithonionism
+                  </div>
+                  <div class="user-post">
+                    Human Resources at <span> Sitemaster </span> Sydney, Australia - 123 followers
+                  </div>
+                  <p>
+                    I help SME’s with their Human Resources through complete outsourced HR services or tailored
+                    consulting & coaching.
+                  </p>
+                </div>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+          <div id="Meetings" class="tab-pane fade">
+            <div class="tab-inner-section">
+              All Notification
+            </div>
+          </div> -->
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <app-right-sidebar></app-right-sidebar>
+
+
+</div>

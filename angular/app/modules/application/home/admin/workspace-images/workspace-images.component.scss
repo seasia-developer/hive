@@ -1,0 +1,94 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.workspace-banner-section {
+  .main-ttl {
+    color: $black;
+    font-size: $title;
+    font-family: $RobotoRegular;
+    padding: 15px 10px 0px 9px;
+    text-transform: uppercase;
+  }
+
+  .add-img-section {
+    padding: 0px 30px 15px 9px;
+    margin-top: -5px;
+
+    span {
+      color: $black;
+      font-size: $box_small_text;
+      font-family: $RobotoRegular;
+      margin-right: 15px;
+    }
+
+    button {
+      color: $white;
+      font-size: $title;
+      font-family: $RobotoMedium;
+      border: 1px solid $add-btn-bg;
+      background-color: $add-btn-bg;
+      border-radius: 15px;
+      width: 115px;
+      height: 30px;
+      cursor: pointer;
+    }
+  }
+
+  .banner-section {
+    height: calc(100vh - 172px);
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0px;
+    margin-bottom: 20px;
+
+    .img-box {
+      position: relative;
+      height: 144px;
+      width: 274px;
+      overflow: hidden;
+      margin: 10px 5px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .delete-icon {
+        position: absolute;
+        top: 0px;
+        right: -1px;
+        width: 22px;
+        height: 21px;
+        cursor: pointer;
+        object-fit: contain;
+        object-position: center;
+      }
+
+    }
+  }
+}
+
+@media(max-width:1200px) {
+  .workspace-banner-section {
+    .banner-section {
+      .img-box {
+        width: 225px;
+      }
+    }
+  }
+}
+
+@media(max-width:575px) {
+  .workspace-banner-section {
+    .banner-section {
+      .img-box {
+        width: 100%
+      }
+    }
+  }
+}

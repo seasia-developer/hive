@@ -1,0 +1,45 @@
+<div class="contant_sec">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="logo_img">
+          <a href="#"><img src="../../assets/images/voxxi-logo.svg"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="middle-body-section">
+      <div class="left_col">
+        <img src="../assets/images/Hero.png">
+      </div>
+      <div class="right_col">
+        <form action="">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <div class="form-group-contant">
+                  <p class="check-title">Check your email</p>
+                  <p>Please check your email to activate your account</p>
+                  <p class="mt-50px-imp"><span class="mt-50px-imp">Don’t close this page until you have received the email</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-lg-6">
+              <div class="form-group btn-section">
+                <button type="submit" class="btn btn-success mt-0-imp" routerLink="/auth/sign-in">Ok</button>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="w-100 mt-50px-imp text-center">
+                <p class="text-center">Didn’t you receive the email?</p>
+                <button class="text-center text-danger cursor-pointer border-0 bg-transparent" [disabled]="disableButton" (click)="resendSignUpVerification()">Resend the confirmation</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <app-support-links></app-support-links>
+</div>

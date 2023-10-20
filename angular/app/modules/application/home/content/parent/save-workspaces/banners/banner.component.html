@@ -1,0 +1,35 @@
+<!-- <ng-template #editrestoreworkspace> -->
+  <div class="edit-restore-workspace-modal">
+
+    <div class="modal-body">
+      <img src="../../../../../../../assets/images/Close-icon.svg" class="close-icon" (click)="closeModal()">
+
+      <div class="edit-profile-section">
+
+
+        <div class="workspace-banner-section">
+          <div class="main-ttl">
+            Group Banners
+          </div>
+
+
+
+          <div class="banner-section">
+            <div class="img-box" *ngFor="let item of workspaceBanner">
+              <img [src]="mediaURL + item.image" (click)='selectImage(item.image)'>
+              <!-- <img class="delete-icon" src="../../../../../../assets/images/close.svg" (click)="selectImage(item.image)"> -->
+              <div>
+              </div>
+            </div>
+
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+

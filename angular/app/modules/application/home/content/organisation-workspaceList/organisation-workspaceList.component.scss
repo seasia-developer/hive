@@ -1,0 +1,240 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.right-full-section {
+  width: calc(100% - 110px);
+  background-color: transparent;
+  box-shadow: 0px 0px 0px 1px #D6D6D6 inset;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+@media(max-width:767px) {
+  .right-full-section {
+    width: 100%;
+    margin-top: 50px;
+  }
+}
+
+.contnet-section {
+  .bottom-chat-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 2px;
+    right: 0;
+    width: 200px;
+    height: 23px;
+    background-color: $white;
+    box-shadow: 0px 0px 4px 1px $text-secondary;
+    padding: 0px 8px 0px 18px;
+    z-index: 1;
+
+
+    label {
+      color: $box_txt_color;
+      font-size: $box_small_text;
+      font-family: $RobotoRegular;
+      margin-bottom: 0;
+    }
+
+    img {
+      margin-left: 8px;
+
+      &:first-child {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.list-workspace-content {
+  max-width: 100%;
+  width: 100%;
+  border: solid 1px $textarea_color;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background: $white;
+  box-shadow: 0px 1px 0px $shadow-color;
+  padding: 20px 0px;
+  height: 100%;
+
+  .list-workspace-body {
+
+    h2 {
+      font-size: $title;
+      font-family: $RobotoRegular;
+      color: $box_txt_color;
+      text-transform: uppercase;
+      padding-left: 22px;
+    }
+
+    .close-icon {
+      max-width: 100%;
+      max-width: 100%;
+      cursor: pointer;
+      position: absolute;
+      right: -10px;
+      top: -25px;
+    }
+
+    .search-div {
+      margin: 15px 20px 9px 20px;
+
+      .search-input {
+        width: 100%;
+        border-radius: 8px;
+        position: relative;
+
+        input {
+          font-size: $title;
+          height: 30px;
+          min-height: 30px;
+          border-radius: 8px !important;
+          border: 1px solid $text-secondary;
+          color: $text-secondary-dark;
+          font-family: $RobotoRegular !important;
+          padding: 0px 15px 0px 43px;
+
+          &::placeholder {
+            color: $text-secondary-dark !important;
+            font-size: $title !important;
+          }
+        }
+
+        img {
+          max-width: 100%;
+          position: absolute;
+          left: 18px;
+          top: 8px;
+        }
+      }
+    }
+
+    .list-box-wraper {
+      display: inline-block;
+      width: 100%;
+      min-height: 30px;
+      padding: 0px 8px;
+
+      .list-box {
+        border: 1px solid $textarea_color;
+        border-radius: 8px;
+        width: 410px;
+        margin: 10px;
+        display: inline-block;
+
+        .title {
+          color: $box_txt_color;
+          font-size: $box_small_text;
+          font-family: $RobotoRegular;
+          padding: 7px 0px 2px 20px;
+          text-transform: uppercase;
+        }
+
+        ul {
+          display: flex;
+          flex-wrap: wrap;
+          margin-bottom: 5px;
+
+          li {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0px 20px 13px 20px;
+            width: 50%;
+
+            &.odd-section {
+              padding: 0px 20px 13px 26px;
+            }
+
+            .user-pic {
+              margin-right: 10px;
+
+              img {
+                width: 20px;
+                height: 20px;
+                border-radius: 100%;
+                object-fit: cover;
+                object-position: center;
+              }
+            }
+
+            .user-detail {
+              display: flex;
+              flex-direction: column;
+              padding-top: 2px;
+              width: calc(100% - 30px);
+
+              label {
+                color: $box_txt_color;
+                font-size: $box_small_text;
+                font-family: $RobotoRegular;
+                text-decoration: underline;
+                line-height: normal;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+
+              span {
+                color: $text-secondary-dark;
+                font-size: $small-txt;
+                font-family: $RobotoRegular;
+                line-height: normal;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+            }
+
+          }
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:1200px) {
+  .list-workspace-content {
+    .list-workspace-body {
+      .list-box-wraper {
+        .list-box {
+          width: 47%;
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:991px) {
+  .list-workspace-content {
+    .list-workspace-body {
+      .list-box-wraper {
+        .list-box {
+          width: 46%;
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:767px) {
+  .list-workspace-content {
+    .list-workspace-body {
+      .list-box-wraper {
+        margin-top: 10px;
+        padding: 0px 20px;
+
+        .list-box {
+          width: 100%;
+          margin: 0;
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
+}

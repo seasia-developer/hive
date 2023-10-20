@@ -1,0 +1,154 @@
+<div class="billing">
+  <div class="w-100">
+
+    <!-- LOADER -->
+    <div class="subs-loader position-fixed inset-0 m-auto d-flex align-itens-center justify-content-center h-100"
+      *ngIf="loader">
+      <div class="loading"></div>
+    </div>
+  
+    <div class="w-100 flex justify-center p-4">
+      <div class="w-100 stripe-card mx-auto rounded-20 p-4 my-5 bg-white">
+  
+        <!-- STRIPE ENABLED -->
+        <div class="w-100">
+  
+          <div class="row">
+            <div class="col-sm-12 mb-2">
+              <p class="font-weight-bold text-left text-16 letter-spacing-1">
+                Subscriptions
+              </p>
+            </div>
+  
+            <div class="col-sm-12 mb-2" *ngIf="subscriptions && !subscriptions.length">
+              <p class="font-weight-bold text-left text-16 letter-spacing-1 text-danger">
+                You don't have any active plan.
+              </p>
+            </div>
+  
+            <div class="w-100" *ngFor="let subscription of subscriptions">
+              <div class="col-sm-12 ml-auto py-3" *ngIf="subscription.status">
+                <p class="text-16 mb-2 font-weight-bold color-59ADFF">
+                  Your Subscription -
+                  <span class="color-888888" *ngIf="subscription.source === 'stripe'">{{ subscription.plan }}</span>
+                  <span class="color-888888" *ngIf="subscription.source === 'coupon'"> {{userDataRes.body.coupons[userDataRes.body.coupons.length - 1].planType}} -</span>
+                  <span class="color-888888" *ngIf="subscription.source === 'coupon'">
+                    {{userDataRes.body.coupons[userDataRes.body.coupons.length - 1].period}} Deal -
+                  </span>
+                  <span class="color-888888" *ngIf="subscription.source === 'coupon'">
+                    {{userDataRes.body.coupons[userDataRes.body.coupons.length - 1].seats_per_coupon}} members
+                  </span>
+                </p>
+                <!-- <p class="text-16 mb-2 font-weight-bold color-59ADFF">
+                  Your Duration -
+                  <span class="color-888888" *ngIf="subscription.source === 'coupon'">
+                    {{userDataRes.body.coupons[userDataRes.body.coupons.length - 1].period}}
+                  </span>
+                </p>
+                <p class="text-16 mb-2 font-weight-bold color-59ADFF">
+                  Total Members -
+                  <span class="color-888888" *ngIf="subscription.source === 'coupon'">
+                    {{userDataRes.body.coupons[userDataRes.body.coupons.length - 1].seats_per_coupon}}
+                  </span>
+                </p> -->
+                <p class="text-16 mb-2" *ngIf="subscription.source !== 'coupon'">
+                  You will be charged on {{
+                  getDateFormat(subscription.stripeResponse.data.object.lines.data[0].period.end) }}
+                </p>
+                <p *ngIf="subscription.source !== 'coupon'" class="text-16 mb-2 text-danger cursor-pointer"
+                  (click)="openModal(confirmCancelSubscriptionModal, 'layout-options')">
+                  Cancel Subscription
+                </p>
+              </div>
+            </div>
+  
+          </div>
+  
+        </div>
+        <!-- STRIPE ENABLED END -->
+      </div>
+  
+    </div>
+  </div>
+  
+  <ng-template #confirmCancelSubscriptionModal>
+    <div class="w-100">
+      <div class="w-100">
+        <div class="w-100 my-3 px-2">
+  
+          <div class="row">
+            <div class="col-12 d-flex align-items-center">
+              <span class="text-danger font-weight-bold letter-spacing-1">
+                Cancel Subscription
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 d-flex align-items-center">
+              <span class="color-686868 font-weight-bold letter-spacing-1">
+                Are you sure want to cancel your subscription ?
+              </span>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  
+    <!-- FOOTER -->
+    <div class="row mt-3">
+      <div class="col">
+        <div class="w-100 px-2 d-flex justify-content-end">
+          <div class="row">
+            <div class="col">
+              <span class="bg-danger text-white rounded-20 px-3 py-2 text-center cursor-pointer"
+                (click)="cancelSubscription(subscriptions[0]._id)">Remove</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FOOTER END -->
+  </ng-template>
+</div>
+
+
+<div class="userCouponContainer" >
+  <form class="coupon" [formGroup]="userCoupon" (ngSubmit)="createUserCoupon()">
+    <div class="row mb-4 align-items-center justify-content-center">
+      <div class="col-12 col-xl-4 d-flex align-items-center justify-content-xl-end mx-auto">
+        <p class="text-xl-right font-weight-bold color-59ADFF">
+          Add Your Coupon :
+        </p>
+      </div>
+      <div class="col-12 col-xl-4 mx-auto">
+        <p class="text-left">
+          <input class="form-control" type="text"  formControlName="userCoupon">
+        </p>
+      </div>
+      <div class="col-12 col-xl-4 mx-auto">
+        <div class="button">
+          <button type="submit" class="bg-59ADFF text-16 color-fff font-weight-bold "> Add</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="userCoupon" *ngIf="userDataRes?.body?.subscriptions.length>0">
+  <div class="row mb-4 align-items-center justify-content-center">
+    <div class="col-12 col-xl-4 d-flex align-items-center justify-content-xl-end mx-auto">
+      <p class="text-xl-right font-weight-bold color-59ADFF">
+        Your Coupon :
+      </p>
+    </div>
+    <div class="col-12 col-xl-8 mx-auto">
+      <p class="text-left font-weight-bold userCouponValue">
+        <span> {{userDataRes.body.subscriptions[userDataRes.body.subscriptions.length - 1].couponCode |
+          uppercase}}</span>
+      </p>
+    </div>
+  </div>
+</div>
+

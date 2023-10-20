@@ -1,0 +1,132 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.profile-section {
+  width: calc(100% - 110px);
+  background-color: transparent;
+  border-radius: 8px;
+  margin-bottom: 30px;
+
+  .middle-tab-section {
+    ul {
+      border-bottom: 0;
+      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      flex-flow: unset;
+      
+      // padding: 0px 1px;
+      // &::after{
+      //   content: "";
+      //   width: 222px;
+      //   border-top: 1px solid #D6D6D6;
+      //   border-right: 1px solid #D6D6D6;
+      //   border-radius: 0 8px 0;
+      //   position: absolute;
+      //   right: 0;
+      //   height: 35px;
+      // }
+      li:first-child::before{
+        content: unset !important;
+      }
+      li{
+        &.preActiveTab{
+          border-radius: 8px 8px 8px 0;
+        }
+      }
+      li {
+        padding: 3px 15px;
+        border: 0.5px solid $text-secondary;
+        border-top: 1px solid $text-secondary;
+        margin-top: 0;
+        background-color: $bg_color;
+        border-radius: 8px 8px 0px 0px;
+        // border-bottom: none;
+        padding: 2px 12px;
+        position: relative;
+        border-bottom: 1px solid #D6D6D6;
+        &:last-child{
+          img{
+            cursor: pointer;
+          }
+        }
+        &:first-child {
+          border-top-left-radius: 8px !important;
+        }
+
+        &:hover {
+          a {
+            text-decoration: none;
+          }
+        }
+
+        &.active {
+          background-color: $white;
+          // border: none;
+          border-radius: 8px 8px 0px 0px;
+          &::after{
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0px;
+            width: 100%;
+            background: #fff;
+            height: 2px;
+          }
+          &.active + li{
+            border-radius: 8px 8px 0 5px;
+          }
+          &.active + li::before{
+            content: "";
+            width: 15px;
+            height: 17px;
+            border: 4.5px solid #ffffff;
+            position: absolute;
+            bottom: -5px;
+            border-top: 0;
+            border-right: 0;
+            -moz-border-radius: 0 0 0 5px;
+            -webkit-border-radius: 0 0 0 31px;
+            left: -8px;
+          }
+          &.active::before{
+            content: "";
+              width: 15px;
+              height: 17px;
+              border: 4.5px solid #ffffff;
+              position: absolute;
+              bottom: -5px;
+              border-top: 0;
+              border-left: 0;
+              -moz-border-radius: 0 0 5px 0;
+              -webkit-border-radius: 0 0 31px 0;
+              left: -11px;
+          }
+        }
+
+        a {
+          color: $box_txt_color;
+          font-size: $title;
+          font-family: $RobotoRegular;
+          text-transform: uppercase;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:767px) {
+  .profile-section {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+  }
+}
+
+
+@media(min-width:767px){
+  .profile-section{
+    height: 100%;
+  }
+}

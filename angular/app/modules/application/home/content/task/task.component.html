@@ -1,0 +1,875 @@
+<app-header></app-header>
+<div class="contnet-section d-flex flexCls">
+  <app-left-sidebar-menu></app-left-sidebar-menu>
+  <app-chat></app-chat>
+  <div class="middle-section">
+
+    <mobile-menu></mobile-menu>
+    <div class="tab-section">
+      <div class="middle-tab-section">
+        <div>
+          <ul class="nav nav-tabs">
+            <li #myDiv (click)="activeTabChange('my')" [ngClass]="{'active':activeTab === 'my'}">
+              <a data-toggle="tab" href="#MyTask" (click)="getTasks('my')">
+                Tasks
+              </a>
+            </li>
+            <li (click)="activeTabChange('delegated')" [ngClass]="{'active':activeTab === 'delegated'}">
+              <a data-toggle="tab" href="#MyDelegatedTasks" (click)="getTasks('delegated')">
+                Assigned
+              </a>
+            </li>
+            <!-- <li (click)="activeTabChange('completed')" [ngClass]="{'active':activeTab === 'completed'}">
+              <a data-toggle="tab" href="#MyCompletedTasks" (click)="getTasks('completed')">
+                Completed
+              </a>
+            </li> -->
+            <li (click)="activeTabChange('all')" [ngClass]="{'active':activeTab === 'all'}">
+              <a data-toggle="tab" href="#AllCompletedTasks" (click)="getTasks('all')">
+                Completed
+              </a>
+            </li>
+            <li>
+              <a data-toggle="tab" id="add-task-button" href="#AddaTask" (click)="openModal(taskmodal,'','','')">
+                Add Task
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="tab-content">
+          <div id="MyTask" class="tab-pane fade in active show">
+            <div class="tab-inner-section">
+              <div class="task-section">
+                <div class="main-ttl">
+                  Overdue
+                </div>
+                <div *ngIf="overdue.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of overdue"
+                    (click)="openModal(taskmodal,item,'edit','my')">
+                    <div class="bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date" style="color: red;">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">
+                        {{ item.description }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="overdue.length === 0">
+                  <div class="task-box">
+                    <div class="bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-ttl">
+                  Today
+                </div>
+                <div *ngIf="today.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of today"
+                    (click)="openModal(taskmodal,item,'edit','my')">
+                    <div class="today-bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">
+                        {{ item.description }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="today.length === 0">
+                  <div class="task-box">
+                    <div class="today-bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-ttl">
+                  Tomorrow
+                </div>
+                <div *ngIf="tomorrow.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of tomorrow"
+                    (click)="openModal(taskmodal,item,'edit','my')">
+                    <div class="tomorrow-bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">{{ item.description }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="tomorrow.length === 0">
+                  <div class="task-box">
+                    <div class="tomorrow-bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-ttl">
+                  Later
+                </div>
+                <div *ngIf="later.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of later"
+                    (click)="openModal(taskmodal,item,'edit','my')">
+                    <div class="later-bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">{{ item.description }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="later.length === 0">
+                  <div class="task-box">
+                    <div class="later-bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="MyDelegatedTasks" class="tab-pane fade">
+            <div class="tab-inner-section">
+              <div class="task-section">
+                <div class="main-ttl">
+                  Overdue
+                </div>
+                <div *ngIf="overdue.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of overdue"
+                    (click)="openModal(taskmodal,item,'edit','delegated')">
+                    <div class="bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date" style="color: red;">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">
+                        {{ item.description }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="overdue.length === 0">
+                  <div class="task-box">
+                    <div class="bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-ttl">
+                  Today
+                </div>
+                <div *ngIf="today.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of today"
+                    (click)="openModal(taskmodal,item,'edit','delegated')">
+                    <div class="today-bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">
+                        {{ item.description }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="today.length === 0">
+                  <div class="task-box">
+                    <div class="today-bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-ttl">
+                  Tomorrow
+                </div>
+                <div *ngIf="tomorrow.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of tomorrow"
+                    (click)="openModal(taskmodal,item,'edit','delegated')">
+                    <div class="tomorrow-bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">{{ item.description }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="tomorrow.length === 0">
+                  <div class="task-box">
+                    <div class="tomorrow-bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-ttl">
+                  Later
+                </div>
+                <div *ngIf="later.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of later"
+                    (click)="openModal(taskmodal,item,'edit','delegated')">
+                    <div class="later-bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">{{ item.description }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="later.length === 0">
+                  <div class="task-box">
+                    <div class="later-bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="MyCompletedTasks" class="tab-pane fade">
+            <div class="tab-inner-section">
+              <div class="task-section">
+                <div class="main-ttl">
+                  Overdue
+                </div>
+                <div *ngIf="overdue.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of overdue"
+                    (click)="openModal(taskmodal,item,'edit','completed')">
+                    <div class="bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date" style="color: red;">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">
+                        {{ item.description }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="overdue.length === 0">
+                  <div class="task-box">
+                    <div class="bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-ttl">
+                  Today
+                </div>
+                <div *ngIf="today.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of today"
+                    (click)="openModal(taskmodal,item,'edit','completed')">
+                    <div class="today-bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">
+                        {{ item.description }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="today.length === 0">
+                  <div class="task-box">
+                    <div class="today-bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-ttl">
+                  Tomorrow
+                </div>
+                <div *ngIf="tomorrow.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of tomorrow"
+                    (click)="openModal(taskmodal,item,'edit','completed')">
+                    <div class="tomorrow-bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">{{ item.description }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="tomorrow.length === 0">
+                  <div class="task-box">
+                    <div class="tomorrow-bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="main-ttl">
+                  Later
+                </div>
+                <div *ngIf="later.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of later"
+                    (click)="openModal(taskmodal,item,'edit','completed')">
+                    <div class="later-bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">{{ item.description }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="later.length === 0">
+                  <div class="task-box">
+                    <div class="later-bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="AllCompletedTasks" class="tab-pane fade">
+            <div class="tab-inner-section">
+              <div class="task-section-completed">
+                <!-- <div class="main-ttl">
+                  Overdue
+                </div> -->
+                <div *ngIf="completedTask.length > 0">
+                  <div class="task-box cursorPointer" *ngFor="let item of completedTask"
+                    (click)="openModal(taskmodal,item,'edit','all')">
+                    <div class="bg-box">
+                    </div>
+                    <div class="task-detail-section">
+                      <div class="task-top">
+                        <div class="task-ttl">
+                          {{ item.assigned_to }}
+                        </div>
+                        <div class="task-date">
+                          {{ item.dueDate | date:'MMM dd, yyyy' }}
+                          {{ item.dueTime !== 'null' ? ' - ' : '' }}
+                          {{ item.dueTime !== 'null' ? ( item.dueTime | date:'hh:mm') : '' }}
+                        </div>
+                      </div>
+                      <div class="task-txt">
+                        {{ item.description }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="completedTask.length === 0">
+                  <div class="task-box">
+                    <div class="bg-box">
+                    </div>
+                    <div class="task-detail-section" style="padding: 0px 12px 0px 40px;">
+                      No tasks yet
+                      <div class="task-top">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-right-sidebar></app-right-sidebar>
+</div>
+
+<ng-template #taskmodal>
+  <div class="task-modal">
+    <div class="modal-header">
+      <img src="../../../../../../assets/images/Close-icon.svg" class="close pull-right" aria-label="Close"
+        (click)="closeModal()">
+    </div>
+
+    <div class="task-modal-inner">
+
+      <div class="modal-body">
+        <form [formGroup]="addTaskForm">
+
+          <div class="form-section">
+
+            <div class="form-group task-grp">
+              <label for="usr">
+                <img src="../../../../../../assets/images/Text-icon-1.svg">
+                Task
+              </label>
+              <input type="text" class="form-control" formControlName="title">
+              <div *ngIf="submitted && form.title.errors">
+                <div class="error-message" *ngIf="form.title.errors.required">Title is required </div>
+              </div>
+            </div>
+            <div class="form-group description-grp">
+              <label for="usr">
+                <img src="../../../../../../assets/images/Text-icon-1.svg">
+                Description
+              </label>
+              <textarea class="form-control" id="comment" formControlName="description" autosize></textarea>
+              <div *ngIf="submitted && form.description.errors">
+                <div class="error-message" *ngIf="form.description.errors.required">Description is required </div>
+              </div>
+            </div>
+            <div class="form-group add-record-grp">
+              <label for="usr">
+                <img src="../../../../../../assets/images/round-up-arrow.svg">
+                App Record
+              </label>
+              <div class="form-control record-section-inner" (click)="hideShowApps(false)"
+                (clickOutside)="hideShowApps(true)">
+                <div class="record-list" *ngFor="let item of selectedApps; index as index">
+                  <div class="user-detail">
+                    <label>
+                      {{ item.name }}
+                    </label>
+                    <span>
+                      {{ item.workspaceName }} in {{ item.organization_id.name }}
+                    </span>
+                  </div>
+                  <!-- <img class="close-btn" src="../../../../../../assets/images/close-button.svg" (click)="removeSelectedApps(item, index)"> -->
+                </div>
+                <div class="record-list-wraper" *ngIf="displayApps">
+                  <div *ngIf="applications?.length > 0">
+                    <ul *ngFor="let item of applications">
+                      <div class="main-ttl">
+                        {{ item.workspaceName }}
+                      </div>
+                      <li *ngFor="let i of item.application; index as index;" (click)="selectApp(item, i)">
+                        {{ i.name }}
+                        <span>
+                          - {{ item.workspaceName }} in {{ i.organization_id.name }}
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div *ngIf="applications?.length === 0">
+                    No app record found
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="submitted">
+                <div class="error-message" *ngIf="selectedApps?.length === 0">Application is required</div>
+              </div>
+            </div>
+            <!-- <div class="form-group assign-section">
+              <label for="usr">
+                <img src="../../../../../../assets/images/user.svg">
+                Assigned to
+              </label>
+              <div class="form-control assign-section-inner" (click)="hideShowAppUsers(false)"
+                (clickOutside)="hideShowAppUsers(true)">
+                <div class="user-wraper" *ngFor="let item of selectedAppUsersTrue; index as index">
+                  <img class="user-pic"
+                    [src]="item.avatar ? mediaUrl + item.avatar : '../../../../../../assets/images/user.png'">
+                  {{ item.firstName + " " + item.lastName }}
+                  <img class="close-btn" src="../../../../../../assets/images/close-button.svg"
+                    (click)="removeSelectedAppUser(item)">
+                </div>
+                <div class="assign-section-inner-dropdown" *ngIf="displayAppUsers">
+                  <div *ngIf="selectedAppUsersFalse?.length > 0">
+                    <ul *ngFor="let item of selectedAppUsersFalse">
+                      <li (click)="selectAppUser(item)">
+                        <img [src]="item.avatar ? mediaUrl + item.avatar : '../../../../../../assets/images/user.png'">
+                        {{ item.firstName + " " + item.lastName }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div *ngIf="selectedAppUsersFalse?.length === 0">
+                    No members available
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="form-group assign-section">
+              <label for="usr">
+                <img src="../../../../../../assets/images/user.svg">
+                Assigned to
+              </label>
+              <div class="form-control assign-section-inner" (click)="hideShowAppUsers(false)"
+                (clickOutside)="hideShowAppUsers(true)">
+                <div class="assign-section-inner-wraper">
+                  <div class="user-wraper" *ngFor="let item of selectedAppUsersTrue">
+                    <img class="user-pic"
+                      [src]="item.avatar ? mediaUrl + item.avatar : '../../../../../../assets/images/user.png'">
+                    {{ item.firstName + " " + item.lastName }}
+                    <img class="close-btn" src="../../../../../../assets/images/close-button.svg"
+                      (click)="removeSelectedAppUser(item)">
+                  </div>
+                </div>
+                <div class="assign-section-inner-dropdown" *ngIf="displayAppUsers">
+                  <div *ngIf="selectedAppUsersFalse?.length > 0">
+                    <ul *ngFor="let item of selectedAppUsersFalse">
+                      <li (click)="selectAppUser(item)">
+                        <img [src]="item.avatar ? mediaUrl + item.avatar : '../../../../../../assets/images/user.png'">
+                        {{ item.firstName + " " + item.lastName }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div *ngIf="selectedAppUsersFalse?.length === 0">
+                    No members available
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="submitted">
+                <div class="error-message" *ngIf="selectedAppUsersTrue?.length === 0">Application user is required</div>
+              </div>
+            </div>
+
+            <div class="form-group status-section">
+              <label for="usr">
+                <img src="../../../../../../assets/images/Category-icon-1.svg">
+                Status
+              </label>
+              <select class="form-control" formControlName="status">
+                <option value="undefined"></option>
+                <option *ngFor='let s of statusList' [value]="s">{{s}}</option>
+              </select>
+              <img class="drop-icon" src="../../../../../../assets/images/drop-down-icon.svg">
+              <div *ngIf="submitted && form.status.errors">
+                <div class="error-message" *ngIf="form.status.errors.required">Status is required </div>
+              </div>
+            </div>
+            <div class="date-time-section">
+              <div class="form-group">
+                <label for="usr">
+                  <img src="../../../../../../assets/images/calender-icon.svg">
+                  Due
+                </label>
+                <input type="text" formControlName="dueDate" class="form-control" bsDatepicker [minDate]="tomorroww"
+                  [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'MM/DD/YYYY' }" *ngIf="!isEdit">
+                <input type="text" formControlName="dueDate" class="form-control" bsDatepicker
+                  [bsConfig]="{ adaptivePosition: true, dateInputFormat: 'MM/DD/YYYY' }" *ngIf="isEdit">
+                <div *ngIf="submitted && form.dueDate.errors">
+                  <div class="error-message" *ngIf="form.dueDate.errors.required">Date is required</div>
+                </div>
+              </div>
+              <div class="form-group position-relative">
+                <label for="usr">
+                  <img src="../../../../../../assets/images/ico-clock.svg">
+                  Time
+                </label>
+                <ng-template #popTemplate>
+                  <timepicker formControlName="dueTime" [showMeridian]="false" [mousewheel]="true"></timepicker>
+                </ng-template>
+                <input class="form-control"
+                  [value]="addTaskForm.get('dueTime').value === '' || addTaskForm.get('dueTime').value === null || addTaskForm.get('dueTime').value === 'null' ? '' : addTaskForm.get('dueTime').value | date:'shortTime'"
+                  [popover]="popTemplate" [outsideClick]="true" placement="bottom" />
+                <!-- <timepicker formControlName="dueTime" [showMeridian]="false" [readonlyInput]="false"></timepicker> -->
+              </div>
+            </div>
+            <div class="attachments-section">
+              <div class="form-group">
+                <label for="usr">
+                  <img src="../../../../../../assets/images/attachment.svg">
+                  Attachments
+                </label>
+                <div class="upload-btn">
+                  <button (click)="openUploadModal()">
+                    Attach File
+                  </button>
+                  <!-- <input (change)="addRecord($event)" type="file" id="myFile" name="filename2"> -->
+                </div>
+                <!-- <ngx-dropzone (change)="addRecord($event)">
+                  <img src="../../../../../assets/images/round-up-arrow.svg">
+                  Drop files here
+                </ngx-dropzone> -->
+                <div *ngIf="!isEdit" class="upload-img-wraper-section">
+                  <div class="upload-img-wraper" *ngFor="let file of imageData; index as index">
+                    <img class="user-upload-pic" [src]="file.source" *ngIf="!imagePrevOfRes">
+                    <img class="user-upload-pic" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                    <img class="close-icon" (click)="removeImg(index)" *ngIf="!imagePrevOfRes"
+                      src="../../../../../assets/images/Close-icon.svg">
+                    <img class="close-icon" (click)="removeUpdatedImg(index)" *ngIf="imagePrevOfRes"
+                      src="../../../../../assets/images/Close-icon.svg">
+                  </div>
+                </div>
+                <div *ngIf="isEdit" class="upload-img-wraper-section">
+                  <div class="upload-img-wraper" *ngFor="let file of updatedImageData; index as index">
+                    <img class="user-upload-pic" [src]="file.source" *ngIf="!imagePrevOfRes">
+                    <img class="user-upload-pic" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                    <!-- <img class="close-icon" (click)="removeUpdatedImg(index)"
+                        src="../../../../../assets/images/Close-icon.svg"> -->
+                    <img class="close-icon" (click)="removeUpdatedImg(index)"
+                      src="../../../../../assets/images/Close-icon.svg">
+                  </div>
+                  <div class="upload-img-wraper" *ngFor="let file of updateNewImage; index as index">
+                    <img class="user-upload-pic" [src]="file.source" *ngIf="!imagePrevOfRes">
+                    <img class="user-upload-pic" [src]="mediaUrl + file.source" *ngIf="imagePrevOfRes">
+                    <img class="close-icon" (click)="removeUpdatedNewImg(index)"
+                      src="../../../../../assets/images/Close-icon.svg">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="btn-section" (click)="add()">
+            <button>
+              {{ isEdit ? 'Update Task' : 'Create Task' }}
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="right-section" *ngIf="isEdit">
+        <ul class="nav nav-tabs">
+          <li [ngClass]="{'active':isActivity}" (click)="callTaskActivities()">
+            <a data-toggle="tab" href="#activity">
+              activity
+            </a>
+          </li>
+          <li [ngClass]="{'active':!isActivity}" (click)="callTaskComments()">
+            <a data-toggle="tab" href="#comments">
+              comments
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div id="activity" class="tab-pane fade in active show">
+            <div class="tab-section">
+              <div class="user-activity-section">
+                <ul>
+                  <li>
+                    <img src="../../../../../assets/images/follow-icon.svg">
+                    follow
+                  </li>
+                  <li>
+                    <img src="../../../../../assets/images/like.svg">
+                    like
+                  </li>
+                  <li>
+                    <img src="../../../../../assets/images/share.svg">
+                    share
+                  </li>
+                </ul>
+              </div>
+              <div class="user-msg-section">
+                <div class="user-msg-wraper" *ngFor="let item of isActivity ? activities : comments; let i=index">
+                  <div class="user-name-time">
+                    <label class="cursor-pointer" (click)="goToPublicProfile(item.user._id)">
+                      {{item.user.firstName}} {{item.user.lastName}}
+                    </label>
+                    <!-- <label *ngIf="!isActivity">
+                      {{item.user.firstName}} {{item.user.lastName}}
+                    </label> -->
+                    <span>
+                      {{ item.createdAt | dateFormat }}
+                    </span>
+                  </div>
+                  <div class="user-comment-box">
+                    <img *ngIf="item.user"
+                      [src]="item.user.avatar ? mediaUrl + item.user.avatar : '../../../../../../assets/images/user.png'">
+                    <!-- <img *ngIf="!isActivity"
+                      [src]="item.user.avatar ? mediaUrl + item.user.avatar : '../../../../../../assets/images/user.png'"> -->
+                    <div class="user-comment-box-inner" *ngIf="isActivity && item.activity_text">
+                      <div class="business-txt-section">
+                        <!-- <p>
+                          rgg:
+                          <a>
+                            trrtytuui
+                          </a>
+                          <a>
+                            <span>
+                              number
+                              <span>,
+                              </span>
+                            </span>
+                          </a>
+                          <a>
+                            <span>
+                              text
+                              <span>,
+                              </span>
+                            </span>
+                          </a>
+                          <a>
+                            Changed
+                          </a>
+                        </p> -->
+                        {{ item.activity_text }}
+                      </div>
+                    </div>
+                    <div class="user-comment-box-inner user-reference" *ngIf="isActivity && item.comment">
+                      <!-- <div class="client-name">
+                        <img src="../../../../../../assets/images/user.png">
+                        Lyn Reid
+                      </div> -->
+                      <div  [innerHTML]="item.comment"></div>
+                    </div>
+                    <div class="user-comment-box-inner user-reference " *ngIf="!isActivity">
+                      <div  [innerHTML]="item.comment"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="user-comment-section user-comment-mention-section mention-user-comment-section" *ngIf="mentionUserList.length > 0">
+                <img [src]="userData.avatar ? mediaUrl + userData.avatar : '../../../../../assets/images/user.png'">
+              
+                <!-- <div class="form-control heightUnset" id="commentBox" type="text" placeholder="Comment"
+                  [mentionListTemplate]="mentionList" [mention]="mentionUserList" (opened)="falseMentionUserSelect()"
+                  (closed)="trueMentionUserSelect()" placeholder="Comment"
+                  [mentionConfig]="{labelKey:'fullName', mentionSelect: itemMentioned, dropUp: true}"
+                  (keyup)="addTaskComments($event)" contenteditable="true" [innerHTML]="emptyComment">
+                </div>
+
+                <span>@</span> -->
+                <app-task-mention [init]="mentionUserList"></app-task-mention>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #mentionList let-item="item">
+  <img [src]="item.avatar && item.avatar !== '' ? mediaUrl + item.avatar : '../../../../../../assets/images/user.png'">
+  {{ item.fullName }}
+</ng-template>

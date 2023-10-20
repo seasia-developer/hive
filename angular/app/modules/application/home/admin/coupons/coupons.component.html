@@ -1,0 +1,31 @@
+<div class="coupon-section">
+  <div class="top-section">
+    <div class="ttl">
+      COUPONS
+    </div>
+    <button class="btn-success" routerLink="/application/home/admin/generate-coupons">Generate Coupon</button>
+  </div>
+  <div class="body-section">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElements">{{ head }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cursor-pointer" *ngFor="let item of couponList" (click)="editCoupon(item._id, item.no_of_coupon)">
+            <!-- <td>{{ item.issuedTo }}</td> -->
+            <td>{{ item.planType }}</td>
+            <td>{{ item.period }}</td>
+            <td>{{ item.no_of_coupon }}</td>
+            <td>{{ item.timeUsed }} / {{ item.seats_per_coupon }}</td>
+            <!-- <td>{{ item.price_per_seat }}</td> -->
+            <!-- <td><button (click)="send(item._id, item.no_of_coupon, item.seatOption); $event.stopPropagation();"
+                class="send-btn">send</button></td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

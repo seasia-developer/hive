@@ -1,0 +1,56 @@
+<!-- <app-header></app-header> -->
+
+<div class="contnet-section d-flex">
+
+  <!-- <app-left-sidebar-menu></app-left-sidebar-menu> -->
+
+  <div class="bottom-chat-section">
+    <label>
+      Chat (23)
+    </label>
+    <div class="icon-section">
+      <img src="../../../../../../assets/images/setting.svg">
+      <img src="../../../../../../assets/images/setting.svg">
+    </div>
+  </div>
+
+
+  <div class="middle-section">
+    <div class="add-app-section">
+
+      <img src="../../../../../../assets/images/Close-icon.svg" class="close-btn" (click)="bsModalRef.hide()">
+
+      <div class="main-ttl">
+        {{ isEdit ? 'Edit' : 'Add' }} an App
+      </div>
+      <form [formGroup]="createAppForm">
+
+        <div class="form-group">
+          <label for="">
+            App Name
+          </label>
+          <input formControlName="name" type="text" class="form-control" id="appname" placeholder="">
+        </div>
+
+        <div class="form-group">
+          <label for="">
+            App Description
+          </label>
+          <textarea formControlName="description" (keyup)="setTextAreaLength('app-desc')" class="form-control" rows=""
+            id="app-desc" placeholder=""></textarea>
+        </div>
+
+        <div class="btn-section text-right">
+          <button (click)="submitForm()">
+            {{ isEdit ? 'Update' : 'Create' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- <app-right-sidebar></app-right-sidebar> -->
+
+
+</div>

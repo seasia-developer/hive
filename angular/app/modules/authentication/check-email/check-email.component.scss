@@ -1,0 +1,151 @@
+@import "../../../../SCSS/custom-variable";
+
+.middle-body-section{
+    padding-top: 85px;
+
+    .check-title{
+        font-family: $RobotoRegular;
+        color: $box_txt_color;
+    }
+
+}
+
+.contant_sec {
+    .left_col {
+        img {
+            padding-left: 85px;
+        }
+    }
+    .right_col {
+        margin-top: 50px;
+        padding-left: 80px;
+    }
+    .form-group {
+        .form-group-contant {
+            width: 100%;
+            float: left;
+            text-align: center;
+            .check-title {
+                font-size: $wlc_title;
+                font-weight: 400;
+                margin-bottom: 30px;
+            }
+            p {
+                font-size: $box_txt;
+                font-family: $RobotoRegular;
+                color: $box_txt_color;
+            }
+        }
+        .btn-success {
+            margin-top: 125px;
+            font-family: $RobotoMedium !important;
+            font-size: $box_btn;
+            text-transform: uppercase;
+        }
+    }
+}
+
+@media(max-width:991px){
+    .contant_sec {
+        .left_col {
+            img{
+                padding: 0;
+            }
+        }
+
+        .right_col{
+            padding-left: 0;
+        }
+    }
+}
+
+@media(max-width:767px) {
+    .contant_sec {
+        .left_col {
+            text-align: center;
+            img {
+                padding-left: 0;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(min-width:1270px) {
+    .logo_img {
+      margin: 45px 0 0px;
+  
+      a {
+        img {
+          width: 260px;
+          margin-left: -5px;
+        }
+      }
+    }
+  
+    .welcom-text {
+      padding: 51px 25px 0px 0px;
+    }
+  
+    .middle-body-section {
+      padding-top: 32px;
+  
+      .left_col {
+        padding-right: 0px;
+        padding-top: 52px;
+  
+        img {
+            margin-top: 0;
+            width: 505px;
+            height: 458px;
+            padding-left: 71px;
+        }
+      }
+  
+      .right_col {
+        padding-top: 58px;
+        margin-right: 28px;
+        width: 510px;
+        padding-left: 67px;
+
+        .check-title{
+            margin-bottom: 31px !important;
+        } 
+
+        .btn-section {  
+          button {
+            margin-left: -7px;
+          }
+        }
+  
+      }
+  
+    }
+  
+  }
+  

@@ -1,0 +1,228 @@
+<app-header></app-header>
+<div class="contnet-section d-flex">
+  <app-chat></app-chat>
+  <div class="market-left-side-section">
+    <div class="main-ttl" (click)="goToMarket()">
+      CATEGORIES
+    </div>
+    <ul>
+      <li *ngFor="let category of categorys">
+        <a (click)="getMarketWorkspace(category._id)">{{category.Title}}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="market-right-side-section" *ngIf="marketDetail">
+      <div class="modal fade ignoreBackdropClick" id="marketassignmodal" ignoreBackdropClick="true" aria-hidden="true" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static"  config="{ignoreBackdropClick: true, keyboard: false}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="close" id="closeModal" data-dismiss="modal">
+              <img src="../../../../../assets/images/white-cancel.svg">
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="workspace-body-section">
+              <div class="inner-section right-inner-section">
+                <div class="ttl">
+                  Choose a Group
+                </div>
+                <p>
+                  Add this Group to an existing Workplace - 0
+                </p>
+                <div class="form-group select-drop d-flex cursor-pointer p-0">
+
+                  <span class="w-100" (click)="toggleOrgWsList()">
+                    <label class="px-2 py-1" style="cursor: pointer;">{{ selectedWorkspace.name || "Select a group" }}</label>
+                    <img style="cursor: pointer;" src="../../../../../assets/images/drop-down-icon.svg">
+                  </span>
+
+                  <div *ngIf="showOrgWsList" class="select-drop-inner">
+                    <ul *ngFor="let org of orgWsList" >
+                        <!-- <label *ngIf="org.role !== 'light_member'"> {{ org.name }} -- {{org.role}}</label> -->
+                        <li *ngFor="let workspace of org.workspaces">
+                          <div *ngIf="workspace.workspaceRoles.role !== 'light_member'" style="cursor: pointer;" (click)="selectWs(workspace, org)">
+                          {{workspace.name}}
+                        </div>
+                        </li>
+
+                        <li *ngIf="!org.workspaces.length">
+                          <div>
+                          Groups not found!
+                        </div>
+                        </li>
+
+                    </ul>
+
+                  </div>
+
+                </div>
+                <button (click)="cloneWorkspace('id')">
+                  Lets go
+                </button>
+              </div>
+              <div class="inner-section">
+                <div class="ttl">
+                  Create a New Group
+                </div>
+                <p>
+                  What name will the new Group be called?
+                </p>
+                <div class="form-group select-drop d-flex cursor-pointer p-0">
+                  <label class="w-100 h-100 cursor-pointer px-2 py-1" (click)="showOrgList = !showOrgList;">{{ selectedOrg.name || "Select a organization"}}</label>
+                  <img class="cursor-pointer" (click)="showOrgList = !showOrgList;" src="../../../../../assets/images/drop-down-icon.svg">
+                  <div class="select-drop-inner" *ngIf="showOrgList">
+                    <ul *ngFor="let org of orgWsList" (click)="selectedOrg = org; showOrgList = false"
+                      style="cursor: pointer;">
+                      <label *ngIf="org.role === 'admin'">
+                        {{ org.name }} 
+                      </label>
+                    </ul>
+                  </div>
+                </div>
+                <input type="text" #workspaceName placeholder="Workspace name">
+                <button (click)="cloneWorkspace('name', selectedOrg._id, workspaceName.value)">
+                  Get Started
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="marketplace-workspace-overview-section">
+      <div class="banner-section">
+        <img [src]="marketDetail.image ? mediaUrl + marketDetail.image : '../../../../../assets/images/banner-img.png'">
+      </div>
+      <div class="img-detail-section d-flex">
+        <div class="left-section">
+          <div class="main-ttl">
+            {{marketDetail.title}}
+          </div>
+          <div class="hashlink-section">
+            <ul>
+              <li *ngFor="let item of categories" style="cursor: pointer;" (click)="getMarketWorkspace(item._id)">
+                {{item.Title}}
+              </li>
+            </ul>
+          </div>
+          <div class="description-section">
+            <p>
+              {{marketDetail.description}}
+            </p>
+          </div>
+        </div>
+        <div class="right-section">
+          <!-- *ngIf="organization.role=='admin' || organization.role=='member' || wsRole=='admin'|| wsRole=='member'" -->
+          <button
+
+            id="workspaceBtn" class="workspace-btn" data-toggle="modal" data-target="#marketassignmodal">
+            Use this Group
+          </button>
+          <div class="created-user-detail">
+            <div class="user-detail-section-inner">
+              <div class="user-by">
+                Your Rating:
+              </div>
+              <div class="user-name">
+                <b *ngFor="let item of [1,2,3,4,5]">
+                  <img *ngIf="rated >= item" src="../../../../../assets/images/fill-star.svg" (click)="addRated(item)">
+                  <img *ngIf="rated < item" src="../../../../../assets/images/star.svg" (click)="addRated(item)">
+                </b>
+                <img class="cancel-btn" src="../../../../../assets/images/dark-cancel.svg" (click)="addRated(0)">
+              </div>
+            </div>
+            <div class="user-detail-section-inner">
+              <div class="user-by">
+                Overall Rating:
+              </div>
+              <div class="user-name">
+                <b *ngFor="let rating of [1,2,3,4,5]">
+                  <img *ngIf="avgRating >= rating" src="../../../../../assets/images/fill-star.svg">
+                  <img *ngIf="avgRating < rating" src="../../../../../assets/images/star.svg">
+                </b>
+              </div>
+            </div>
+            <div class="user-detail-section-inner">
+              <div class="user-by">
+                Created by:
+              </div>
+              <div class="user-name" *ngIf="orgInfo" style="cursor: pointer;" (click)="profile()">
+                {{orgInfo.name}}
+              </div>
+            </div>
+          </div>
+          <div class="user-action-section">
+            <div class="img-box">
+              <img
+                [src]="orgInfo && orgInfo.avatar ? mediaUrl + orgInfo.avatar : '../../../../../../assets/images/nav-logo.svg'">
+            </div>
+            <div class="btn-section d-flex align-items-center justify-content-between">
+              <button (click)="profile()" class="profile-btn">
+                Profile
+              </button>
+              <b *ngIf="followUser">
+                <button (click)="following(marketDetail.owner._id, 'unfollow')" class="unfollow">Unfollow</button>
+              </b>
+              <b *ngIf="!followUser">
+                <button (click)="following(marketDetail.owner._id, 'follow')" class="follow-btn">Follow </button>
+              </b>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="applications?.length > 0">
+        <div class="tab-section">
+          <ul class="nav nav-tabs">
+            <li *ngFor="let item of applications; let i = index;" [ngClass]="{'active':item.isSelected}">
+              <a (click)="changeApp(item._id, i)">
+                {{ item.name }}
+              </a>
+            </li>
+            <li class="create-app-icon">
+              <img src="../../../../../../assets/images/plus-icon.svg">
+            </li>
+          </ul>
+        </div>
+        <app-application-view></app-application-view>
+      </div>
+      <div class="comment-section">
+        <div class="view-all-comment">
+          View all {{commentCount}} comments
+        </div>
+        <div class="user-comment-box" *ngFor="let item of allComment">
+          <div class="user-img">
+            {{item.avatar}}
+            <img [src]="item.user_id.avatar ? mediaUrl + item.user_id.avatar : '../../../../../assets/images/user.png'">
+          </div>
+          <div class="user-detail">
+            <div class="user-name">
+              {{item.user_id.firstName}} {{item.user_id.lastName}}
+              <span>
+                {{item.date}}
+              </span>
+            </div>
+            <div class="user-msg" [innerHTML]="item.comment">
+
+            </div>
+          </div>
+        </div>
+        <div class="user-add-comment-section custom-market-user-add-comment-section">
+          <div class="user-img">
+            <img [src]="avatar != '' ? avatar : '../../../../../../../assets/images/user.png'">
+          </div>
+          <div class="txt-comment-section">
+            <form [formGroup]="addCommentForm">
+              <div class="user-comment-section">
+                <div ngDefaultControl class="form-control  heightUnset" id="comment" type="text"
+                  contenteditable="true" (keyup)="submitForm($event)">&nbsp;
+                </div>
+              </div>
+              <!-- <textarea class="form-control" autosize type="text" id="fname" formControlName="comment_text"
+                name="comment_text" placeholder="Add comment" (keyup)="submitForm($event)"></textarea> -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,212 @@
+
+
+<!-- <div class="left-side-section">
+
+    <div class="left-icon-section">
+      <div class="left-icon-section-wraper">
+
+  <div class="left-icon-section">
+    <div class="left-icon-section-wraper">
+
+      <div class="icon-wraper">
+        <img src=" ../../../../../../../assets/images/circle.png">
+      </div>
+      <div class="icon-wraper">
+        <img src=" ../../../../../../../assets/images/sitemaster-avatar-blue.svg">
+      </div>
+      <div class="icon-wraper">
+        <img src=" ../../../../../../../assets/images/voxxi-avatar-wob-48x48.svg">
+      </div>
+      <div class="icon-wraper">
+        <img src=" ../../../../../../../assets/images/tesla.svg">
+      </div>
+      <div class="icon-wraper active add-icon">
+        <img src=" ../../../../../../../assets/images/Add new.svg">
+
+        <div class="icon-wraper-option-section">
+          <ul>
+            <li>
+              Add Organization
+            </li>
+            <li>
+              Add Group
+            </li> <div class="icon-wraper-option-section-inner">
+              <ul>
+                <li>
+                  Organization
+                  <img src=" ../../../../../../../assets/images/plus-icon.svg">
+
+                  <div class="organization-inner">
+                    <ul>
+                      <li>
+                        Rainbow
+                        <img src=" ../../../../../../../assets/images/plus-icon.svg">
+                      </li>
+                      <li>
+                        Sitemaster
+                        <img src=" ../../../../../../../assets/images/plus-icon.svg">
+
+                        <div class="organization-box-inner">
+                          <ul>
+                            <li>
+                              CRM
+                            </li>
+                            <li>
+                              Projects
+                            </li>
+                            <li>
+                              Inventory
+                            </li>
+                            <li>
+                              HR
+                            </li>
+                          </ul>
+                        </div>
+
+                      </li>
+                      <li>
+                        Vincent
+                        <img src=" ../../../../../../../assets/images/plus-icon.svg">
+                      </li>
+                      <li>
+                        Tesla
+                        <img src=" ../../../../../../../assets/images/plus-icon.svg">
+                      </li>
+                    </ul>
+                  </div>
+
+                </li>
+              </ul>
+            </div>
+            <li>
+              Add App
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  </div> -->
+
+<!-- <div class="left-side-section">
+
+  <div class="left-icon-section">
+    <div class="left-icon-section-wraper">
+
+      <div class="icon-wraper">
+        <img src="../../../../../../assets/images/circle.png">
+      </div>
+      <div class="icon-wraper">
+        <img src="../../../../../../assets/images/sitemaster-avatar-blue.svg">
+      </div>
+      <div class="icon-wraper">
+        <img src="../../../../../../assets/images/voxxi-avatar-wob-48x48.svg">
+      </div>
+      <div class="icon-wraper">
+        <img src="../../../../../../assets/images/tesla.svg">
+      </div>
+      <div class="icon-wraper active add-icon">
+        <img src="../../../../../../assets/images/Add new.svg">
+
+        <div class="icon-wraper-option-section">
+          <ul>
+            <li>
+              Add Organization
+            </li>
+            <li>
+              Add Group
+            </li>
+            <div class="icon-wraper-option-section-inner">
+              <ul>
+                <li>
+                  Organization
+                  <img src="../../../../../../assets/images/plus-icon.svg">
+
+                  <div class="organization-inner">
+                    <ul>
+                      <li>
+                        Rainbow
+                        <img src="../../../../../../assets/images/plus-icon.svg">
+                      </li>
+                      <li>
+                        Sitemaster
+                        <img src="../../../../../../assets/images/plus-icon.svg">
+
+                        <div class="organization-box-inner">
+                          <ul>
+                            <li>
+                              CRM
+                            </li>
+                            <li>
+                              Projects
+                            </li>
+                            <li>
+                              Inventory
+                            </li>
+                            <li>
+                              HR
+                            </li>
+                          </ul>
+                        </div>
+
+                      </li>
+                      <li>
+                        Vincent
+                        <img src="../../../../../../assets/images/plus-icon.svg">
+                      </li>
+                      <li>
+                        Tesla
+                        <img src="../../../../../../assets/images/plus-icon.svg">
+                      </li>
+                    </ul>
+                  </div>
+
+                </li>
+              </ul>
+            </div>
+            <li>
+              Add App
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="side-link">
+    <ul>
+      <li>
+        Employees
+        <img src="../../../../../../assets/images/plus-icon.svg">
+      </li>
+      <li>
+        CRM
+        <img src="../../../../../../assets/images/plus-icon.svg">
+      </li>
+      <li>
+        Projects
+        <img src="../../../../../../assets/images/plus-icon.svg">
+      </li>
+      <li>
+        HR
+        <img src="../../../../../../assets/images/plus-icon.svg">
+      </li>
+      <li>
+        Inventory
+        <img src="../../../../../../assets/images/plus-icon.svg">
+      </li>
+      <li>
+        Settings
+        <img src="../../../../../../assets/images/plus-icon.svg">
+      </li>
+    </ul>
+  </div> -->
+<div class="left-side-section">
+  <!-- ICONS COMPONENT  -->
+  <app-organisation-icons (onClickOrgIconEvent)="onClickOrgIconEventHander($event)"></app-organisation-icons>
+  <!-- ORG NAME LIST COMPONENT  -->
+  <app-organisation-workspaces [loaderState]="loaderState"></app-organisation-workspaces>
+</div>

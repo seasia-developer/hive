@@ -1,0 +1,112 @@
+<!-- <app-header></app-header> -->
+
+<div class="contnet-section d-flex">
+
+  <!-- <app-left-sidebar-menu></app-left-sidebar-menu> -->
+
+  <!-- <div class="bottom-chat-section">
+    <label>
+      Chat (23)
+    </label>
+    <div class="icon-section">
+      <img src="../../../../../../assets/images/setting.svg">
+      <img src="../../../../../../assets/images/setting.svg">
+    </div>
+  </div> -->
+
+  <div class="right-full-section">
+    <div class="user-workspace-content">
+      <div class="row m-0">
+        <div class="col-lg-12 p-0">
+          <div class="user-workspace-body" *ngIf="!isDeleteApp && !isDeleteWorkspace">
+            <img src="../../../../../../assets/images/Close-icon.svg" class="close-icon" (click)="bsModalRef.hide()">
+            <div class="img-box">
+              <img src="../../../../../../assets/images/ico-error.svg">
+            </div>
+            <div class="user-txt">
+              Are you sure you want to leave the organisation: {{ orgName }}
+            </div>
+            <p>
+              You will <span>ONLY</span> be able to join this organization again if you are invited back in. If you are
+              the
+              <span>LAST </span> person in this organization ALL the workspaces, apps and items in this organization
+              will be deleted
+              <span> PERMANENTLY. </span>
+            </p>
+            <p class="user-leave-txt">
+              To leave, please type ‘I am leaving’
+            </p>
+            <div class="user-input-section">
+              <input type="text" class="form-control" [(ngModel)]="iAmLeaving">
+              <div class="btn-section">
+                <button class="green-btn" (click)="leave()">
+                  Leave
+                </button>
+                <button class="border-btn" (click)="bsModalRef.hide()">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-workspace-body" *ngIf="isDeleteApp">
+            <img src="../../../../../../assets/images/Close-icon.svg" class="close-icon" (click)="bsModalRef.hide()">
+            <div class="img-box">
+              <img src="../../../../../../assets/images/ico-error.svg">
+            </div>
+            <div class="user-txt">
+              You are about to delete the app: {{ deleteAppName }}
+            </div>
+            <p>
+              This will delete the app and <span>ALL</span> its component for <span>ALL USERS, PERMANENTLY</span>. This
+              is <span>NOT RECOVERABLE</span>.
+            </p>
+            <p class="user-leave-txt">
+              To delete this workspace please type ‘delete this app’
+            </p>
+            <div class="user-input-section">
+              <input type="text" class="form-control" [(ngModel)]="deleteThisApp">
+              <div class="btn-section">
+                <button class="green-btn" (click)="deleteThisAppFunction()">
+                  Delete
+                </button>
+                <button class="border-btn" (click)="bsModalRef.hide()">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-workspace-body" *ngIf="isDeleteWorkspace">
+            <img src="../../../../../../assets/images/Close-icon.svg" class="close-icon" (click)="bsModalRef.hide()">
+            <div class="img-box">
+              <img src="../../../../../../assets/images/ico-error.svg">
+            </div>
+            <div class="user-txt">
+              You are about to delete the group: {{ deleteWsName }}
+            </div>
+            <p><span>ALL USERS</span> will lose <span>ALL</span> apps, <span>ALL</span> contacts and <span>ALL</span>
+              records in this group, <span>PERMANENTLY</span>.
+              This is <span>NOT RECOVERABLE</span>.
+            </p>
+            <p class="user-leave-txt">
+              To delete this group please type ‘delete this group
+            </p>
+            <div class="user-input-section">
+              <input type="text" class="form-control" [(ngModel)]="deleteThisApp">
+              <div class="btn-section">
+                <button class="green-btn" (click)="deleteThisWorkspaceFunction()">
+                  Delete
+                </button>
+                <button class="border-btn" (click)="bsModalRef.hide()">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

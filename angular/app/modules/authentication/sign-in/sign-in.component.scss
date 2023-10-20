@@ -1,0 +1,227 @@
+@import "../../../../SCSS/custom-variable";
+
+.contant_sec {
+  .right_col {
+    form {
+      .form-group-terms {
+        margin-top: 0;
+
+        .terms-account.login-add {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.welcom-text {
+  padding: 60px 0px 25px 0px;
+}
+
+.middle-body-section {
+  // height: calc(100% - 300px);
+  // align-items: flex-start;
+}
+
+.right_col {
+  padding-top: 25px;
+
+  .btn-primary {
+    font-size: $inputtxt;
+    font-family: $RobotoRegular;
+  }
+
+  .forgot-label {
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .form-group {
+    h2 {
+      margin-bottom: 10px;
+    }
+  }
+
+  .btn-submit {
+    font-family: $RobotoRegular !important;
+  }
+
+  .btn-section {
+    margin-bottom: 10px;
+  }
+
+  .form-group-terms {
+    padding-top: 80px;
+  }
+}
+
+.error {
+  color: $btn_bg_danger;
+  font-size: $box_txt;
+  padding-top: 12px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(min-width:1270px) {
+  .logo_img {
+    margin: 45px 0 0px;
+
+    a {
+      img {
+        width: 260px;
+        margin-left: -5px;
+      }
+    }
+  }
+
+  .welcom-text {
+    padding: 51px 25px 0px 0px;
+  }
+
+  .middle-body-section {
+    padding-top: 32px;
+
+    .left_col {
+      padding-right: 137px;
+
+      img {
+        margin-top: -5px;
+        width: 352px;
+        height: 445px;
+      }
+    }
+
+    .right_col {
+      padding-top: 20px;
+      margin-right: 27px;
+      width: 440px;
+
+      .login-google-btn {
+        margin-bottom: 22px;
+
+        button {
+          &::before {
+            left: 7px;
+            top: 4px;
+          }
+        }
+      }
+
+      .or-txt-section {
+        margin-bottom: 21px;
+
+        h2 {
+          &:before {
+            width: 42%;
+          }
+
+          &::after {
+            width: 42%;
+          }
+        }
+      }
+
+      .email-box {
+        margin-bottom: 17px;
+
+        .form-control {
+          padding: 4px 15px 0px 19px;
+        }
+      }
+
+      .password-box {
+        margin-bottom: 20px;
+        margin-top: 2px;
+
+        .form-control {
+          padding: 3px 15px 0px 19px;
+        }
+      }
+
+      .btn-section {
+        margin-bottom: 15px;
+
+        button {
+          padding: 1px 18px 0px 0px;
+        }
+      }
+
+      .form-check-label {
+        padding-left: 34px;
+
+        .checkmark {
+          left: 2px;
+        }
+      }
+
+      .form-group-terms {
+        p {
+          text-align: left;
+          padding-left: 57px;
+          padding-top: 4px;
+        }
+      }
+
+    }
+
+  }
+
+}
+
+
+
+.password-box-animation {
+  transition: height 1s;
+  height: 0!important;
+  visibility: hidden;
+  &.active{
+    transition: height 1s;
+    height: 53px!important;
+    visibility: visible;
+    margin-bottom: 19px;
+  }
+}
+
+.re-password-box{
+  position: relative;
+  .view-password{
+    position: absolute;
+    top: 13px;
+    right: 25px;
+    cursor: pointer;
+    img{
+      width: 23px;
+      object-fit: contain;
+    }
+  }
+}
+
+@media(max-width:575px){
+  .contant_sec {
+    .left_col{
+      img{
+        display: none;
+      }
+    }
+  }
+}
+
+.signUp {
+  cursor: pointer;
+}

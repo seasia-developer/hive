@@ -1,0 +1,424 @@
+<app-header></app-header>
+
+<div class="contnet-section d-flex">
+
+  <app-left-sidebar-menu></app-left-sidebar-menu>
+  <app-chat></app-chat>
+  <mobile-menu></mobile-menu>
+  <!-- <div class="bottom-chat-section">
+    <label>
+      Chat (23)
+    </label>
+    <div class="icon-section">
+      <img src="../../../../../../assets/images/setting.svg">
+      <img src="../../../../../../assets/images/setting.svg">
+    </div>
+  </div> -->
+
+  <div class="right-full-section">
+    <img src="../../../../../assets/images/Close-icon.svg" style="cursor: pointer;" (click)="closeAppBuilder()"
+      class="closeBuilder">
+    <div class="app-builder-section d-flex custom-height-scroll">
+      <div class="left-container">
+        <div class="left-section drag-drop-list" cdkDropList #listOne="cdkDropList"
+          [cdkDropListConnectedTo]="[listTwo]" id="left-section-d">
+          <ul>
+            <li *ngFor="let item of builderOptions" class="drag-drop-box" (click)="addItem(item)" cdkDrag>
+              <div class="img-box">
+                <img src="{{item.app_builder_icon}}">
+              </div>
+              {{item.label}}
+            </li>
+          </ul>
+
+          <div class="save-custom-btn">
+            <button class="green-btn save-custom-buil-field" [ngClass]="{'cursorCls': (!showBtn || !selected.length)}" [disabled]="(!showBtn || !selected.length)"
+              (click)="submitForm()">
+              Save
+            </button>
+            <button class="gray-btn" (click)="closeAppBuilder()">
+              Cancel
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="right-section">
+        <form [formGroup]="appBuilderForm">
+          <div class="right-container">
+
+            <div cdkDropList #listTwo="cdkDropList" [cdkDropListConnectedTo]="[listOne]"
+              (cdkDropListDropped)="add($event)" class="drag-drop-list" id="right-section-d">
+
+              <div class="box-wraper drag-drop-box" *ngFor="let item of selected; index as i" cdkDrag>
+                <!-- <div class="box-wraper-box drag-drop-placeholder" *cdkDragPlaceholder></div> -->
+
+                <div class="box-wraper-box">
+                  <div class="icon-box">
+                    <img class="build-item-icon" src="{{item.icon}}">
+
+                    <!-- Field options Menu -->
+                    <div class="more-option">
+                      <img class="more-option-click-custom" (click)="toggleMenu(i)"
+                        src="../../../../../assets/images/drop-down-icon.svg">
+ 
+                      <div class="more-option-list-section" *ngIf="openMenu === i"
+                        [ngClass]="{numberMenu: item.type === 'number' || item.type === 'calculator'}">
+                        <ul>
+                          <li *ngFor="let option of item.options">
+                            <!-- For checkbox options -->
+                            <label *ngIf="option.type == 'checkbox' && !option.flag"
+                              class="check-container">{{option.label}}
+                              <input type="checkbox" [checked]="option.value" (change)="updateOptions(option, $event)">
+                              <span class="checkmark"></span>
+                            </label>
+                            <label *ngIf="option.type == 'checkbox' && option.flag=='relation'"
+                              (click)="selectedRelationItem(i)" class="check-container">{{option.label}}
+                              <input type="checkbox" [checked]="option.value" (change)="updateOptions(option, $event)">
+                              <span class="checkmark"></span>
+                            </label>
+                            <!-- For option group break line -->
+                            <hr *ngIf="option.break && i >0" class="border-line">
+                            <!-- For radio options -->
+                            <div class="custom-radio-btn" *ngIf="option.type == 'radio'">
+                              <span *ngFor="let op of option.options">
+                                <label class="check-container" *ngIf="i !== 0">
+                                  {{op.label}} 
+                                  <span *ngIf="op.example" class="examples" style="font-size: 14px;">
+                                    {{op.example}}</span>
+                                  <input type="radio" [checked]="op.checked" name="{{option.name}}"
+                                    (change)="updateOptions(option.options, $event, op)">
+                                  <!-- (change)="updateOptions(op, $event, 'radio')"> -->
+                                  <span class="checkmark"></span>
+                                </label>
+                              </span>
+                             
+                            </div>
+
+                            <!-- For help text -->
+                            <label *ngIf="option.type == 'helpText'" class="check-container"
+                              (click)="selectHelpTextItem(i)">{{option.label}}</label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="user-box">
+                    <input type="text" class="form-control" (change)="updateLabel(item, $event)"
+                      value="{{item.placeholder}}" [id]="item._id">
+
+                    <!-- <div class="relationship-box-wraper">
+                      <div class="relationship-wraper">
+                        <div class="top-section">
+                          Website specs
+                          <img src="../../../../../assets/images/back.svg">
+                        </div>
+                        <div class="bottom-section">
+                          <div class="bottom-wraper">
+                            <div class="drop-down">
+                              <label>
+                                Review Docs
+                              </label>
+                              <img src="../../../../../assets/images/ico-back.svg" alt="">
+                            </div>
+                            <div class="user-detail">
+                              Melanie Hisspatcher
+                              <img src="../../../../../assets/images/user-profile.jpeg">
+                            </div>
+                          </div>
+                          <p>
+                            Tesla Website in Projects - 10d
+                          </p>
+                        </div>
+                      </div>
+                    </div>  -->
+                    <img *ngIf="item.type != 'category' && item.type != 'calculator' && item.type!='relationship' && i > 0"
+                      src="../../../../../assets/images/dark-cancel.svg" (click)=removeItem(i,item)>
+                  </div>
+                </div>
+
+                <!-- For category field -->
+                <div *ngIf="item.type == 'category'" class="user-box category-list-box" cdkDropList
+                  (cdkDropListDropped)="dropCategoryOptions($event, item)">
+
+                  <div *ngFor="let option of item.selectOptions" style="cursor:grabbing;" cdkDrag
+                    class="category-list-box-items">
+                    <label>
+                      <input type="text" [value]="option.label" (change)="updateCategory(option, $event)"
+                        style="width: 130px; border-radius: .25rem;">
+                    </label>
+
+                    <div class="bg-box">
+                      <div class="bg-box-inner" [ngStyle]="{'backgroundColor': option.color}"
+                        (click)="toggleCategoryColorMenu(option.id)" style="border-radius: .25rem;">
+
+                        <div class="box-option" *ngIf="openCategoryColorMenu === option.id">
+                          <ul>
+                            <li *ngFor="let color of categoryColors" [ngStyle]="{'backgroundColor': color}"
+                              (click)="option.color = color" style="border-radius: .25rem;"></li>
+                          </ul>
+                        </div>
+
+                      </div>
+                      <img src="../../../../../assets/images/dark-cancel.svg"
+                        (click)="removeCategoryOption(item, option)">
+                    </div>
+
+                  </div>
+
+                  <div class="category-list-input-box">
+                    <input type="text" class="form-control input-custom-category-close-icon"
+                      (keyup)="addCategoryOption($event, item)" #category [id]="item.id">
+                    <img class="addnewcat-mobile" *ngIf="showAddButton" src="../../../../../assets/images/Add new.svg"
+                      (click)="addCategory(category, item)">
+                    <img class="custom-category-close-icon" src="../../../../../assets/images/dark-cancel.svg"
+                      (click)=removeItem(i,item)>
+                  </div>
+
+                </div>
+                <!-- For calculator field -->
+                <div *ngIf="item.type == 'calculator'" class="user-box calculator-section" >
+                  <div class="calculation-section-inner">
+
+                    <div class="voxxi-mention-layer"></div>
+                    <textarea autosize [value]="item.rawFormulaDisplay ? item.rawFormulaDisplay:''"
+                      [mention]="calculationFields" (keyup)="getCalculatorValue($event,item)" id='calc'
+                      [mentionConfig]="mentionConfig" class="formula-input"
+                      placeholder="Try to type @ to see available fields"></textarea>
+                    <p [ngClass]="['calculation-error', item.uniqueId.toString()]" *ngIf="item.formula && item.formula.code !== 0">
+                      {{ item.formula ? item.formula.data:"" }}</p>
+
+                    <img src="../../../../../assets/images/dark-cancel.svg" (click)=removeItem(i,item)>
+
+                  </div>
+                  <div class="calculation-info-modal">
+                    <a data-toggle="modal" data-target="#suggestionModal">Click Here</a> to learn more about
+                    calculation.</div>
+                </div>
+
+                <!-- For relationship field -->
+                <div *ngIf="item.type == 'relationship'" class="rel user-box calculator-section relationship-box-list">
+                  <div class="relationship-box-wraper" *ngFor="let recordObj  of item.records">
+                    <div class="relationship-wraper">
+                      <div class="top-section">
+                        <label>
+                          {{recordObj.recordName}}
+                        </label>
+                        <img src="../../../../../assets/images/back.svg">
+                      </div>
+
+                      <div class="bottom-section">
+                        <div class="bottom-wraper">
+                          <div *ngIf="recordObj.categoryObj"  class="bottom-wraper-left-section">
+                            <div class="drop-down" *ngFor="let cat of recordObj.categoryObj">
+                              <div class="drop-down-inner" [style.background-color]="recordObj.selectedCategoryColor"  *ngIf='cat.id==recordObj.selectedCategory'>
+                                <label>
+                                  {{cat.label}}
+                                </label>
+                                <img src="../../../../../assets/images/ico-back.svg" alt="">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="user-detail" *ngIf="recordObj.memberObj">
+                            <label class="m-0">
+                              {{recordObj.memberObj.name}}
+                            </label>
+                            <img [src]="recordObj.memberObj.avatar">
+                          </div>
+                        </div>
+
+                        <p>
+                          {{recordObj.application_id.name}} in {{recordObj.workspace_id.name}} - 10d
+                        </p>
+                      </div>
+
+                    </div>
+                  </div>
+                  <img class="relationCls" src="../../../../../assets/images/dark-cancel.svg"
+                    (click)=removeItem(i,item)>
+                </div>
+                <!-- <input type="{{item.text}}" class="form-control" [formControlName]="i" placeholder="{{item.label}}" [id]="item.id"> -->
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" hidden></button>
+        <button id="helpTextModalButton" type="button" class="btn btn-info btn-lg" data-toggle="modal"
+          data-target="#helpTextModal" hidden></button>
+        <button id="appModalButton" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"
+          hidden></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="modal fade ignoreBackdropClick" id="helpTextModal" ignoreBackdropClick="true" aria-hidden="true" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static"  config="{ignoreBackdropClick: true, keyboard: false}">
+
+  <div class="modal-dialog app-builder-section-modal help-section">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <img src="../../../../../assets/images/Close-icon.svg" id="closeModal" class="close" data-dismiss="modal">
+        <h4 class="modal-title">Help text</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="search-section">
+          <input type="text" class="form-control" placeholder="Add help text" #helpText>
+          <!-- <img src="../../../../../assets/images/search-icon-light.svg"> -->
+        </div>
+
+        <div class="btn-section">
+          <button class="gray-btn" data-dismiss="modal">
+            Cancel
+          </button>
+          <button class="green-btn" (click)="addHelpText(helpText)" data-dismiss="modal">
+            Add
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+
+  <div class="modal fade ignoreBackdropClick" id="myModal" ignoreBackdropClick="true" aria-hidden="true" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static"  config="{ignoreBackdropClick: true, keyboard: false}">
+
+  <div class="modal-dialog app-builder-section-modal" id="app-modal" (clickOutside)="modalClosed($event)">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <img src="../../../../../assets/images/Close-icon.svg" class="close" data-dismiss="modal" id="closeAppModal"
+          (click)="modalClosed($event)">
+        <h4 class="modal-title">Select Apps to reference</h4>
+      </div>
+      <div class="modal-body">
+        <div *ngIf='selected[selectedAppItem] && selected[selectedAppItem].selectedApps'>
+          <div class="app-reference-inner" *ngFor="let app of selected[selectedAppItem].selectedApps">
+            <div class="selected-app" *ngIf="app.isAdded">
+              <label>
+                {{app.name}} in {{app.organization_id.name}}
+              </label>
+
+              <div class="action-section">
+                <div class="form-group">
+                  <select class="form-control" id="sel1" (change)="getRole($event,app)">
+                    <option disabled>Team</option>
+                    <option *ngFor="let type of app.teamView" [value]="type._id"
+                      [attr.selected]="type._id==app.role ? true : null">{{type.name}}</option>
+                    <option disabled>Private view</option>
+                    <option *ngFor="let view of app.privateView" [value]="view._id"
+                      [attr.selected]="view._id==app.role ? true : null">{{view.name}}</option>
+
+                  </select>
+                  <img src="../../../../../assets/images/ico-back.svg">
+                </div>
+                <img (click)="removeSeletedApps(app)" src="../../../../../assets/images/delete-icon-light.svg">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="search-section">
+          <input type="text" (keyup)='getAppListForRelation($event)' (click)='getAppListForRelation($event)'
+            class="form-control" id="" (clickOutside)="hideShowApps(true)"
+            placeholder="Click to choose or type to search">
+          <img src="../../../../../assets/images/search-icon-light.svg">
+          <div class="search-inner-section" *ngIf="appList?.length > 0 && displayApps">
+            <ul *ngFor="let workspace of appList; index as index">
+              <div class="main-ttl">
+                {{workspace.name}}
+              </div>
+              <div *ngIf="workspace.applications && workspace.applications.length > 0">
+                <li *ngFor="let application of workspace.applications;">
+                  <div>
+                    <label for="" (click)="selectApp(workspace,application)">
+                      {{application.name}}
+                    </label>
+                    <span>
+                      {{application.organization_id.name}}
+                    </span>
+                  </div>
+                </li>
+              </div>
+              <div class="no-data-found" *ngIf="workspace.applications && workspace.applications.length === 0">
+                No Application found
+              </div>
+
+            </ul>
+          </div>
+
+          <div class="btn-section">
+            <button class="gray-btn" data-dismiss="modal" id='closeAppModal' (click)='modalClosed($event)'>
+              Cancel
+            </button>
+            <button class="green-btn" (click)='addApp(selected[selectedAppItem].selectedApps)' data-dismiss="modal">
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p>
+          Choose the App by clicking on the search or typing the name
+        </p>
+        <p>
+          Once chosen, select a view to filter
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <div class="modal fade ignoreBackdropClick" id="suggestionModal" ignoreBackdropClick="true" aria-hidden="true" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static"  config="{ignoreBackdropClick: true, keyboard: false}">
+
+  <div class="modal-dialog Calculation-modal">
+
+    <!-- Modal content-->
+    <div class="modal-content Calculation-formula-modal">
+      <div class="modal-header">
+        <h4 class="modal-title">Creating Formula </h4>
+        <img src="../../../../../assets/images/Close-icon.svg" class="close" data-dismiss="modal">
+
+      </div>
+      <div class="modal-body">
+        <p>Calculation field makes it easier to do some automated calculation based on other fields in the same
+          application as the reference. It might be a bit confusing at first, but as you used it frequent, you'll get
+          eventually get the hang of it and might depends on it a lot.</p>
+        <p>To start with the formula, you can type <code>@</code> to get choose the field that you want to reference.
+          Please note that not every field can be referenced right now, we only support all the calculable field type
+          such as <code>Number</code> & <code>Currency</code>. In the near future, we'll also add the support to allow
+          string truncation in the formula.</p>
+        <p>
+          <img style="width: 95%;" src="../../../../../assets/images/calc.gif" alt="Formula - Template Setup">
+          <span style="margin-left:30%;">Formula - Template Setup</span>
+        </p>
+        <p>Another extra note, if you can't see the correct field that you like to refer, you might need to save the
+          template first, since the calculation field can only read the existing field that's already been saved before.
+        </p>
+        <p>
+          <img style="width: 95%;" src="../../../../../assets/images/calc-other.gif" alt="Formula - Create Item">
+          <span style="margin-left:30%;">Formula - Create Item</span>
+        </p>
+        <div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="btn-section">
+          <button class="gray-btn" data-dismiss="modal">
+            Cancel
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>

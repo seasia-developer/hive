@@ -1,0 +1,499 @@
+ <!-- mobile menu start -->
+ <div class="mobile-middle-menu">
+   <div class="mobile-menu-button">
+     <button data-toggle="collapse" (click)="toggleMobileMenu()" data-target="#mobile-menu">
+       <span></span>
+       <span></span>
+       <span></span>
+     </button>
+   </div>
+   <div id="mobile-menu" class="collapse">
+
+    <!-- app-left-sidebar-menu -->
+
+     <app-left-sidebar-menu></app-left-sidebar-menu>
+
+     <div class="left-side-section" *ngIf="false">
+       <div class="left-icon-section">
+         <div class="left-icon-section-wraper mobile-left-sidenav">
+
+           <div *ngFor="let item of helperService.orgList">
+             <div class="icon-wraper" [ngClass]="{'active':item._id === helperService.selectedItemId}"
+               (click)="getWorkspaces(item._id,item.role, item.backrgoundColor,'click')">
+               <img style="width: 30px;height: 30px;" alt="{{item.name}}"
+                 [src]="item.avatar ? MEDIA_URL + item.avatar : '../../../../../../assets/images/nav-logo.svg'">
+             </div>
+           </div>
+           <div *ngFor="let id of sharedRecordOrgIds">
+            <div class="icon-wraper" [ngClass]="{'active': id === helperService.selectedItemId}"
+              (click)="getOrgSharedRecords(id)">
+              <img style="width: 30px;height: 30px;"
+                [src]="homeService.sharedRecords[id][0].record.organization_id.avatar ? MEDIA_URL + homeService.sharedRecords[id][0].record.organization_id.avatar : '../../../../../../assets/images/nav-logo.svg'">
+            </div>
+          </div>
+           <div class="icon-wraper add-icon" [ngClass]="{'active':isAdd}">
+             <img src="../../../../../../assets/images/Add new.svg" (click)="showOptions(false)" id="add-org-plus">
+
+
+             <div class="icon-wraper-option-section" *ngIf="isAdd">
+               <ul>
+                 <li (click)="goToAddOrg()" id="add-org">
+                   Add Organization
+                 </li>
+                 <li (click)="showOrgs()" id="add-ws">
+                   Add Group
+                 </li>
+                 <div class="icon-wraper-option-section-inner" *ngIf="isShowOrgs">
+                   <ul>
+                     <li>
+                       Organization
+                       <img id="showOrgsForWS" (click)="showOrgs()" src="../../../../../../assets/images/plus-icon.svg">
+
+                       <div class="organization-inner">
+                         <ul>
+                          <span *ngFor="let item of helperService.orgList">
+                            <li
+                              (click)="addWorkSpace(item._id,item.role, item.backrgoundColor)" id="org-list"  *ngIf="item.role === 'admin'">
+                              {{ item.name }}
+                            </li>
+                          </span>
+                         </ul>
+                       </div>
+
+                     </li>
+                   </ul>
+                 </div>
+                 <li (click)="showAppOrgs()" id="add-app">
+                   Add App
+                 </li>
+                 <div class="icon-wraper-option-section-inner" *ngIf="showOrgForApp">
+                   <ul>
+                     <li>
+                       Organization
+                       <img id="plusIconOrgs" (click)="showOrgForApp = !showOrgForApp"
+                         src="../../../../../../assets/images/plus-icon.svg">
+                       <div class="organization-inner">
+                         <ul>
+                           <span *ngFor="let item of helperService.orgList">
+                           <li [ngClass]="{'active': selectedOrganizationLiTag === item._id && showWorkspacesFlag}"
+                             (click)="showOrgWorkSpaces(item)" id="org-list" *ngIf="item.role === 'admin'">
+                             {{ item.name }}
+                             <div class="icon-wraper-option-section-inner custom-workspace-section-mobile"
+                               [ngClass]="{'addCls':displayFlag}">
+                               <ul>
+                                 <li>
+                                  Group
+                                   <img id="plusIconWorkspaces" (click)="toggleWorkspaceMenu()"
+                                     src="../../../../../../assets/images/plus-icon.svg">
+                                   <div class="organization-inner">
+                                     <ul>
+                                       <li *ngFor="let item of workspaceList" (click)="addApp(item._id)" id="ws-list">
+                                         {{ item.name }}
+                                       </li>
+                                     </ul>
+                                   </div>
+                                 </li>
+                               </ul>
+                             </div>
+                           </li>
+                          </span>
+                         </ul>
+                       </div>
+                     </li>
+                   </ul>
+                 </div>
+                 <!-- <div class="icon-wraper-option-section-inner" *ngIf="showWorkspacesFlag">
+                  <ul>
+                    <li>
+                      Workspaces
+                      <img (click)="showWorkspacesFlag = !showWorkspacesFlag"
+                        src="../../../../../../assets/images/plus-icon.svg">
+                      <div class="organization-inner">
+                        <ul>
+                          <li *ngFor="let item of workspaceList" (click)="addApp(item._id)" id="ws-list">
+                            {{ item.name }}
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </div> -->
+               </ul>
+             </div>
+           </div>
+
+         </div>
+       </div>
+
+       <div class="side-link">
+         <ul *ngIf="helperService.getLocalStore('organizations')?.length > 0">
+          <div *ngIf="homeService.toShow === 'sharedRecord'">
+            <li *ngFor="let record of homeService.orgSharedRecords" (click)="openRecordModal(record)">
+              {{record.title}}
+            </li>
+          </div>
+           <!-- cdkDropList (cdkDropListDropped)="dropWS($event)"  -->
+           <div *ngIf="homeService.workSpaceList && homeService.toShow === 'org'">
+             <li (click)="userManagement()" *ngIf="(!restrictedDomain && employeeTab)">
+               Employees
+               <img src="../../../../../../assets/images/plus-icon.svg">
+             </li>
+             <li class="settings-tab" *ngFor="let item of homeService.workSpaceList"
+               [ngClass]="{'active':openMenu === item._id, 'activeLink': homeService.activeWorkspaceId === item._id, 'openView': homeService.activeWorkspaceId === item._id && appViewService.showViewMenu}">
+               <a (click)="getApplications(item._id,item.role,'click')" id="appList">
+                 {{ item.name }}
+               </a>
+               <img src="../../../../../../assets/images/plus-icon.svg" id="setting" (click)="toggleMenu(item)">
+               <div class="side-link-option-section custom-views">
+                 <ul *ngIf="!appViewService.showViewMenu && openMenu === item._id">
+                   <li *ngIf="showView" id="setting" (click)="appViewService.showViewMenu = true">
+                     Views
+                   </li>
+                   <li  *ngIf='item.role=="admin"' (click)="editWorkspace(item)" >
+                     Edit Group
+                   </li>
+                   <li
+                     (click)="goToAddApp(item._id)">
+                     Add an App
+                   </li>
+                   <li (click)="goToWorkspaceUserManagement(item._id)">
+                     User Management
+                   </li>
+                   <li routerLink="/application/home/calendar" [queryParams]="{workspaceId: item._id}">
+                     Calendar
+                   </li>
+                   <li *ngIf="(helperService.loggedUser.isSuperAdmin)"
+                     (click)="goToSaveWorkspace(item._id)">
+                     Save Group
+                   </li>
+                   <li  *ngIf='item.role=="admin"' (click)="goToDeleteWorkspace(item.fname, item._id)">
+                     Remove
+                   </li>
+                 </ul>
+                 <ul *ngIf="appViewService.showViewMenu" class="view-option-create-section">
+                   <li class="views-list" id="view-menu">
+                     <!-- <span id="view-menu" class="custom-views-title">Views</span> -->
+                     <span id="view-menu" (click)="appViewService.showViewMenu = false"
+                       class="custom-views-title">Views</span>
+                     <div class="view-team" id="view-menu"
+                       *ngIf="appViewService.showViewMenu && hasViews && !appViewService.showCreateViewMenu">
+                       <div class="unsave" id="view-menu" *ngIf="appViewService.isViewUnsaved">
+                         <p>Unsaved view</p>
+                         <button class="green-btn" id="view-menu" (click)="updateViewFilters()">Save</button>
+                       </div>
+                       <div class="tean-view" *ngIf="appViews.team.length">
+                         <!-- <img src="../../../../../../assets/images/delete-icon.svg">
+                        <img src="../../../../../../assets/images/edit.svg"> -->
+                         <p>Team views</p>
+                       </div>
+                       <div class="check-div" id="view-menu"
+                         [ngClass]="{activeViews: appViewService.selectedView === view._id}"
+                         *ngFor="let view of appViews.team">
+                         <img id="view-menu" *ngIf="view.name !== 'All'"
+                           src="../../../../../../assets/images/ico-edit.svg" class="edit-icon"
+                           (click)="toggleViewMenu(view)">
+                         <span class="checkin" id="view-menu" (click)="selectView(view)">
+
+                           {{view.name}}
+                           <!-- <input type="checkbox" [id]="view._id"> -->
+                           <!-- <span class="checkmark"></span> -->
+                         </span>
+                         <p id="view-menu">{{view.count}}</p>
+                         <div *ngIf="showViewEditMenu === view._id" id="view-menu" class="view-option-section">
+                           <ul id="view-menu">
+                             <li id="view-menu" (click)="openEditViewMenu(view)">
+                               Edit
+                             </li>
+                             <li id="view-menu" (click)="editView(view,'private')">
+                               Make Private
+                             </li>
+                             <li id="view-menu" (click)="deleteView(view)">
+                               Delete
+                             </li>
+                             <li class="made-by-section">
+                               Made by :- {{view.created_by.firstName}} {{view.created_by.lastName}}
+                             </li>
+                           </ul>
+                         </div>
+                       </div>
+                       <!-- <div class="check-div">
+                        <label class="checkin">Sprint layout
+                          <input type="checkbox">
+                          <span class="checkmark"></span>
+                        </label>
+                        <p>124</p>
+                      </div> -->
+                       <!--  Grid view applied filters – 3 screen start -->
+                       <div class="team_backlog" hidden>
+                         <label><span class="pink"></span>Backlog<p>1</p></label>
+                         <label><span class="green_light"></span>Testing<p>3</p></label>
+                         <label><span class="red"></span>Failed Testing<p>7</p></label>
+                         <label><span class="green"></span>Passed Testing<p>13</p></label>
+                       </div>
+                       <!--  Grid view applied filters – 3 screen end -->
+
+                       <div class="tean-view" *ngIf="appViews.private.length">
+                         <!-- <img src="../../../../../../assets/images/delete-icon.svg"> -->
+                         <!-- <img src="../../../../../../assets/images/ico-edit.svg"> -->
+                         <p>Private views</p>
+                       </div>
+                       <div id="view-menu" class="check-div"
+                         [ngClass]="{activeViews: appViewService.selectedView === view._id}"
+                         *ngFor="let view of appViews.private" (click)="selectView(view)">
+                         <img id="view-menu" src="../../../../../../assets/images/ico-edit.svg" class="edit-icon"
+                           (click)="toggleViewMenu(view)">
+                         <label id="view-menu" class="checkin">{{view.name}}
+                           <!-- <input type="checkbox"> -->
+                           <!-- <span class="checkmark"></span> -->
+                         </label>
+                         <p id="view-menu">{{view.count}}</p>
+
+                         <div *ngIf="showViewEditMenu === view._id" class="view-option-section">
+                           <ul>
+                             <li id="view-menu" (click)="openEditViewMenu(view)">
+                               Edit
+                             </li>
+                             <li id="view-menu" (click)="editView(view,'team')">
+                               Make Public
+                             </li>
+                             <li id="view-menu" (click)="deleteView(view)">
+                               Delete
+                             </li>
+                             <li class="made-by-section">
+                               Made by :- {{view.created_by.firstName}} {{view.created_by.lastName}}
+                             </li>
+                           </ul>
+                         </div>
+                       </div>
+
+                     </div>
+                     <!-- <div class="inside-view-list">
+                      Create <img src="../../../../../../assets/images/plus-icon.svg">
+                    </div> -->
+                     <div class="view-form" *ngIf="appViewService.showCreateViewMenu">
+                       <form [formGroup]="viewForm">
+                         <div id="view-menu" class="form-group">
+                           <input class="form-control" id="view-menu" type="text" placeholder="Name"
+                             formControlName="name">
+                         </div>
+                         <div id="view-menu" class="form-group industry-box" *ngIf="viewMode === 'create'">
+                           <div id="view-menu" class="industry-box-inner">
+                             <label id="view-menu">
+                               {{selectedViewType !== "team" ? "Private View" : "Team View"}}
+                             </label>
+                             <img id="view-menu" src="../../../../../../assets/images/drop-down-img.svg"
+                               (click)="showViewTypeMenu = !showViewTypeMenu">
+                           </div>
+                           <div *ngIf="showViewTypeMenu" id="view-menu" class="industry-box-option-section">
+                             <div class="sub-ttl" id="view-menu"
+                               (click)="selectedViewType = selectedViewType === 'private' ? 'team' : 'private'">
+                               {{selectedViewType !== "team" ? "Team View" : "Private View"}}
+                             </div>
+                           </div>
+                         </div>
+
+                         <!-- For order date field-->
+                         <!-- <div class="form-group industry-box" *ngIf="selectedViewOrder.type === 'date'">
+                          <div class="industry-box-inner" (click)="showViewDateTypeMenu = !showViewDateTypeMenu">
+                            <label>
+                              {{selectedViewDateType ? dateOptions[selectedViewDateType] : "Daily"}}
+                            </label>
+                          </div>
+                          <img src="../../../../../../assets/images/drop-down-img.svg">
+                          <div *ngIf="showViewDateTypeMenu" class="industry-box-option-section">
+                            <div class="sub-ttl" (click)="selectedViewDateType = 'daily'">
+                              Daily
+                            </div>
+                            <div class="sub-ttl" (click)="selectedViewDateType = 'weekday'">
+                              Weekday
+                            </div>
+                            <div class="sub-ttl" (click)="selectedViewDateType = 'weekly'">
+                              Weekly
+                            </div>
+                            <div class="sub-ttl" (click)="selectedViewDateType = 'monthly'">
+                              Monthly
+                            </div>
+                            <div class="sub-ttl" (click)="selectedViewDateType = 'yearly'">
+                              Yearly
+                            </div>
+                          </div>
+                        </div> -->
+
+                         <!-- For order location field-->
+                         <!-- <div class="form-group industry-box" *ngIf="selectedViewOrder.type === 'location'">
+                          <div class="industry-box-inner" (click)="showViewLocationTypeMenu = !showViewLocationTypeMenu">
+                            <label>
+                              {{selectedViewLocationType ? locationOptions[selectedViewLocationType] : "Post Code"}}
+                            </label>
+                            <img src="../../../../../../assets/images/drop-down-img.svg">
+                          </div>
+                          <div *ngIf="showViewLocationTypeMenu" class="industry-box-option-section">
+                            <div class="sub-ttl" (click)="selectedViewLocationType = 'postCode'">
+                              Post Code
+                            </div>
+                            <div class="sub-ttl" (click)="selectedViewLocationType = 'city'">
+                              City
+                            </div>
+                            <div class="sub-ttl" (click)="selectedViewLocationType = 'state'">
+                              State
+                            </div>
+                            <div class="sub-ttl" (click)="selectedViewLocationType = 'monthly'">
+                              Country
+                            </div>
+                          </div>
+                        </div> -->
+
+                         <div id="view-menu" class="form-group  view-btn-section">
+                           <button id="view-menu" class="green-btn" (click)="addView()">Save</button>
+                           <button id="view-menu" (click)="appViewService.showCreateViewMenu = false"
+                             class="gray-btn">Cancel</button>
+                         </div>
+                       </form>
+                     </div>
+
+                     <div class="create-section" id="view-menu" *ngIf="!appViewService.showCreateViewMenu"
+                       appPreventDoubleClick (throttledClick)="createViewMenu()" [throttleTime]="700">
+                       <label id="view-menu">
+                         Create
+                       </label>
+                       <img id="view-menu" src="../../../../../../assets/images/plus-icon.svg">
+                     </div>
+
+                   </li>
+                 </ul>
+               </div>
+             </li>
+             <li class="settings-tab" [ngClass]="{'active':isSettingsOpen}" (click)="settingsOptions(false)"
+               (clickOutside)="settingsOptions(true)">
+               Settings
+               <img src="../../../../../../assets/images/plus-icon.svg">
+               <div class="side-link-option-section">
+                 <ul class="view-option-create-section">
+                   <li  *ngIf="helperService.orgRole && helperService.orgRole=='admin'" (click)="goToEditOrg()">
+                     Edit Organization
+                   </li>
+                   <li (click)="goToAddWorkspace()">
+                     Add Group
+                   </li>
+
+                   <!-- <li *ngIf="helperService.orgRole && helperService.orgRole=='admin'" (click)="goToUserManagement()">
+                     User Management
+                   </li> -->
+                   <li (click)="goToOrgWorkspaces()">
+                     All Group
+                   </li>
+                   <li (click)="openOrgCalendar()">
+                     Org Calendar
+                   </li>
+                   <!-- <li (click)="goToOrgLeave()">
+                     Leave Organization
+                   </li> -->
+                 </ul>
+               </div>
+             </li>
+           </div>
+         </ul>
+       </div>
+     </div>
+
+     <div class="right-side-section" *ngIf="!userIdFromPostList && false">
+       <div class="box-wraper" *ngIf="percentCount != 100.0">
+        <div class="user-complate-profile d-flex justify-content-center align-items-center">
+          <div class="user-img">
+            <img src="../../../../../../assets/images/user.png" *ngIf="!avatar">
+            <img [src]="mediaUrl + avatar" *ngIf="avatar">
+          </div>
+          <div class="user-complate-profile-inner d-flex flex-column">
+            <label>
+              {{ percentCount }}%
+            </label>
+            <span>
+              Completed
+            </span>
+          </div>
+        </div>
+         <!-- <div class="user-complate-profile d-flex justify-content-center align-items-center">
+           <div class="user-img">
+             <img src="../../../../../../assets/images/user.png">
+           </div>
+           <div class="user-complate-profile-inner d-flex flex-column">
+             <label>
+               25%
+             </label>
+             <span>
+               Completed
+             </span>
+           </div>
+         </div> -->
+
+         <div class="user-profile-section">
+          <ul>
+            <li>
+
+
+              <label class="checkbox-container"  (click)="goToMyProfile()"> Upload photo
+                <input type="checkbox" checked="checked" [checked]="statusArray[0]" disabled>
+                <span class="checkmark"></span>
+              </label>
+
+            </li>
+            <li>
+              <label class="checkbox-container"  (click)="goToMyProfile()">Enter your Position
+                <input type="checkbox" checked="checked" [checked]="statusArray[1]" disabled>
+                <span class="checkmark"></span>
+              </label>
+
+            </li>
+            <li>
+              <label class="checkbox-container" (click)="goToBusinessProfile()">Add business profile
+                <input type="checkbox" checked="checked" [checked]="statusArray[2]" disabled>
+                <span class="checkmark"></span>
+              </label>
+
+            </li>
+          </ul>
+        </div>
+       </div>
+
+       <div class="box-wraper">
+         <div class="online-section">
+           <div class="title">
+             WHOS ONLINE
+           </div>
+           <ul>
+            <li *ngFor="let follower of socketService.onlineUsers" class="d-flex align-items-center justify-content-between" style="cursor: pointer;">
+              <div class="user-detail d-flex align-items-center" (click)="getMessages(follower)">
+                <img [src]="follower.user.avatar && follower.user.avatar !== undefined ? mediaUrl + follower.user.avatar : '../../../../../../assets/images/user.png'">
+                <div class="user-name">
+                  {{follower.user.firstName}} {{follower.user.lastName}}
+                  <span>
+                    <!-- Tesla -->
+                  </span>
+                </div>
+              </div>
+              <div class="user-status">
+                <img *ngIf="follower.followsBack" src="../../../../../../assets/images/online.svg">
+                <img *ngIf="!follower.followsBack" src="../../../../../../assets/images/offline.svg">
+              </div>
+            </li>
+             <!-- <li class="d-flex align-items-center justify-content-between">
+               <div class="user-detail d-flex align-items-center">
+                 <img src="../../../../../../assets/images/user.png">
+                 <div class="user-name">
+                   Steve Rivers -
+                   <span>
+                     Tesla
+                   </span>
+                 </div>
+               </div>
+               <div class="user-status">
+                 <img src="../../../../../../assets/images/offline.svg">
+               </div>
+             </li> -->
+           </ul>
+         </div>
+       </div>
+     </div>
+     
+   </div>
+ </div>

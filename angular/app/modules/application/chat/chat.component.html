@@ -1,0 +1,191 @@
+<div class="bottom-chat-section">
+
+  <div class="bottom-user-list-section" *ngIf="helperService.showContacts">
+
+    <div class="user-list-wraper">
+      <ul>
+        <div class="main-ttl">
+          Contacts
+        </div>
+        <li *ngFor="let follower of helperService.followers" (click)="getMessages(follower)">
+          <div class="user-img">
+            <img
+              [src]="follower.user.avatar && follower.user.avatar !== undefined ? mediaUrl + follower.user.avatar : '../../../../../../assets/images/user.png'">
+            <span [ngClass]="{online: follower.isOnline}"></span>
+          </div>
+          <div class="user-name">
+            {{follower.user.firstName}} {{follower.user.lastName}}
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="search-box">
+      <img src="../../../../assets/images/preview1.svg">
+      <input type="text" id="" name="" placeholder="Search">
+    </div>
+  </div>
+
+  <div class="bottom-user-chat-section">
+    <div class="card card-bordered" *ngFor="let user of helperService.openedChat">
+      <div class="card-header" (click)="toggleChatWindow($event, user.id)">
+        <h4 class="card-title">
+          <img
+            [src]="user.user.avatar && user.user.avatar !== undefined ? mediaUrl + user.user.avatar : '../../../../assets/images/user.png'">
+          <strong>{{user.user.firstName}} {{user.user.lastName}}</strong></h4> <a id="chatWindowCloseButon"
+          class="btn btn-xs btn-secondary">X</a>
+      </div>
+      <div class="ld-screen desktop-chat-window ps-container ps-theme-default ps-active-y" [id]="user.id+'-chatWindow'"
+        [ngClass]="{inActiveChatWindow: !helperService.showChat.includes(user.id)}"
+        style="overflow-y: scroll !important;" (scroll)="scrollUp($event, user)">
+        <div *ngFor="let message of helperService.messages[user.id]; index as i;"
+          [ngClass]="{media: true, mediaChat: true, mediaChatReverse: message.sender == userData.owner}">
+          <img class="user-chat-pic"
+            *ngIf="(!helperService.messages[user.id][i+1]) || (helperService.messages[user.id][i+1] && helperService.messages[user.id][i+1].sender == userData.owner)"
+            [src]="user.user.avatar && user.user.avatar !== undefined ? mediaUrl + user.user.avatar : '../../../../assets/images/user.png'">
+          <div class="media-body"
+            [ngClass]="{messageWithoutAvatar: (helperService.messages[user.id][i+1] && helperService.messages[user.id][i+1].sender != userData.owner)}">
+            <p>{{message.message}}</p>
+            <!-- <p class="meta"><time datetime="2018">00:12</time></p> -->
+          </div>
+        </div>
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+          <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+          <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
+        </div>
+      </div>
+      <div class="publisher bt-1 border-light"
+        [ngClass]="{inActiveChatWindow: !helperService.showChat.includes(user.id)}">
+        <!-- <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..."> -->
+        <!-- <textarea autosize [ngClass]="['form-control','publisher-input', user.id+'-textArea']" #chat
+          (keypress)="sendMessage(chat.value, $event, user.id)" (keyup)="setTextAreaLength(user.id)" rows="1" autosize
+          placeholder="Write something"></textarea> -->
+          <div id="{{helperService.openedMobileChat.id+'-textArea'}}" type="text" autosize
+          [ngClass]="['form-control', 'publisher-input', user.id+'-textArea']" #chat
+          (keypress)="setTextAreaLength(user.id)"
+           (keyup)="sendMessage(chat.value, $event, user.id)"
+          contenteditable="true" placeholder="Write something">
+        </div>
+        </div>
+    </div>
+
+    <!-- <div class="card card-bordered">
+      <div class="card-header">
+        <h4 class="card-title"><strong>Chat</strong></h4> <a class="btn btn-xs btn-secondary" href="#"
+          data-abc="true">X</a>
+      </div>
+      <div class="ps-container ps-theme-default ps-active-y" id="chat-content"
+        style="overflow-y: scroll !important; height:400px !important;" (scroll)="scrollUp($event)">
+        <div *ngFor="let message of helperService.messages[helperService.selectedRecipient]"
+          [ngClass]="{media: true, mediaChat: true, mediaChatReverse: message.sender == userData.owner}">
+          <div class="media-body">
+            <p>{{message.message}}</p>
+          </div>
+        </div>
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+          <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+          <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
+        </div>
+      </div>
+      <div class="publisher bt-1 border-light"> <img class="avatar avatar-xs"
+          src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..."> <input class="publisher-input"
+          #chat type="text" placeholder="Write something" (keypress)="sendMessage(chat.value, $event)"> <span
+          class="publisher-btn file-group">
+          <i class="fa fa-paperclip file-browser"></i> <input type="file">
+        </span> <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a> <a
+          class="publisher-btn text-info" href="#" data-abc="true"><i class="fa fa-paper-plane"></i></a>
+      </div>
+    </div> -->
+  </div>
+  <div class="bottom-chat-box" (click)="helperService.showContacts = !helperService.showContacts">
+    <label>
+      Chat ({{socketService.onlineUsers.length}})
+    </label>
+    <!-- <div class="icon-section">
+      <img src="../../../../../../assets/images/setting.svg">
+      <img src="../../../../../../assets/images/setting.svg">
+    </div> -->
+  </div>
+</div>
+
+<!-- Chat Mobile View -->
+<div class="chat-mobile-view">
+  <div class="bottom-user-list-section" *ngIf="helperService.showContacts">
+    <div class="user-list-wraper">
+      <ul>
+        <li *ngFor="let follower of helperService.followers" (click)="getMessages(follower, 'mobile')">
+          <div class="user-img">
+            <img
+              [src]="follower.user.avatar && follower.user.avatar !== undefined ? mediaUrl + follower.user.avatar : '../../../../../../assets/images/user.png'">
+          </div>
+          <div class="user-name"> {{follower.user.firstName}} {{follower.user.lastName}} </div>
+        </li>
+        <!-- <li>
+          <div class="user-img">
+            <img
+              src="https://media.dev.voxxi.dev/5f105366ec1026507f215c40/f00d0bd0-fd96-11ea-86a4-d9b51cba1917/original.jpeg">
+          </div>
+          <div class="user-name"> Vivek Barot </div>
+        </li>
+        <li>
+          <div class="user-img">
+            <img
+              src="https://media.dev.voxxi.dev/5f105366ec1026507f215c40/f00d0bd0-fd96-11ea-86a4-d9b51cba1917/original.jpeg">
+          </div>
+          <div class="user-name"> Vivek Barot </div>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+  <div class="chat-icon" *ngIf="!helperService.openedMobileChat.user"
+    (click)="helperService.showContacts = !helperService.showContacts">
+    <img src="assets/images/chat1.svg">
+  </div>
+  <div class="bottom-user-chat-section" *ngIf="helperService.openedMobileChat.user">
+    <div class="card card-bordered">
+      <div class="card-header" (click)="toggleChatWindow($event, helperService.openedMobileChat.id, 'mobile')">
+        <h4 class="card-title">
+          <img
+            [src]="helperService.openedMobileChat.user.avatar && helperService.openedMobileChat.user.avatar !== undefined ? mediaUrl + helperService.openedMobileChat.user.avatar : '../../../../assets/images/user.png'">
+          <strong>{{helperService.openedMobileChat.user.firstName}}
+            {{helperService.openedMobileChat.user.lastName}}</strong></h4> <a id="chatWindowCloseButon"
+          class="btn btn-xs btn-secondary">X</a>
+      </div>
+      <div class="ld-screen mobile-chat-window ps-container ps-theme-default ps-active-y" id="mobileChatWindow"
+        [ngClass]="{inActiveChatWindow: !helperService.showMobileChat}"
+        style="overflow-y: scroll !important;"
+        (scroll)="scrollUp($event, helperService.openedMobileChat)">
+        <div *ngFor="let message of helperService.messages[helperService.openedMobileChat.id]; index as i;"
+          [ngClass]="{media: true, mediaChat: true, mediaChatReverse: message.sender == userData.owner}">
+          <img class="user-chat-pic"
+            *ngIf="(!helperService.messages[helperService.openedMobileChat.id][i+1]) || (helperService.messages[helperService.openedMobileChat.id][i+1] && helperService.messages[helperService.openedMobileChat.id][i+1].sender == userData.owner)"
+            [src]="helperService.openedMobileChat.user.avatar && helperService.openedMobileChat.user.avatar !== undefined ? mediaUrl + helperService.openedMobileChat.user.avatar : '../../../../assets/images/user.png'">
+          <div class="media-body"
+            [ngClass]="{messageWithoutAvatar: (helperService.messages[helperService.openedMobileChat.id][i+1] && helperService.messages[helperService.openedMobileChat.id][i+1].sender != userData.owner)}">
+            <p>{{message.message}}</p>
+            <!-- <p class="meta"><time datetime="2018">00:12</time></p> -->
+          </div>
+        </div>
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+          <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+          <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
+        </div>
+      </div>
+      <div class="publisher bt-1 border-light" [ngClass]="{inActiveChatWindow: !helperService.showMobileChat}">
+        <div id="{{helperService.openedMobileChat.id+'-textArea'}}" type="text" autosize
+          [ngClass]="['form-control', 'publisher-input', helperService.openedMobileChat.id+'-textArea']" #chat
+          (keypress)="setTextAreaLength(helperService.openedMobileChat.id)"
+          (keyup)="sendMessage(chat.value, $event, helperService.openedMobileChat.id)"
+          contenteditable="true" placeholder="Write something">
+        </div>
+        <!-- <textarea autosize [ngClass]="['form-control', 'publisher-input', helperService.openedMobileChat.id+'-textArea']" #chat (keypress)="sendMessage(chat.value, $event, helperService.openedMobileChat.id)" (keyup)="setTextAreaLength(helperService.openedMobileChat.id)" rows="1"   placeholder="Write something"></textarea> -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,147 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.right-full-section {
+  width: calc(100% - 110px);
+  background-color: transparent;
+  box-shadow: 0px 0px 0px 1px #D6D6D6 inset;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+@media(max-width:767px) {
+  .right-full-section {
+    width: 100%;
+    margin-top: 50px;
+  }
+}
+
+.contnet-section {
+  .bottom-chat-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 2px;
+    right: 0;
+    width: 200px;
+    height: 23px;
+    background-color: $white;
+    box-shadow: 0px 0px 4px 1px $text-secondary;
+    padding: 0px 8px 0px 18px;
+    z-index: 1;
+
+
+    label {
+      color: $box_txt_color;
+      font-size: $box_small_text;
+      font-family: $RobotoRegular;
+      margin-bottom: 0;
+    }
+
+    img {
+      margin-left: 8px;
+
+      &:first-child {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.user-workspace-content {
+  max-width: 100%;
+  width: 100%;
+  border: solid 1px $textarea_color;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background: $white;
+  box-shadow: 0px 1px 0px $shadow-color;
+  padding: 20px;
+
+  .user-workspace-body {
+    max-width: 580px;
+    margin: 0 auto;
+
+    .close-icon {
+      max-width: 100%;
+      max-width: 100%;
+      cursor: pointer;
+      position: absolute;
+      right: -10px;
+      top: -25px;
+    }
+
+    .img-box {
+      text-align: center;
+      margin: 40px 0px;
+    }
+
+    .user-txt {
+      color: $box_txt_color;
+      font-size: $box_txt;
+      font-family: $RobotoRegular;
+      margin-bottom: 37px;
+    }
+
+    p {
+      color: $box_txt_color;
+      font-size: $box_txt;
+      font-family: $RobotoRegular;
+      text-align: left;
+
+      span {
+        color: $btn_bg_danger;
+        text-transform: uppercase;
+      }
+    }
+
+    .user-leave-txt {
+      margin-top: 16px;
+    }
+
+    .user-input-section {
+      margin-top: 16px;
+      margin-bottom: 20px;
+
+      input {
+        border: 1px solid $textarea_color;
+        border-radius: 8px;
+        height: 38px;
+      }
+
+      .btn-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 43px;
+
+        button {
+          height: 32px;
+          width: 120px;
+          border-radius: 16px;
+          font-size: $box_txt;
+          font-family: $RobotoMedium;
+          border: none;
+          cursor: pointer;
+
+          &.green-btn {
+            color: $white;
+            background-color: $btn_bg_success;
+            border: 1px solid $btn_bg_success;
+          }
+
+          &.border-btn {
+            color: $box_txt_color;
+            background-color: $bg_color;
+            border: 1px solid $textarea_color;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:991px) {}
+
+@media(max-width:767px) {}

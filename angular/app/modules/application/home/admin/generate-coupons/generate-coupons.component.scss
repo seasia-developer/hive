@@ -1,0 +1,295 @@
+@import "../../../../../../SCSS/custom-variable";
+
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+
+  .ttl {
+    color: $black;
+    text-transform: uppercase;
+    font-family: $RobotoRegular;
+    font-size: $box_txt;
+  }
+}
+
+.body-section {
+  padding: 0 20px;
+
+  .form-control {
+    border-radius: 8px;
+  }
+
+  .field-wrap-section {
+    display: flex;
+    padding: 20px 0px;
+    border-bottom: 1px solid $text-secondary;
+    margin-bottom: 40px;
+
+    .left-section {
+      width: 50%;
+      border-right: 1px solid $text-secondary;
+      padding-right: 20px;
+
+      .form-group-wraper {
+        margin-bottom: 1rem;
+      }
+
+      .error-message {
+        text-align: right;
+      }
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin: 0;
+
+        label {
+          margin: 0;
+          margin-right: 15px;
+        }
+
+        .select-wraper {
+          position: relative;
+
+          img {
+            position: absolute;
+            right: 10px;
+            top: 15px;
+          }
+        }
+
+        select {
+          height: 38px;
+          padding-right: 30px !important;
+          width: 130px !important;
+          font-size: 14px !important;
+        }
+
+        .form-control {
+          width: 130px;
+          border-radius: 8px;
+        }
+      }
+    }
+
+    .right-section {
+      width: 50%;
+      padding-left: 20px;
+      @media(min-width:768px) and (max-width:959px){
+        width: 100%;
+      }
+
+      .form-group-wraper {
+        margin-bottom: 1rem;
+      }
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 0;
+
+        label {
+          margin: 0;
+          margin-left: 15px;
+        }
+
+        .select-wraper {
+          position: relative;
+
+          img {
+            position: absolute;
+            right: 10px;
+            top: 15px;
+          }
+        }
+
+        select {
+          height: 38px;
+          padding-right: 30px !important;
+          width: 190px !important;
+          font-size: 14px !important;
+        }
+
+        .form-control {
+          width: 190px;
+          border-radius: 8px;
+        }
+      }
+
+      .price-per-seat-section {
+        .form-group {
+          .form-control {
+            width: 90px;
+          }
+
+          select {
+            width: 90px !important;
+            margin-left: 10px;
+            font-size: 14px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.date-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  label {
+    margin: 0;
+  }
+
+  .form-control {
+    width: 130px;
+    margin-left: 15px;
+  }
+}
+
+.Revenue-section {
+  display: flex;
+  border-radius: 8px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  border: 1px solid $text-secondary;
+
+  .left-section {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 25px;
+
+    label {
+      margin: 0;
+    }
+  }
+
+  .right-section {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 25px;
+
+    label {
+      margin: 0;
+    }
+  }
+}
+
+
+.btn {
+  font-size: $box_txt;
+  font-family: $RobotoRegular;
+  border-radius: 25px;
+  display: unset;
+  min-height: auto;
+  padding: 5px 15px;
+  width: auto;
+  background-color: $btn_bg_success;
+  color: $white;
+  line-height: unset;
+  margin-bottom: 30px;
+}
+
+@media(max-width:767px) {
+  .field-wrap-section {
+    flex-direction: column;
+
+    .left-section {
+      width: 100% !important;
+      border: none !important;
+      padding: 0 !important;
+
+      .form-group {
+        flex-direction: column;
+        align-items: flex-start !important;
+
+        select {
+          width: 100% !important;
+          font-size: 14px !important;
+        }
+      }
+    }
+
+    .right-section {
+      width: 100% !important;
+      padding: 0 !important;
+
+      .form-group {
+        flex-direction: column-reverse;
+        align-items: flex-start !important;
+
+        label {
+          margin: 0 !important;
+        }
+
+        select {
+          width: 100% !important;
+          font-size: 14px !important;
+        }
+      }
+
+      .price-per-seat-section {
+        .form-group {
+
+          .select-wraper {
+            select {
+              width: 100% !important;
+              margin: 0 !important;
+              margin-bottom: 20px !important;
+              font-size: 14px !important;
+            }
+          }
+
+          .input-wraper {
+            .form-control {
+              width: 100% !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .date-section {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .form-control {
+      margin-bottom: 15px !important;
+      margin: 0;
+    }
+  }
+
+  .Revenue-section {
+    flex-direction: column;
+
+    .left-section {
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .right-section {
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+}
+
+
+@media(min-width:768px) and (max-width:959px){
+  .body-section{
+    .field-wrap-section{
+      .right-section .form-group .form-control{
+        width: 80px ​!important;
+      }
+    } 
+  } 
+}

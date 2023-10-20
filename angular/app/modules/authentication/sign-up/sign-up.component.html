@@ -1,0 +1,215 @@
+<div class="contant_sec">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="logo_img">
+        <a><img src="../../assets/images/voxxi-logo.svg"></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="middle-body-section">
+    <div class="left_col">
+      <img src="../assets/images/a.svg">
+    </div>
+    <div class="right_col">
+      <form [formGroup]="signUpForm">
+        <div class="row" *ngIf="!isGuestUser">
+          <div class="col-lg-12">
+            <div class="form-group sign-up-btn">
+              <button type="button" class="btn btn-primary" value="google"
+                (click)="signUpWithGoogle()">Sign up with Google</button>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="!isGuestUser">
+          <div class="col-lg-12">
+            <div class="form-group or-txt">
+              <h2>OR</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group email-box">
+              <!-- oninput="this.value=this.value.replace(/^\s+/g, '')" -->
+              <input type="email" formControlName="email"
+                class="form-control" id="email" placeholder="Email" name="email" [(ngModel)]="signupEmail">
+              <div *ngIf="submitted && form.email.errors">
+                <div class="error-message" *ngIf="form.email.errors.required">Email Id is required </div>
+                <div class="error-message" *ngIf="form.email.errors.email"> Enter valid Email Id </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group first-box">
+              <!-- oninput="this.value=this.value.replace(/^\s+/g, '')" -->
+              <input type="text" formControlName="firstName"
+                class="form-control" id="firstName" placeholder="First Name" name="firstName">
+              <div *ngIf="submitted && form.firstName.errors">
+                <div class="error-message" *ngIf="form.firstName.errors.required">First Name is required </div>
+                <div class="error-message" *ngIf="form.firstName.errors.pattern">Enter valid First Name</div>
+                <div class="error-message" *ngIf="form.firstName.errors.minlength">First Name must be greater than 2 characters</div>
+                <div class="error-message" *ngIf="form.firstName.errors.maxlength">First Name must be less than 20 characters</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group last-box">
+              <!-- oninput="this.value=this.value.replace(/^\s+/g, '')" -->
+              <input  type="text" formControlName="lastName"
+                class="form-control" id="lastName" placeholder="Last Name" name="lastName">
+              <div *ngIf="submitted && form.lastName.errors">
+                <div class="error-message" *ngIf="form.lastName.errors.required">Last Name is required </div>
+                <div class="error-message" *ngIf="form.lastName.errors.pattern">Enter valid Last Name</div>
+                <div class="error-message" *ngIf="form.lastName.errors.minlength">Last Name must be greater than 2 characters</div>
+                <div class="error-message" *ngIf="form.lastName.errors.maxlength">Last Name must be less than 20 characters</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group password-box re-password-box pass-field-yb">
+              <!-- oninput="this.value=this.value.replace(/^\s+/g, '')" -->
+              <input [type]="confirmPasswordType" formControlName="password" [ngClass]="{'border-danger':passwordLengthError}"
+                class="form-control password-field-px" id="pwd" (keyup)="checkPasswordLength()" [(ngModel)]="password" placeholder="Password" name="pswd" required>
+              <div class="view-password">
+                <img *ngIf="confirmPasswordType === 'password'" src="../../../../assets/images/eye.svg" (click)="confirmPasswordType = 'text'">
+                <img *ngIf="confirmPasswordType === 'text'" src="../../../../assets/images/eye-cross.svg" (click)="confirmPasswordType = 'password'"> 
+              </div>
+              <!-- IF PASSWORD LENGTH ERROR  -->
+              <div *ngIf="passwordLengthError">
+                <div *ngIf="password.length < passwordMinLength" class="error-message">Password must be greater than {{passwordMinLength}} characters</div>
+                  <div *ngIf="password.length > passwordLength" class="error-message">Password must be less than {{passwordLength}} characters</div>
+              </div>
+              <!-- PASSWORD VALIDATION  -->
+              <div *ngIf="submitted && form.password.errors">
+                <div class="error-message" *ngIf="form.password.errors.required">Password is required </div>
+                <div class="error-message"
+                  *ngIf="form.password.errors.pattern && (form.password.dirty || form.password.touched)"> Password
+                  should be minimum 8 characters long including uppercase, lowercase, digits and special
+                  character
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group sign-up-btn-orange">
+              <button type="submit" class="btn btn-submit" [disabled]="disableButton || disableButtonForInvalidPassword" (click)="signUp()">
+                <span *ngIf="disableButton" class="btn-loader open"></span> 
+                <span *ngIf="!disableButton">Sign up</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group-terms">
+          <p>By signing up you agree to Voxxi’s <a href="https://voxxi.io/terms/" target="_blank">Terms of
+              Service</a></p>
+          <p class="terms-account">Already have an account? <a routerLink="/auth/sign-in">Login</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <app-support-links></app-support-links>
+</div>
+
+<!--- Invitation Sign-up -->
+
+<!-- <div class="contant_sec">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="logo_img">
+          <a href="#"><img src="../../assets/images/voxxi-logo.svg"></a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="welcom-text">
+          <p>Great, you accepted the invitation, lets get you set up</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6">
+        <div class="left_col">
+          <img src="../assets/images/d.svg">
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <div class="right_col">
+          <form action="">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">Login with Google</button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <h2>OR</h2>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="name" placeholder="Your Full Name" name="name">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <input type="password" class="form-control" id="pwd" placeholder="Create a Password" name="pswd">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-submit" routerLink="/onbording">Login</button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label class="form-check-label">
+                    Remember me
+                    <input type="checkbox" name="remember">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group-terms">
+              <p class="terms-account login-add">By joining Voxxi, you accept our <a href="">Terms and Conditions</a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="footer">
+          <ul>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
