@@ -376,3 +376,4 @@ export class WpMarketDetailsComponent implements OnInit {
     }
   }
 }
+ 

@@ -7086,3 +7086,4 @@ export class ApplicationViewComponent implements OnInit, OnDestroy {
   }
 
 }
+ 

@@ -23,3 +23,4 @@ describe('ChatContactComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

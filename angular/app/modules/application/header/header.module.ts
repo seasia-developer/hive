@@ -14,3 +14,4 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   entryComponents: [UpgradePopupComponent]
 })
 export class HeaderModule {}
+ 

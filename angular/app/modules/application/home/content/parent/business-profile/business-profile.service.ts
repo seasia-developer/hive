@@ -25,3 +25,4 @@ export class BusinessProfileService {
     return this.apiservice.postWithHeader(`/user/updateBusinessProfile`, data);
   }
 }
+ 

@@ -306,3 +306,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.socketService.disconnectSocket();
   }
 }
+ 

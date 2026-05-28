@@ -165,3 +165,4 @@ export class WpMarketComponent implements OnInit {
     });
   }
 }
+ 

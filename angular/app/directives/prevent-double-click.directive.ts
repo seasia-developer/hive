@@ -37,4 +37,4 @@ export class PreventDoubleClickDirective implements OnInit, OnDestroy {
     event.stopPropagation();
     this.clicks.next(event);
   }
-}
+} 

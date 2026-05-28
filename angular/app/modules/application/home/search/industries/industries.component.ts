@@ -342,3 +342,4 @@ export class IndustriesComponent implements OnInit, OnDestroy {
     this.loadMoreDataSubs.unsubscribe();
   }
 }
+ 

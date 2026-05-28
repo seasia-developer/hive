@@ -13,3 +13,4 @@ export class HelpTextModalComponent implements OnInit {
   }
 
 }
+ 

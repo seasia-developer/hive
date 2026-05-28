@@ -23,3 +23,4 @@ describe('RecordModalComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

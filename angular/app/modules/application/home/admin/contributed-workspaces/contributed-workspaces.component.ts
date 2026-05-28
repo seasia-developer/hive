@@ -165,3 +165,4 @@ export class ContributedWorkspacesComponent implements OnInit, OnDestroy {
     this.closeModal();
   }
 }
+ 

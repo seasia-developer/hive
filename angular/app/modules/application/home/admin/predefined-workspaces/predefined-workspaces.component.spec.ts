@@ -23,3 +23,4 @@ describe('PredefinedWorkspacesComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

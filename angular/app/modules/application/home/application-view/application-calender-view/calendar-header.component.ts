@@ -64,3 +64,4 @@ export class CalendarHeaderComponent {
     this.appViewService.sendCalendarData(data);
   }
 }
+ 

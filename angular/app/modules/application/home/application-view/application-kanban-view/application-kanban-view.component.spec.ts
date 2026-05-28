@@ -23,3 +23,4 @@ describe('ApplicationKanbanViewComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

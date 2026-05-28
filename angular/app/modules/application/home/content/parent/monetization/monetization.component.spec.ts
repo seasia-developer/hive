@@ -23,3 +23,4 @@ describe('MonetizationComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

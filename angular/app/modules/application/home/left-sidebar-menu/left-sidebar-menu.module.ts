@@ -79,3 +79,4 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   ],  schemas: []
 })
 export class LeftSidebarMenuModule {}
+ 

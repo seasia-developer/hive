@@ -295,3 +295,4 @@ export class PaymentComponent implements OnInit {
     this.router.navigateByUrl("application/home");
   }
 }
+ 

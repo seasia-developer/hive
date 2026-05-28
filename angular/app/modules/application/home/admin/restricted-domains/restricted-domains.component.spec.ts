@@ -23,3 +23,4 @@ describe('RestrictedDomainsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

@@ -23,3 +23,4 @@ describe('PostStatasticComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

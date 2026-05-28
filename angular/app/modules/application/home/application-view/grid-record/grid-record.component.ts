@@ -13,3 +13,4 @@ export class GridRecordComponent implements OnInit {
   }
 
 }
+ 

@@ -877,3 +877,4 @@ export class OrganisationWorkspacesComponent implements OnInit, OnDestroy {
     this.openViewMenuSubs.unsubscribe();
   }
 }
+ 

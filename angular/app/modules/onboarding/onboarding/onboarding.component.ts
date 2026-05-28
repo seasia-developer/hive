@@ -24,3 +24,4 @@ export class OnboardingComponent implements OnInit {
     this.helper.setLocalStore('userType', this.businessOrPersonal);
   }
 }
+ 

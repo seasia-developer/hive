@@ -23,3 +23,4 @@ describe('BannersComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

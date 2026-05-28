@@ -1076,3 +1076,4 @@ export class MobileMenuComponent implements OnInit {
     this.openViewMenuSubs.unsubscribe();
   }
 }
+ 

@@ -38,3 +38,4 @@ export class AppBuilderService {
     return this.apiservice.postWithHeader(`/record/getFieldRecords`, data);
   }
 }
+ 

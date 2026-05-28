@@ -72,3 +72,4 @@ const routes: Routes = [
   ]
 })
 export class SearchModule { }
+ 

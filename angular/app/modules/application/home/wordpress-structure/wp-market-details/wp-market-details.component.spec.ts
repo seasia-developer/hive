@@ -23,3 +23,4 @@ describe('WpMarketDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

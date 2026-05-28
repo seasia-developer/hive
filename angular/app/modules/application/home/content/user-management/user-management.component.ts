@@ -867,3 +867,4 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     this.closeModal(1);
   }
 }
+ 

@@ -12,3 +12,4 @@ export class LimitToPipe implements PipeTransform {
       return value.length > limit ? value.substring(0, limit) + trail : value;
     }
   }
+ 

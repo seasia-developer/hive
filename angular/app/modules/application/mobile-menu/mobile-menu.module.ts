@@ -25,3 +25,4 @@ import { PreventDoubleClickModule } from 'src/app/directives/prevent-double-clic
   ]
 })
 export class MobileMenuModule { }
+ 

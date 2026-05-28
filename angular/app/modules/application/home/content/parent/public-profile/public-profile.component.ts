@@ -18,3 +18,4 @@ export class PublicProfileComponent implements OnInit {
     this.workspaceId = this.activatedRoute.snapshot.queryParams.workspace_id;
   }
 }
+ 

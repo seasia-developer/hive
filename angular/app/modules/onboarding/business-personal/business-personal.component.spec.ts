@@ -23,3 +23,4 @@ describe('BusinessPersonalComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

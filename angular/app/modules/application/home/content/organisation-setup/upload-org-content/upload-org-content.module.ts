@@ -25,3 +25,4 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
   ]
 })
 export class UploadOrgContentModule { }
+ 

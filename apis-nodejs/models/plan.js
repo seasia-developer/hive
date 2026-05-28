@@ -25,3 +25,4 @@ let planSchema = new mongoose.Schema({
 
 
 module.exports = mongoose.model('Plan', planSchema)
+ 

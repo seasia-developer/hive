@@ -107,3 +107,4 @@ export class ResetPasswordComponent implements OnInit {
     this.apiCalled = false;
   }
 }
+ 

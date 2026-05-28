@@ -23,3 +23,4 @@ describe('MarketComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

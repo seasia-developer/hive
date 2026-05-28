@@ -23,3 +23,4 @@ describe('GenerateCouponsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

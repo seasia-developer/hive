@@ -16,4 +16,4 @@ export class PipeModule {
          providers: [],
      };
   }
-}
+} 

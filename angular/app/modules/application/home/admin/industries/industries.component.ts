@@ -100,3 +100,4 @@ export class IndustriesComponent implements OnInit {
     });
   }
 }
+ 

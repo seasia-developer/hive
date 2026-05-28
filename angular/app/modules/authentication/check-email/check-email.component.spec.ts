@@ -23,3 +23,4 @@ describe('CheckEmailComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

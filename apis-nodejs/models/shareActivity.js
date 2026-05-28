@@ -19,3 +19,4 @@ let shareSchema = new mongoose.Schema({
 
 
 module.exports = mongoose.model('ShareActivity', shareSchema)
+ 

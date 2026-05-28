@@ -140,3 +140,4 @@ const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigato
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
+ 

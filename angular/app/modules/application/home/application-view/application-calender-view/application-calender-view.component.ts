@@ -442,3 +442,4 @@ export class ApplicationCalenderViewComponent
     this.updateRecordsSubs.unsubscribe();
   }
 }
+ 

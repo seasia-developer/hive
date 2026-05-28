@@ -139,3 +139,4 @@ export class TaskMentionComponent {
     toolbar: false
   }
 }
+ 

@@ -23,3 +23,4 @@ describe('OrganisationIconsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

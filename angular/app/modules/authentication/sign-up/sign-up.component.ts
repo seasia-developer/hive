@@ -264,3 +264,4 @@ export class SignUpComponent implements OnInit {
     } catch (err) {}
   }
 }
+ 

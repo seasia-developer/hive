@@ -1242,3 +1242,4 @@ export class ApplicationKanbanViewComponent
     this.columnOptionsSubs.unsubscribe();
   }
 }
+ 

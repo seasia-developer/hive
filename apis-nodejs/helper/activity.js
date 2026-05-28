@@ -136,4 +136,4 @@ module.exports = {
     addNotificationOnWsCreated,
     addPostTemplateNotification,
     addShareTemplateNotification
-};
+}; 

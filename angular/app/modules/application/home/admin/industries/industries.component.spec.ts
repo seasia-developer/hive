@@ -23,3 +23,4 @@ describe('IndustriesComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

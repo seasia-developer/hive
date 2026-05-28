@@ -39,3 +39,4 @@ export class CheckEmailComponent implements OnInit {
         });
   }
 }
+ 

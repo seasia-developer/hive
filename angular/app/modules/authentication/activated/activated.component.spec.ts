@@ -23,3 +23,4 @@ describe('ActivatedComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

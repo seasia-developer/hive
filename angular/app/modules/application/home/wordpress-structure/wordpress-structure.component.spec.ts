@@ -23,3 +23,4 @@ describe('WordpressStructureComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

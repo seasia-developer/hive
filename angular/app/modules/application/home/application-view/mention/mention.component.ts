@@ -135,3 +135,4 @@ export class MentionComponent {
     toolbar: false
   }
 }
+ 

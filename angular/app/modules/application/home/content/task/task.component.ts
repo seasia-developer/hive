@@ -716,3 +716,4 @@ export class TaskComponent implements OnInit, OnDestroy {
     this.closeModal();
   }
 }
+ 

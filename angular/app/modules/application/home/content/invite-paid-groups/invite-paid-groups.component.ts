@@ -1873,3 +1873,4 @@ export class InvitePaidGroupsComponent implements OnInit {
     return "https://www.youtube.com/embed/" + reLink2[reLink2.length - 1];
   }
 }
+ 

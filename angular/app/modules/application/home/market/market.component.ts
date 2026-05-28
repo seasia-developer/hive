@@ -108,3 +108,4 @@ export class MarketComponent implements OnInit {
     });
   }
 }
+ 

@@ -184,3 +184,4 @@ export class EmailNotificationsComponent implements OnInit {
       });
   }
 }
+ 

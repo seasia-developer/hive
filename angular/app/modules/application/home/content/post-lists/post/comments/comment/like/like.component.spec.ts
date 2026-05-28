@@ -23,3 +23,4 @@ describe('LikeComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

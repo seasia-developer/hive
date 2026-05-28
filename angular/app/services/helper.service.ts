@@ -183,3 +183,4 @@ returnRichLink(url , i :any){
     this.showInfoToast(error);
   }
 }
+ 

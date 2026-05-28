@@ -23,3 +23,4 @@ describe('SubscribePaidGroupsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

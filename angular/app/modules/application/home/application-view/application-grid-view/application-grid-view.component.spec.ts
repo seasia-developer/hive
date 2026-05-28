@@ -23,3 +23,4 @@ describe('ApplicationGridViewComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

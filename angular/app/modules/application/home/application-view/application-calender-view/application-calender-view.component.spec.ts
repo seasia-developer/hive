@@ -23,3 +23,4 @@ describe('ApplicationCalenderViewComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

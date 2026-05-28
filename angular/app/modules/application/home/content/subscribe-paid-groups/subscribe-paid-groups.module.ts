@@ -46,3 +46,4 @@ const routes: Routes = [
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SubscribePaidGroupsModule { }
+ 

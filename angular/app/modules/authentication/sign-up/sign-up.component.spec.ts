@@ -23,3 +23,4 @@ describe('SignUpComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

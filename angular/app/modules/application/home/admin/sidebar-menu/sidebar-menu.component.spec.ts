@@ -23,3 +23,4 @@ describe('SidebarMenuComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

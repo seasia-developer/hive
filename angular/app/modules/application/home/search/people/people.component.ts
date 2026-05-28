@@ -504,3 +504,4 @@ export class PeopleComponent implements OnInit, OnDestroy {
     this.loadMoreDataSubs.unsubscribe();
   }
 }
+ 

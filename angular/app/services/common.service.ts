@@ -23,3 +23,4 @@ export class CommonService {
     return this.apiService.postWithHeader("/organization/onboarding", data);
   }
 }
+ 

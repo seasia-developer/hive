@@ -23,3 +23,4 @@ describe('BusinessProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

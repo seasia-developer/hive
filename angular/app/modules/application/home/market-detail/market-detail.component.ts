@@ -372,3 +372,4 @@ export class MarketDetailComponent implements OnInit, AfterViewInit {
     }
   }
 }
+ 

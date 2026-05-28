@@ -42,4 +42,4 @@ module.exports.logActivity = (user_id, organization_id, workspace_id, applicatio
             }
         });
     });
-};
+}; 

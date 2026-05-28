@@ -23,3 +23,4 @@ describe('PublicProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

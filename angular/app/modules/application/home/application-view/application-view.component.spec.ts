@@ -23,3 +23,4 @@ describe('ApplicationViewComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

@@ -23,3 +23,4 @@ describe('ContributedWorkspacesComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

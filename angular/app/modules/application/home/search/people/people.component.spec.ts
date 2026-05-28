@@ -23,3 +23,4 @@ describe('PeopleComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

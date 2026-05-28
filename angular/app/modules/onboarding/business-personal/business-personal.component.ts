@@ -122,3 +122,4 @@ export class BusinessPersonalComponent implements OnInit {
     this.couponerror = "";
   }
 }
+ 

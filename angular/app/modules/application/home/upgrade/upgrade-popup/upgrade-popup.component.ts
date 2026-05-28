@@ -47,3 +47,4 @@ export class UpgradePopupComponent implements OnInit {
     }
   }
 }
+ 

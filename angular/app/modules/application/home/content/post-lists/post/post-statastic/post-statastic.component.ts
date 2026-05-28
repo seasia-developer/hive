@@ -13,3 +13,4 @@ export class PostStatasticComponent implements OnInit {
   }
 
 }
+ 

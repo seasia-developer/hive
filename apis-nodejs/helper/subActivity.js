@@ -44,4 +44,4 @@ module.exports.logSubActivity = (main_activity_id, user_id, organization_id, wor
             }
         });
     });
-};
+}; 
